@@ -1,70 +1,86 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { motion } from 'framer-motion'
-import { ChevronRight } from 'lucide-react'
-import { StepIndicator } from './StepIndicator'
-import { Step1Identity } from './Step1Identity'
-import { Step2Business } from './Step2Business'
-import { Step3Location } from './Step3Location'
-import { Step4Security } from './Step4Security'
-import { completeSchema, CompleteFormData, step1Schema, step2Schema, step3Schema, step4Schema } from '@/app/signup/schema'
+import {
+  CompleteFormData,
+  completeSchema
+} from "@/app/signup/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Step1Identity } from "./Step1Identity";
+import { Step2Business } from "./Step2Business";
+import { Step3Location } from "./Step3Location";
+import { Step4Security } from "./Step4Security";
+import { StepIndicator } from "./StepIndicator";
 
 export function SignupWizard() {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
+    control,
     handleSubmit,
     watch,
     formState: { errors, isValid },
     trigger,
   } = useForm<CompleteFormData>({
     resolver: zodResolver(completeSchema),
-    mode: 'onChange',
-  })
+    mode: "onChange",
+  });
 
   const onSubmit = async (data: CompleteFormData) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      console.log('[v0] Form submitted:', data)
+      console.log("[v0] Form submitted:", data);
       // TODO: Send data to backend
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       // Success - redirect or show success state
     } catch (error) {
-      console.error('[v0] Form submission error:', error)
+      console.error("[v0] Form submission error:", error);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleNext = async () => {
-    let isStepValid = false
+    let isStepValid = false;
 
     if (currentStep === 1) {
-      isStepValid = await trigger(['firstName', 'lastName', 'email', 'password', 'confirmPassword'])
+      isStepValid = await trigger([
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "confirmPassword",
+      ]);
     } else if (currentStep === 2) {
-      isStepValid = await trigger(['phoneNumber', 'businessName', 'businessType', 'country', 'timezone'])
+      isStepValid = await trigger([
+        "phoneNumber",
+        "businessName",
+        "businessType",
+        "country",
+        "timezone",
+      ]);
     } else if (currentStep === 3) {
-      isStepValid = await trigger(['state', 'city', 'address'])
+      isStepValid = await trigger(["state", "city", "address"]);
     } else if (currentStep === 4) {
-      isStepValid = await trigger(['pin', 'confirmPin', 'agreeTerms'])
+      isStepValid = await trigger(["pin", "confirmPin", "agreeTerms"]);
     }
 
     if (isStepValid) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
   return (
     <>
@@ -78,15 +94,32 @@ export function SignupWizard() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
         >
-          {currentStep === 1 && <Step1Identity register={register} errors={errors} watch={watch} />}
-          {currentStep === 2 && <Step2Business register={register} errors={errors} />}
-          {currentStep === 3 && <Step3Location register={register} errors={errors} />}
-          {currentStep === 4 && <Step4Security register={register} errors={errors} watch={watch} />}
+          {currentStep === 1 && (
+            <Step1Identity register={register} errors={errors} watch={watch} />
+          )}
+          {currentStep === 2 && (
+            <Step2Business register={register} errors={errors} />
+          )}
+          {currentStep === 3 && (
+            <Step3Location register={register} errors={errors} />
+          )}
+          {currentStep === 4 && (
+            <Step4Security
+              control={control}
+              register={register}
+              watch={watch}
+              errors={errors}
+            />
+          )}
         </motion.div>
 
         <div className="form-buttons">
           {currentStep > 1 && (
-            <button type="button" className="btn-secondary" onClick={handleBack}>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={handleBack}
+            >
               Back
             </button>
           )}
@@ -106,11 +139,11 @@ export function SignupWizard() {
               className="btn-primary"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Creating Account...' : 'Create Account'}
+              {isSubmitting ? "Creating Account..." : "Create Account"}
             </button>
           )}
         </div>
       </form>
     </>
-  )
+  );
 }
