@@ -1,5 +1,6 @@
 import { ClientScripts } from "@/components/client-scripts";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -29,9 +30,9 @@ export default function Home() {
             <a className="nav-login" href="#">
               Login
             </a>
-            <a className="nav-cta" href="register">
+            <Link className="nav-cta" href="/signup">
               Create Free Account
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
