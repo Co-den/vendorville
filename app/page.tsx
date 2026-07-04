@@ -8,7 +8,7 @@ export default function Home() {
       <ClientScripts />
       <nav>
         <div className="wrap">
-          <a href="/home" className="brand">
+          <Link href="/home" className="brand">
             <Image
               src="/images/vhub.png"
               alt="VendorHub"
@@ -17,20 +17,20 @@ export default function Home() {
               priority
               className="h-12 w-auto"
             />
-          </a>
+          </Link>
           <div className="nav-links">
-            <a href="/home">Home</a>
-            <a href="/about">About</a>
-            <a href="/features">Features</a>
-            <a href="/testimonials">Testimonials</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/blog">Blog</a>
-            <a href="/faq">FAQ</a>
+            <Link href="/home">Home</Link>
+            <Link href="/about">About</Link>
+            <Link href="/features">Features</Link>
+            <Link href="/testimonials">Testimonials</Link>
+            <Link href="/pricing">Pricing</Link>
+            <Link href="/blog">Blog</Link>
+            <Link href="/faq">FAQ</Link>
           </div>
           <div className="nav-right">
-            <a className="nav-login" href="/login">
+            <Link className="nav-login" href="/login">
               Login
-            </a>
+            </Link>
             <Link className="nav-cta" href="/signup">
               Create Free Account
             </Link>
@@ -57,7 +57,7 @@ export default function Home() {
               WhatsApp alerts all from your phone.
             </p>
             <div className="hero-ctas">
-              <a className="btn-white" href="#">
+              <Link className="btn-white" href="#">
                 <svg
                   width="14"
                   height="14"
@@ -67,8 +67,8 @@ export default function Home() {
                   <polygon points="6,4 20,12 6,20" />
                 </svg>
                 Watch Live Demo
-              </a>
-              <a className="btn-outline" href="#discover">
+              </Link>
+              <Link className="btn-outline" href="/partners">
                 <svg
                   width="14"
                   height="14"
@@ -82,7 +82,7 @@ export default function Home() {
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 Find Nearby Vendors
-              </a>
+              </Link>
             </div>
             <div className="trust-row">
               <div className="trust-item">
