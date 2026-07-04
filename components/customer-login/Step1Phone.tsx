@@ -1,10 +1,11 @@
 'use client'
 
-import { UseFormRegister, FieldValues, UseFormFormState } from 'react-hook-form'
+import type { CompleteCustomerLoginData } from '@/app/customer-login/schema';
+import { FormState, UseFormRegister } from 'react-hook-form';
 
 interface Step1PhoneProps {
-  register: UseFormRegister<FieldValues>
-  formState: UseFormFormState<FieldValues>
+  register: UseFormRegister<CompleteCustomerLoginData>
+  formState: FormState<CompleteCustomerLoginData>
   onSubmit: () => void
   isLoading?: boolean
 }
