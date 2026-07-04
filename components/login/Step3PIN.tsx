@@ -1,8 +1,8 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
 import { CompleteLoginData } from '@/app/login/schema'
+import { useEffect, useRef } from 'react'
+import { useFormContext } from 'react-hook-form'
 
 export function Step3PIN() {
   const pinInputsRef = useRef<HTMLInputElement[]>([])
@@ -13,6 +13,8 @@ export function Step3PIN() {
   } = useFormContext<CompleteLoginData>()
 
   useEffect(() => {
+    const cleanups: (() => void)[] = []
+
     pinInputsRef.current.forEach((input, index) => {
       if (!input) return
 
@@ -30,6 +32,7 @@ export function Step3PIN() {
       }
 
       const handleKeyDown = (e: KeyboardEvent) => {
+        const target = e.target as HTMLInputElement
         if (e.key === 'Backspace' && !target.value && index > 0) {
           pinInputsRef.current[index - 1]?.focus()
         }
@@ -38,11 +41,15 @@ export function Step3PIN() {
       input.addEventListener('input', handleInput)
       input.addEventListener('keydown', handleKeyDown)
 
-      return () => {
+      cleanups.push(() => {
         input.removeEventListener('input', handleInput)
         input.removeEventListener('keydown', handleKeyDown)
-      }
+      })
     })
+
+    return () => {
+      cleanups.forEach((cleanup) => cleanup())
+    }
   }, [setValue])
 
   return (
@@ -63,12 +70,12 @@ export function Step3PIN() {
               type="password"
               inputMode="numeric"
               maxLength={1}
-              {...register('pin')}
               aria-invalid={!!errors.pin}
               className={errors.pin ? 'error' : ''}
             />
           ))}
         </div>
+        <input type="hidden" {...register('pin')} />
         {errors.pin && <span className="error-text">{errors.pin.message}</span>}
       </div>
 
