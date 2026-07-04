@@ -20,6 +20,7 @@ export default function Home() {
           </a>
           <div className="nav-links">
             <a href="/home">Home</a>
+            <a href="/about">About</a>
             <a href="/features">Features</a>
             <a href="/testimonials">Testimonials</a>
             <a href="/pricing">Pricing</a>
@@ -27,7 +28,7 @@ export default function Home() {
             <a href="/faq">FAQ</a>
           </div>
           <div className="nav-right">
-            <a className="nav-login" href="#">
+            <a className="nav-login" href="/login">
               Login
             </a>
             <Link className="nav-cta" href="/signup">
