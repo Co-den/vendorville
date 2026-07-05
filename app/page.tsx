@@ -1,43 +1,12 @@
 import { ClientScripts } from "@/components/client-scripts";
-import Image from "next/image";
+import NavbarMobile from "@/components/NavbarMobile";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <>
       <ClientScripts />
-      <nav>
-        <div className="wrap">
-          <Link href="/home" className="brand">
-            <Image
-              src="/images/vhub.png"
-              alt="VendorHub"
-              width={180}
-              height={55}
-              priority
-              className="h-12 w-auto"
-            />
-          </Link>
-          <div className="nav-links">
-            <Link href="/home">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/features">Features</Link>
-            <Link href="/testimonials">Testimonials</Link>
-            <Link href="/pricing">Pricing</Link>
-            <Link href="/blog">Blog</Link>
-            <Link href="/faq">FAQ</Link>
-          </div>
-          <div className="nav-right">
-            <Link className="nav-login" href="/login">
-              Login
-            </Link>
-            <Link className="nav-cta" href="/signup">
-              Create Free Account
-            </Link>
-          </div>
-        </div>
-      </nav>
-
+      <NavbarMobile />
       <header className="hero">
         <div className="hero-bg" aria-hidden="true">
           <span></span>
@@ -68,7 +37,7 @@ export default function Home() {
                 </svg>
                 Watch Live Demo
               </Link>
-              <Link className="btn-outline" href="/partners">
+              <Link className="btn-outline" href="/discover">
                 <svg
                   width="14"
                   height="14"
