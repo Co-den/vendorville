@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import './partners.css'
+import NavbarMobile from "@/components/NavbarMobile";
+import { useEffect, useState } from 'react';
+import './partners.css';
 
 // Mock partner data
 const mockPartners = [
@@ -125,20 +125,7 @@ export default function PartnersPage() {
 
   return (
     <>
-      <nav className={scrolled ? 'scrolled' : ''}>
-        <div className="wrap">
-          <Link href="/" className="brand">
-            <span className="mark"></span>VendorHub
-          </Link>
-          <div className="nav-links">
-            <a href="/">Home</a>
-            <a href="/partners">Business Partners</a>
-            <a href="/about">About</a>
-            <a href="#contact">Contact</a>
-          </div>
-          <button className="nav-cta">Back to Dashboard</button>
-        </div>
-      </nav>
+      <NavbarMobile />
 
       <header className="hero">
         <div className="hero-bg" aria-hidden="true">

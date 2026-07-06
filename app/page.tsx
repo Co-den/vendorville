@@ -37,7 +37,8 @@ export default function Home() {
                 </svg>
                 Watch Live Demo
               </Link>
-              <Link className="btn-outline" href="/discover">
+              <Link className="btn-outline" href="/partners
+              ">
                 <svg
                   width="14"
                   height="14"
