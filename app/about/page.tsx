@@ -1,9 +1,9 @@
 'use client'
 
-import { Heart, Rocket, ShieldCheck, Zap } from 'lucide-react'
-import Link from 'next/link'
-import { useEffect } from 'react'
-import './about.css'
+import NavbarMobile from "@/components/NavbarMobile";
+import { Heart, Rocket, ShieldCheck, Zap } from 'lucide-react';
+import { useEffect } from 'react';
+import './about.css';
 
 export default function AboutPage() {
   useEffect(() => {
@@ -43,28 +43,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <nav>
-        <div className="wrap">
-          <Link href="/" className="brand">
-            <span className="mark"></span>VendorHub
-          </Link>
-          <div className="nav-links">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/">Features</a>
-            <a href="/">Pricing</a>
-          </div>
-          <div className="nav-right">
-            <a className="nav-login" href="/login">
-              Login
-            </a>
-            <a className="nav-cta" href="/signup">
-              Create Free Account
-            </a>
-          </div>
-        </div>
-      </nav>
-
+      <NavbarMobile />
       {/* HERO SECTION */}
       <section className="hero-section">
         <div className="hero-bg">
