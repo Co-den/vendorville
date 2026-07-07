@@ -26,7 +26,7 @@ export default function Home() {
               WhatsApp alerts all from your phone.
             </p>
             <div className="hero-ctas">
-              <Link className="btn-white" href="#">
+              <Link className="btn-white" href="/">
                 <svg
                   width="14"
                   height="14"

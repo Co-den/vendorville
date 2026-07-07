@@ -34,11 +34,11 @@ export default function NavbarMobile() {
         <div className="nav-links">
           <Link href="/" className="nav-link">Home</Link>
           <Link href="/about" className="nav-link">About</Link>
-          <Link href="#features" className="nav-link">Features</Link>
-          <Link href="#testimonials" className="nav-link">Testimonials</Link>
-          <Link href="#pricing" className="nav-link">Pricing</Link>
+          <Link href="/#features" className="nav-link">Features</Link>
+          <Link href="/#testimonials" className="nav-link">Testimonials</Link>
+          <Link href="/#pricing" className="nav-link">Pricing</Link>
           <Link href="/blog" className="nav-link">Blog</Link>
-          <Link href="#faq" className="nav-link">FAQ</Link>
+          <Link href="/#faq" className="nav-link">FAQ</Link>
         </div>
 
         <button 
@@ -56,11 +56,11 @@ export default function NavbarMobile() {
           <div className="navbar-links">
             <Link href="/" className="navbar-link" onClick={closeMenu}>Home</Link>
             <Link href="/about" className="navbar-link" onClick={closeMenu}>About</Link>
-            <Link href="#features" className="navbar-link" onClick={closeMenu}>Features</Link>
-            <Link href="#testimonials" className="navbar-link" onClick={closeMenu}>Testimonials</Link>
-            <Link href="#pricing" className="navbar-link" onClick={closeMenu}>Pricing</Link>
+            <Link href="/#features" className="navbar-link" onClick={closeMenu}>Features</Link>
+            <Link href="/#testimonials" className="navbar-link" onClick={closeMenu}>Testimonials</Link>
+            <Link href="/#pricing" className="navbar-link" onClick={closeMenu}>Pricing</Link>
             <Link href="/blog" className="navbar-link" onClick={closeMenu}>Blog</Link>
-            <Link href="#faq" className="navbar-link" onClick={closeMenu}>FAQ</Link>
+            <Link href="/#faq" className="navbar-link" onClick={closeMenu}>FAQ</Link>
           </div>
 
           <div className="navbar-actions">
