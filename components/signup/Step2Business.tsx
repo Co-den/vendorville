@@ -1,7 +1,7 @@
 'use client'
 
-import { UseFormRegister, FieldErrors } from 'react-hook-form'
 import { CompleteFormData } from '@/app/signup/schema'
+import { FieldErrors, UseFormRegister } from 'react-hook-form'
 
 interface Step2BusinessProps {
   register: UseFormRegister<CompleteFormData>
@@ -133,9 +133,9 @@ export function Step2Business({ register, errors }: Step2BusinessProps) {
           </div>
           <div className="select-wrap">
             <select
-              id="timezone"
-              {...register('timezone')}
-              aria-invalid={errors.timezone ? 'true' : 'false'}
+              id="timeZone"
+              {...register('timeZone')}
+              aria-invalid={errors.timeZone ? 'true' : 'false'}
             >
               <option value="">Select timezone</option>
               {timezones.map((tz) => (
@@ -148,7 +148,7 @@ export function Step2Business({ register, errors }: Step2BusinessProps) {
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </div>
-          {errors.timezone && <span className="error-text">{errors.timezone.message}</span>}
+          {errors.timeZone && <span className="error-text">{errors.timeZone.message}</span>}
           <p className="timezone-note">Your timezone helps us schedule reports and alerts correctly.</p>
         </div>
       </div>

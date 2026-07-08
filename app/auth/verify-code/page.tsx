@@ -1,8 +1,15 @@
 'use client'
 
+import { Fraunces } from 'next/font/google'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import '../verify-code.css'
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['700', '800'],
+  variable: '--font-fraunces',
+})
 
 export default function VerifyCodePage() {
   const [code, setCode] = useState(['', '', '', '', '', ''])
@@ -108,10 +115,12 @@ export default function VerifyCodePage() {
 
   if (success) {
     return (
-      <div className="verify-page verify-success">
+      <div className={`verify-page verify-success ${fraunces.variable}`}>
         <div className="verify-container">
           <div className="success-section">
-            <div className="success-icon">✓</div>
+            <div className="success-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
             <h2>Verification Successful</h2>
             <p>Your account has been verified. Redirecting to dashboard...</p>
             <div className="spinner"></div>
@@ -122,7 +131,7 @@ export default function VerifyCodePage() {
   }
 
   return (
-    <div className="verify-page">
+    <div className={`verify-page ${fraunces.variable}`}>
       <div className="verify-container">
         {/* Left Section */}
         <div className="verify-left">
@@ -143,15 +152,21 @@ export default function VerifyCodePage() {
 
           <div className="features">
             <div className="feature">
-              <div className="feature-icon">🔒</div>
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+              </div>
               <span>Bank-Grade Security</span>
             </div>
             <div className="feature">
-              <div className="feature-icon">✓</div>
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
               <span>Instant Verification</span>
             </div>
             <div className="feature">
-              <div className="feature-icon">🛡️</div>
+              <div className="feature-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>
+              </div>
               <span>Fraud Protection</span>
             </div>
           </div>
@@ -161,8 +176,12 @@ export default function VerifyCodePage() {
         <div className="verify-right">
           <div className="verify-card">
             <div className="verify-header">
-              <div className="shield-icon">🔐</div>
-              <h2>Security Code</h2>
+              <div className="header-row">
+                <div className="shield-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+                <h2>Security Code</h2>
+              </div>
               <p className="verify-subtitle">
                 Identity verification required to protect your business assets.
               </p>
@@ -171,7 +190,9 @@ export default function VerifyCodePage() {
             <div className="verify-content">
               <div className="verification-label">VERIFICATION DESTINATION</div>
               <div className="email-display">
-                <span className="envelope-icon">✉</span>
+                <span className="envelope-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
+                </span>
                 {maskedEmail}
               </div>
 
@@ -208,12 +229,12 @@ export default function VerifyCodePage() {
               </form>
 
               <div className="resend-section">
-                <p className="resend-label">Didn't get the code?</p>
+                <div className="resend-text">
+                  <p className="resend-label">Didn't get the code?</p>
+                  {timeLeft > 0 && <span className="timer-text">Check your spam or resend in</span>}
+                </div>
                 {timeLeft > 0 ? (
-                  <div className="timer-info">
-                    <span className="timer-text">Check your spam or resend in</span>
-                    <div className="timer">{formatTime(timeLeft)}</div>
-                  </div>
+                  <div className="timer">{formatTime(timeLeft)}</div>
                 ) : (
                   <button className="resend-btn" onClick={handleResend}>
                     Resend Code

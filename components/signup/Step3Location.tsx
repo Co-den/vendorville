@@ -1,7 +1,7 @@
 'use client'
 
-import { UseFormRegister, FieldErrors } from 'react-hook-form'
 import { CompleteFormData } from '@/app/signup/schema'
+import { FieldErrors, UseFormRegister } from 'react-hook-form'
 
 interface Step3LocationProps {
   register: UseFormRegister<CompleteFormData>
@@ -85,15 +85,15 @@ export function Step3Location({ register, errors }: Step3LocationProps) {
       </div>
 
       <div className="field">
-        <label htmlFor="address">Business Address *</label>
+        <label htmlFor="businessAddress">Business Address *</label>
         <input
-          id="address"
+          id="businessAddress"
           type="text"
           placeholder="Street address, building, shop number"
-          {...register('address')}
-          aria-invalid={errors.address ? 'true' : 'false'}
+          {...register('businessAddress')}
+          aria-invalid={errors.businessAddress ? 'true' : 'false'}
         />
-        {errors.address && <span className="error-text">{errors.address.message}</span>}
+        {errors.businessAddress && <span className="error-text">{errors.businessAddress.message}</span>}
       </div>
 
       <div className="field">
@@ -103,7 +103,9 @@ export function Step3Location({ register, errors }: Step3LocationProps) {
           type="text"
           placeholder="Optional"
           {...register('postalCode')}
+          aria-invalid={errors.postalCode ? 'true' : 'false'}
         />
+        {errors.postalCode && <span className="error-text">{errors.postalCode.message}</span>}
       </div>
     </div>
   )

@@ -1,12 +1,11 @@
 "use client";
 
-import {
-  CompleteFormData,
-  completeSchema
-} from "@/app/signup/schema";
+import { CompleteFormData, completeSchema } from "@/app/signup/schema";
+import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Step1Identity } from "./Step1Identity";
@@ -16,8 +15,10 @@ import { Step4Security } from "./Step4Security";
 import { StepIndicator } from "./StepIndicator";
 
 export function SignupWizard() {
+  const { signup } = useAuthStore();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -33,14 +34,30 @@ export function SignupWizard() {
 
   const onSubmit = async (data: CompleteFormData) => {
     setIsSubmitting(true);
+
     try {
-      console.log("[v0] Form submitted:", data);
-      // TODO: Send data to backend
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Success - redirect or show success state
+      await signup({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        phoneNumber: data.phoneNumber,
+        businessName: data.businessName,
+        businessType: data.businessType,
+        country: data.country,
+        timeZone: data.timeZone,
+        state: data.state,
+        city: data.city,
+        businessAddress: data.businessAddress,
+        postalCode: data.postalCode,
+        pin: data.pin
+      });
+
+      console.log("Signup successful");
+
+      router.push("/login");
     } catch (error) {
-      console.error("[v0] Form submission error:", error);
+      console.error("Signup failed:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -63,10 +80,10 @@ export function SignupWizard() {
         "businessName",
         "businessType",
         "country",
-        "timezone",
+        "timeZone",
       ]);
     } else if (currentStep === 3) {
-      isStepValid = await trigger(["state", "city", "address"]);
+      isStepValid = await trigger(["state", "city", "businessAddress"]);
     } else if (currentStep === 4) {
       isStepValid = await trigger(["pin", "confirmPin", "agreeTerms"]);
     }
