@@ -3,6 +3,7 @@
 import { CompleteLoginData, completeLoginSchema } from "@/app/login/schema";
 import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -132,13 +133,18 @@ export function LoginWizard() {
         {/* Form Buttons */}
         <div className="form-buttons">
           {currentStep > 1 && (
-            <button type="button" className="btn-secondary" onClick={onBack}>
-              Back
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={onBack}
+              aria-label="Go back to previous step"
+            >
+              <ChevronLeft size={16} />
             </button>
           )}
           {currentStep < steps.length && (
             <button type="button" className="btn-primary" onClick={onNext}>
-              Continue
+              Continue <ChevronRight size={16} />
             </button>
           )}
           {currentStep === steps.length && (

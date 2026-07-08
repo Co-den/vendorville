@@ -546,14 +546,18 @@ body {
 }
 
 .pin-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+  max-width: 320px;
+  margin: 0 auto;
 }
 
 .pin-row input {
-  flex: 1;
+  width: 100%;
   min-width: 0;
-  height: 48px;
+  aspect-ratio: 1 / 1;
+  min-height: 48px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
   text-align: center;
@@ -686,10 +690,11 @@ body {
 
   .pin-row {
     gap: 10px;
+    max-width: 280px;
   }
 
   .pin-row input {
-    height: 44px;
+    min-height: 44px;
     font-size: 0.95rem;
   }
 
@@ -778,10 +783,11 @@ body {
 
   .pin-row {
     gap: 8px;
+    max-width: 100%;
   }
 
   .pin-row input {
-    height: 42px;
+    min-height: 42px;
     font-size: 0.90rem;
     border-radius: 8px;
   }
@@ -916,7 +922,7 @@ body {
   font-family: 'Fraunces', serif;
   font-weight: 800;
   font-size: 1.3rem;
-  text-align: left;
+  text-align: center;
   color: var(--ink);
   margin-bottom: 8px;
 }
@@ -1030,20 +1036,31 @@ body {
 /* ===== FORM BUTTONS ===== */
 .form-buttons {
   display: flex;
+  align-items: center;
   gap: 12px;
   margin-top: 24px;
   justify-content: space-between;
 }
 
+.btn-secondary,
+.btn-primary {
+  height: 42px;
+  min-height: 42px;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
 .btn-secondary {
   flex: 0 0 auto;
-  padding: 11px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  padding: 0;
   border: 1.5px solid var(--line);
   border-radius: 9px;
   background: #fff;
   color: var(--ink);
-  font-weight: 700;
-  font-size: 0.84rem;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
@@ -1063,7 +1080,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 11px 16px;
+  padding: 0 16px;
   border: none;
   border-radius: 9px;
   background: linear-gradient(135deg, var(--green-900), var(--green-800));
@@ -1113,12 +1130,15 @@ body {
   }
 
   .btn-secondary {
-    padding: 10px 16px;
-    font-size: 0.80rem;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
   }
 
   .btn-primary {
-    padding: 10px 12px;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 12px;
     font-size: 0.82rem;
   }
 }
@@ -1156,13 +1176,24 @@ body {
   }
 
   .form-buttons {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     gap: 10px;
   }
 
-  .btn-secondary,
+  .btn-secondary {
+    width: 42px;
+    max-width: 42px;
+    flex: 0 0 42px;
+    height: 42px;
+    min-height: 42px;
+  }
+
   .btn-primary {
-    width: 100%;
+    width: auto;
+    flex: 1 1 auto;
+    height: 42px;
+    min-height: 42px;
   }
 
   .checkbox-field {

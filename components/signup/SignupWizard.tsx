@@ -4,7 +4,8 @@ import { CompleteFormData, completeSchema } from "@/app/signup/schema";
 import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -50,7 +51,7 @@ export function SignupWizard() {
         city: data.city,
         businessAddress: data.businessAddress,
         postalCode: data.postalCode,
-        pin: data.pin
+        pin: data.pin,
       });
 
       console.log("Signup successful");
@@ -136,8 +137,9 @@ export function SignupWizard() {
               type="button"
               className="btn-secondary"
               onClick={handleBack}
+              aria-label="Go back to previous step"
             >
-              Back
+              <ChevronLeft size={16} />
             </button>
           )}
 
@@ -159,6 +161,19 @@ export function SignupWizard() {
               {isSubmitting ? "Creating Account..." : "Create Account"}
             </button>
           )}
+        </div>
+        <div
+          style={{
+            marginTop: "18px",
+            textAlign: "center",
+            fontSize: "0.84rem",
+            color: "#667085",
+          }}
+        >
+          Have an account?{" "}
+          <Link href="/login" style={{ color: "#3a844f", fontWeight: "700" }}>
+            Login
+          </Link>
         </div>
       </form>
     </>
