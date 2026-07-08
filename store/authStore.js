@@ -30,11 +30,7 @@ export const useAuthStore = create((set) => ({
       return response.data;
     } catch (error) {
       console.log(error);
-      console.log(error.code);
-      console.log(error.message);
-      console.log(error.response);
-      console.log(error.request);
-
+      
       set({
         error: error.response?.data?.message || error.message,
         isLoading: false,

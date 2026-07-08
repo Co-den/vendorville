@@ -1,8 +1,10 @@
 "use client";
 
 import { CompleteLoginData, completeLoginSchema } from "@/app/login/schema";
+import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Step1Email } from "./Step1Email";
@@ -16,8 +18,10 @@ const steps = [
 ];
 
 export function LoginWizard() {
+  const { login } = useAuthStore();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const methods = useForm<CompleteLoginData>({
     resolver: zodResolver(completeLoginSchema),
@@ -55,9 +59,14 @@ export function LoginWizard() {
     setIsLoading(true);
     try {
       // Handle login submission
-      console.log("Login data:", data);
+     await login({
+        email: data.email,
+        password: data.password,
+        pin: data.pin,
+        rememberMe: data.rememberMe,
+      });
       // Redirect to dashboard after successful login
-      // window.location.href = '/dashboard'
+      router.push('/');
     } catch (error) {
       console.error("Login error:", error);
     } finally {
