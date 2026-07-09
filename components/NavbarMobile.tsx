@@ -64,10 +64,10 @@ export default function NavbarMobile() {
           </div>
 
           <div className="navbar-actions">
-            <Link className="nav-login" href="/login" onClick={closeMenu}>
+            <Link className="nav-login" href="/auth/login" onClick={closeMenu}>
               Login
             </Link>
-            <Link className="nav-cta" href="/signup" onClick={closeMenu}>
+            <Link className="nav-cta" href="/auth/signup" onClick={closeMenu}>
               Create Free Account
             </Link>
           </div>
@@ -75,10 +75,10 @@ export default function NavbarMobile() {
 
         {/* Desktop Action Buttons */}
         <div className="nav-right">
-          <Link className="nav-login" href="/login">
+          <Link className="nav-login" href="/auth/login">
             Login
           </Link>
-          <Link className="nav-cta" href="/signup">
+          <Link className="nav-cta" href="/auth/signup">
             Create Free Account
           </Link>
         </div>

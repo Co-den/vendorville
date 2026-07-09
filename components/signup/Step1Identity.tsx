@@ -1,9 +1,9 @@
 'use client'
 
-import { UseFormRegister, FieldErrors, UseFormWatch } from 'react-hook-form'
-import { CompleteFormData } from '@/app/signup/schema'
+import { CompleteFormData } from '@/app/auth/signup/schema'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
+import { FieldErrors, UseFormRegister, UseFormWatch } from 'react-hook-form'
 
 interface Step1IdentityProps {
   register: UseFormRegister<CompleteFormData>

@@ -1,6 +1,6 @@
 "use client";
 
-import { CompleteLoginData, completeLoginSchema } from "@/app/login/schema";
+import { CompleteLoginData, completeLoginSchema } from "@/app/auth/login/schema";
 import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -67,7 +67,7 @@ export function LoginWizard() {
         rememberMe: data.rememberMe,
       });
       // Redirect to dashboard after successful login
-      router.push('/');
+      router.push('/auth/verify-code');
     } catch (error) {
       console.error("Login error:", error);
     } finally {
@@ -167,13 +167,13 @@ export function LoginWizard() {
             >
               New?{" "}
               <Link
-                href="/signup"
+                href="/auth/signup"
                 style={{ color: "#3a844f", fontWeight: "700" }}
               >
                 Create Account
               </Link>
             </div>
-            <Link href="/customer-login" className="secondary-btn">
+            <Link href="/" className="secondary-btn">
               Login as Customer
             </Link>
             <div

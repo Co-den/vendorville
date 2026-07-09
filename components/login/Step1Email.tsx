@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormContext } from 'react-hook-form'
-import { CompleteLoginData } from '@/app/login/schema'
+import { CompleteLoginData } from '@/app/auth/login/schema'
 
 export function Step1Email() {
   const {

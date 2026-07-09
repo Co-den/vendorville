@@ -1,8 +1,8 @@
 'use client'
 
+import { CustomerLoginWizard } from '@/components/customer-login/CustomerLoginWizard'
 import Link from 'next/link'
 import './customer-login.css'
-import { CustomerLoginWizard } from '@/components/customer-login/CustomerLoginWizard'
 
 export default function CustomerLoginPage() {
   return (
@@ -67,7 +67,7 @@ export default function CustomerLoginPage() {
 
           <div className="footer-links">
             <p>
-              Looking for your business account? <Link href="/login">Sign in here</Link>
+              Looking for your business account? <Link href="/auth/login">Sign in here</Link>
             </p>
             <p className="copyright">© 2026 VendorHub Nigeria</p>
           </div>

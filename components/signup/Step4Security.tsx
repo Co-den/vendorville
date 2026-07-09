@@ -1,13 +1,13 @@
 'use client'
 
-import { CompleteFormData } from '@/app/signup/schema'
+import { CompleteFormData } from '@/app/auth/signup/schema'
 import { useEffect, useRef } from 'react'
 import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormRegister,
-  UseFormWatch,
+    Control,
+    Controller,
+    FieldErrors,
+    UseFormRegister,
+    UseFormWatch,
 } from 'react-hook-form'
 
 interface Step4SecurityProps {

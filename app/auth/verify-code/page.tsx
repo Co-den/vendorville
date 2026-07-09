@@ -1,7 +1,9 @@
 'use client'
 
+import { useAuthStore } from '@/store/authStore'
 import { Fraunces } from 'next/font/google'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import '../verify-code.css'
 
@@ -11,25 +13,37 @@ const fraunces = Fraunces({
   variable: '--font-fraunces',
 })
 
+function maskEmail(email: string) {
+  const [name, domain] = email.split('@')
+  if (!domain) return email
+  const visible = name.slice(0, 2)
+  return `${visible}${'*'.repeat(Math.max(name.length - 2, 3))}@${domain}`
+}
+
 export default function VerifyCodePage() {
+  const { verifyEmail, resendCode } = useAuthStore()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const email = searchParams.get('email') || ''
+
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [timeLeft, setTimeLeft] = useState(240) // 4 minutes
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isResending, setIsResending] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
-  // Mock email - in production this would come from your auth context/session
-  const maskedEmail = 'john****@gmail.com'
+  useEffect(() => {
+    if (!email) {
+      // no email in the URL — user landed here directly, send them back
+      router.push('/auth/signup')
+    }
+  }, [email, router])
 
-  // Timer countdown
   useEffect(() => {
     if (timeLeft <= 0) return
-
-    const timer = setInterval(() => {
-      setTimeLeft(prev => prev - 1)
-    }, 1000)
-
+    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000)
     return () => clearInterval(timer)
   }, [timeLeft])
 
@@ -40,15 +54,13 @@ export default function VerifyCodePage() {
   }
 
   const handleCodeChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return // Only allow digits
+    if (!/^\d*$/.test(value)) return
 
     const newCode = [...code]
-    newCode[index] = value.slice(-1) // Only take last digit
-
+    newCode[index] = value.slice(-1)
     setCode(newCode)
     setError('')
 
-    // Auto-focus next input
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus()
     }
@@ -83,34 +95,33 @@ export default function VerifyCodePage() {
     setError('')
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-
-      // Mock verification - in production, verify with your backend
-      if (fullCode === '123456') {
-        setSuccess(true)
-        // Redirect to dashboard after success
-        setTimeout(() => {
-          window.location.href = '/dashboard'
-        }, 2000)
-      } else {
-        setError('Invalid verification code. Please try again.')
-        setCode(['', '', '', '', '', ''])
-        inputRefs.current[0]?.focus()
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.')
+      await verifyEmail(email, fullCode)
+      setSuccess(true)
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 2000)
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Invalid verification code. Please try again.')
+      setCode(['', '', '', '', '', ''])
+      inputRefs.current[0]?.focus()
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handleResend = () => {
-    setTimeLeft(240)
-    setCode(['', '', '', '', '', ''])
+  const handleResend = async () => {
+    setIsResending(true)
     setError('')
-    inputRefs.current[0]?.focus()
-    // In production, call resend API here
+    try {
+      await resendCode(email)
+      setTimeLeft(240)
+      setCode(['', '', '', '', '', ''])
+      inputRefs.current[0]?.focus()
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Could not resend code. Please try again.')
+    } finally {
+      setIsResending(false)
+    }
   }
 
   if (success) {
@@ -133,7 +144,6 @@ export default function VerifyCodePage() {
   return (
     <div className={`verify-page ${fraunces.variable}`}>
       <div className="verify-container">
-        {/* Left Section */}
         <div className="verify-left">
           <div className="system-status">
             <span className="status-dot"></span>
@@ -172,7 +182,6 @@ export default function VerifyCodePage() {
           </div>
         </div>
 
-        {/* Right Section */}
         <div className="verify-right">
           <div className="verify-card">
             <div className="verify-header">
@@ -193,7 +202,7 @@ export default function VerifyCodePage() {
                 <span className="envelope-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
                 </span>
-                {maskedEmail}
+                {email ? maskEmail(email) : 'Loading...'}
               </div>
 
               <form onSubmit={handleSubmit} className="code-form">
@@ -236,8 +245,8 @@ export default function VerifyCodePage() {
                 {timeLeft > 0 ? (
                   <div className="timer">{formatTime(timeLeft)}</div>
                 ) : (
-                  <button className="resend-btn" onClick={handleResend}>
-                    Resend Code
+                  <button className="resend-btn" onClick={handleResend} disabled={isResending}>
+                    {isResending ? 'Resending...' : 'Resend Code'}
                   </button>
                 )}
               </div>

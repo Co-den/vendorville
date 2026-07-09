@@ -1,6 +1,6 @@
 'use client'
 
-import { CompleteLoginData } from '@/app/login/schema'
+import { CompleteLoginData } from '@/app/auth/login/schema'
 import { useEffect, useRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 

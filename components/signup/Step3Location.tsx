@@ -1,6 +1,6 @@
 'use client'
 
-import { CompleteFormData } from '@/app/signup/schema'
+import { CompleteFormData } from '@/app/auth/signup/schema'
 import { FieldErrors, UseFormRegister } from 'react-hook-form'
 
 interface Step3LocationProps {

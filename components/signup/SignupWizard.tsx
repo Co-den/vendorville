@@ -1,6 +1,6 @@
 "use client";
 
-import { CompleteFormData, completeSchema } from "@/app/signup/schema";
+import { CompleteFormData, completeSchema } from "@/app/auth/signup/schema";
 import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
@@ -56,7 +56,7 @@ export function SignupWizard() {
 
       console.log("Signup successful");
 
-      router.push("/login");
+      router.push(`/auth/verify-code?email=${encodeURIComponent(data.email)}`);
     } catch (error) {
       console.error("Signup failed:", error);
     } finally {
@@ -171,7 +171,10 @@ export function SignupWizard() {
           }}
         >
           Have an account?{" "}
-          <Link href="/login" style={{ color: "#3a844f", fontWeight: "700" }}>
+          <Link
+            href="/auth/login"
+            style={{ color: "#3a844f", fontWeight: "700" }}
+          >
             Login
           </Link>
         </div>

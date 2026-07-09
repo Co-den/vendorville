@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Eye, EyeOff } from 'lucide-react'
-import { CompleteLoginData } from '@/app/login/schema'
+import { CompleteLoginData } from '@/app/auth/login/schema'
 
 export function Step2Password() {
   const [showPassword, setShowPassword] = useState(false)
