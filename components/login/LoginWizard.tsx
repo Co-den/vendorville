@@ -67,7 +67,7 @@ export function LoginWizard() {
         rememberMe: data.rememberMe,
       });
       // Redirect to dashboard after successful login
-      router.push('/');
+      router.push('/dashboard');
     } catch (error) {
       console.error("Login error:", error);
     } finally {
