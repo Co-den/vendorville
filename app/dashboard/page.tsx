@@ -3,6 +3,7 @@
 import { useAuthStore } from "@/store/authStore";
 import Script from "next/script";
 import { JSX } from "react/jsx-runtime";
+import BusinessSection from "./BusinessSection";
 import WalletCard from "./walletcard";
 
 const mockStats = [
@@ -150,7 +151,7 @@ export default function DashboardOverview() {
         </h1>
         <p>Here's what's happening with your business today.</p>
       </div>
-
+      <BusinessSection />
       <div className="stat-grid">
         {mockStats.map((stat) => (
           <div className="stat-card" key={stat.label}>
