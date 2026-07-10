@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import Link from "next/link";
 import Script from "next/script";
 import { JSX } from "react/jsx-runtime";
 import BusinessSection from "./BusinessSection";
@@ -142,10 +143,10 @@ export default function DashboardOverview() {
       />
 
       <div className="dash-welcome">
-        <div className="dash-welcome-eyebrow">
+        <Link className="dash-welcome-eyebrow" href="/">
           <span className="dot"></span>
           Vendor Dashboard
-        </div>
+        </Link>
         <h1>
           Welcome back, <span>{firstName}</span>.
         </h1>

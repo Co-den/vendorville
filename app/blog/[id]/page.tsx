@@ -18,11 +18,11 @@ const mockBlogPosts = [
     category: 'Growth',
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
     readTime: '8 min read',
-    content: 'Scaling a vendor business from ₦100K to ₦1M monthly revenue is achievable with the right strategy. The journey requires a fundamental shift in how you operate, think about your business, and allocate resources.\n\n## Phase 1: Foundation (₦100K - ₦250K)\n\nThe first phase is about building solid foundations. This means:\n\nSystematize Everything: Document your processes. What works for you won\'t scale with just you. Create standard operating procedures (SOPs) for every repeatable task—product sourcing, customer communication, order fulfillment, and quality control.\n\nMaster Your Unit Economics: Know exactly how much profit you make per transaction. Track your costs meticulously. A vendor making ₦50K monthly with healthy margins is better positioned to scale than one making ₦100K with razor-thin margins.\n\nBuild Customer Loyalty: At this stage, repeat customers are your growth engine. The cost of acquiring a new customer is 5-25x higher than retaining one. Focus on exceptional service, consistent quality, and personalized follow-up.\n\n## Phase 2: Expansion (₦250K - ₦600K)\n\nOnce you\'ve built a solid foundation, expansion becomes possible:\n\nAdd Complementary Products: If you sell clothing, add accessories. If you sell beauty products, add skincare bundles. This increases average order value without proportionally increasing your operational complexity.\n\nDevelop Strategic Partnerships: Connect with complementary vendors. A food vendor could partner with a beverage vendor. A logistics partner can handle fulfillment while you focus on sales.\n\nInvest in Visibility: At this stage, you can afford basic digital marketing. Start with WhatsApp broadcasts, then move to Instagram marketing. Analytics show that consistent Instagram presence increases sales by 30-50% for most vendors.\n\n## Phase 3: Acceleration (₦600K - ₦1M)\n\nThis phase requires systems and team:\n\nBuild a Team: You can\'t do everything yourself anymore. Hire for your weaknesses. If you\'re not great at customer service, hire someone who is.\n\nLeverage Technology: Use VendorHub\'s inventory management, automated invoicing, and customer analytics. Technology multiplies your efficiency by 10x.\n\nCreate a Brand: Move beyond being a vendor to being a brand customers recognize and trust.'
+    content: 'Scaling a vendor business from ₦100K to ₦1M monthly revenue is achievable with the right strategy. The journey requires a fundamental shift in how you operate, think about your business, and allocate resources.\n\n## Phase 1: Foundation (₦100K - ₦250K)\n\nThe first phase is about building solid foundations. This means:\n\nSystematize Everything: Document your processes. What works for you won\'t scale with just you. Create standard operating procedures (SOPs) for every repeatable task—product sourcing, customer communication, order fulfillment, and quality control.\n\nMaster Your Unit Economics: Know exactly how much profit you make per transaction. Track your costs meticulously. A vendor making ₦50K monthly with healthy margins is better positioned to scale than one making ₦100K with razor-thin margins.\n\nBuild Customer Loyalty: At this stage, repeat customers are your growth engine. The cost of acquiring a new customer is 5-25x higher than retaining one. Focus on exceptional service, consistent quality, and personalized follow-up.\n\n## Phase 2: Expansion (₦250K - ₦600K)\n\nOnce you\'ve built a solid foundation, expansion becomes possible:\n\nAdd Complementary Products: If you sell clothing, add accessories. If you sell beauty products, add skincare bundles. This increases average order value without proportionally increasing your operational complexity.\n\nDevelop Strategic Partnerships: Connect with complementary vendors. A food vendor could partner with a beverage vendor. A logistics partner can handle fulfillment while you focus on sales.\n\nInvest in Visibility: At this stage, you can afford basic digital marketing. Start with WhatsApp broadcasts, then move to Instagram marketing. Analytics show that consistent Instagram presence increases sales by 30-50% for most vendors.\n\n## Phase 3: Acceleration (₦600K - ₦1M)\n\nThis phase requires systems and team:\n\nBuild a Team: You can\'t do everything yourself anymore. Hire for your weaknesses. If you\'re not great at customer service, hire someone who is.\n\nLeverage Technology: Use VendorVille\'s inventory management, automated invoicing, and customer analytics. Technology multiplies your efficiency by 10x.\n\nCreate a Brand: Move beyond being a vendor to being a brand customers recognize and trust.'
   },
   {
     id: 2,
-    title: 'The Complete Guide to Using VendorHub Analytics to Boost Sales',
+    title: 'The Complete Guide to Using VendorVille Analytics to Boost Sales',
     excerpt: 'Unlock the power of data-driven decisions.',
     author: 'Tunde Okoro',
     authorRole: 'Analytics Expert',
@@ -31,7 +31,7 @@ const mockBlogPosts = [
     category: 'Tools & Tips',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop',
     readTime: '6 min read',
-    content: 'Analytics are the backbone of modern vendor operations. This guide walks you through VendorHub\'s powerful analytics features and how to use them to grow your business.'
+    content: 'Analytics are the backbone of modern vendor operations. This guide walks you through VendorVille\'s powerful analytics features and how to use them to grow your business.'
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const mockBlogPosts = [
     excerpt: 'Customer retention is 5-25x cheaper than acquisition.',
     author: 'Zainab Mohammed',
     authorRole: 'Customer Success Manager',
-    authorBio: 'Zainab leads customer success at VendorHub and has worked with hundreds of vendors.',
+    authorBio: 'Zainab leads customer success at VendorVille and has worked with hundreds of vendors.',
     date: 'June 28, 2026',
     category: 'Customer Retention',
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
@@ -78,7 +78,7 @@ const mockBlogPosts = [
     excerpt: 'Fast, reliable delivery is a competitive advantage.',
     author: 'Emeka Eze',
     authorRole: 'Logistics Specialist',
-    authorBio: 'Emeka has worked with VendorHub logistics partners.',
+    authorBio: 'Emeka has worked with VendorVille logistics partners.',
     date: 'June 19, 2026',
     category: 'Growth',
     image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop',
@@ -91,7 +91,7 @@ const mockBlogPosts = [
     excerpt: 'You don\'t need a huge budget to grow online.',
     author: 'Blessing Okafor',
     authorRole: 'Marketing Director',
-    authorBio: 'Blessing leads marketing strategy for VendorHub.',
+    authorBio: 'Blessing leads marketing strategy for VendorVille.',
     date: 'June 16, 2026',
     category: 'Marketing',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop',
@@ -237,7 +237,7 @@ export default function BlogDetailPage() {
         <div className="footer-grid">
           <div>
             <div className="brand">
-              <span className="mark"></span>VendorHub
+              <span className="mark"></span>VendorVille
             </div>
             <p className="tagline">The all-in-one platform for Nigerian vendors.</p>
             <span className="footer-phone">+234 707 647 3776</span>
@@ -265,7 +265,7 @@ export default function BlogDetailPage() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 VendorHub Nigeria. All rights reserved.</span>
+          <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
           <span>Building Nigeria's vendor economy</span>
         </div>
       </footer>

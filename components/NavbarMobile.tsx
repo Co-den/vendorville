@@ -27,8 +27,8 @@ export default function NavbarMobile() {
       <div className="wrap">
         <Link href="/" className="brand" onClick={closeMenu}>
           <Image
-            src="/images/vhub.png"
-            alt="VendorHub"
+            src="/images/vv.png"
+            alt="VendorVille"
             width={180}
             height={55}
             priority

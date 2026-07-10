@@ -20,6 +20,15 @@ const navItems = [
   { href: "/dashboard/customers", label: "Customers", icon: "users" },
   { href: "/dashboard/wallet", label: "Wallet", icon: "wallet" },
   { href: "/dashboard/settings", label: "Settings", icon: "settings" },
+  { href: "/dashboard", label: "Business", icon: "home" },
+  { href: "/dashboard/analytics", label: "Analytics", icon: "trend" },
+  { href: "/dashboard/reviews", label: "Reviews", icon: "star" },
+];
+
+const financeItems = [
+  { href: "/dashboard/subscribe", label: "Subscribe", icon: "refresh" },
+  { href: "/dashboard/wallet", label: "e-Wallet", icon: "wallet" },
+  { href: "/dashboard/payout", label: "Payout", icon: "card" },
 ];
 
 function NavIcon({ name }: { name: string }) {
@@ -108,6 +117,70 @@ function NavIcon({ name }: { name: string }) {
         <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
       </svg>
     ),
+    home: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+    trend: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+    star: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+      </svg>
+    ),
+    refresh: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="23 4 23 10 17 10" />
+        <polyline points="1 20 1 14 7 14" />
+        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
+      </svg>
+    ),
+    card: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect x="1" y="4" width="22" height="16" rx="2" />
+        <line x1="1" y1="10" x2="23" y2="10" />
+      </svg>
+    ),
   };
   return icons[name] || null;
 }
@@ -164,9 +237,9 @@ export default function DashboardLayout({
   return (
     <div className={`dash-shell ${fraunces.variable}`}>
       <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
-        <div className="dash-brand">
-          <span>VendorHub</span>
-        </div>
+        <Link className="dash-brand" href="/">
+          <span>VendorVille</span>
+        </Link>
         <nav className="dash-nav">
           {navItems.map((item) => (
             <Link
@@ -174,6 +247,18 @@ export default function DashboardLayout({
               href={item.href}
               className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
               onClick={() => setSidebarOpen(false)}
+            >
+              <NavIcon name={item.icon} />
+              {item.label}
+            </Link>
+          ))}
+          <div className="dash-nav-section-label">Finance</div>
+
+          {financeItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
             >
               <NavIcon name={item.icon} />
               {item.label}

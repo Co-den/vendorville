@@ -435,7 +435,7 @@ export default function Home() {
             </h2>
             <p>
               Real stories from real business owners who&apos;ve transformed
-              their operations with VendorHub.
+              their operations with VendorVille.
             </p>
           </div>
           <div className="stat-pill-row reveal-stagger">
@@ -768,13 +768,13 @@ export default function Home() {
             </h2>
             <p>
               Got questions? We&apos;ve got answers. Everything you need to know
-              about setting up and using VendorHub.
+              about setting up and using VendorVille.
             </p>
           </div>
           <div className="faq-list reveal-stagger">
             <div className="faq-item">
               <div className="faq-head">
-                <span className="q">Do I need internet to use VendorHub?</span>
+                <span className="q">Do I need internet to use VendorVille?</span>
                 <span className="plus">+</span>
               </div>
               <div className="faq-answer">
@@ -792,7 +792,7 @@ export default function Home() {
               </div>
               <div className="faq-answer">
                 <p>
-                  Yes — VendorHub is fully mobile. Run your stall from an
+                  Yes — VendorVille is fully mobile. Run your stall from an
                   Android phone, iPhone, or tablet, no computer required.
                 </p>
               </div>
@@ -868,7 +868,7 @@ export default function Home() {
               We&apos;re Growing Across <span className="hl">Nigeria</span>
             </h2>
             <p>
-              VendorHub partners with market vendors in major cities and states
+              VendorVille partners with market vendors in major cities and states
               across Nigeria.
             </p>
           </div>
@@ -982,7 +982,7 @@ export default function Home() {
           <div className="footer-grid">
             <div>
               <div className="brand">
-                <span className="mark"></span>VendorHub
+                <span className="mark"></span>VendorVille
               </div>
               <p className="tagline">
                 The all-in-one platform for Nigerian market vendors — track
@@ -1000,13 +1000,13 @@ export default function Home() {
             </div>
             <div className="footer-col">
               <h4>Company</h4>
-              <a href="#">About VendorHub</a>
+              <a href="#">About VendorVille</a>
               <a href="#">Become a Partner</a>
               <a href="#">Contact Us</a>
               <a href="#">Careers</a>
             </div>
             <div className="footer-col">
-              <h4>VendorHub Technologies Limited</h4>
+              <h4>VendorVille Technologies Limited</h4>
               <a href="#">
                 123 Market Avenue,
                 <br />
@@ -1017,7 +1017,7 @@ export default function Home() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 VendorHub Nigeria. All rights reserved.</span>
+            <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
             <span>Nigeria Data Protection Act (NDPR) compliant</span>
           </div>
         </div>

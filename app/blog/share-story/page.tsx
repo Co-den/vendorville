@@ -143,7 +143,7 @@ export default function ShareStoryPage() {
             <div className="success-message">
               <div className="success-icon">✓</div>
               <h2>Thank You for Your Submission!</h2>
-              <p>Your story has been received. Our editorial team will review it and get back to you within 3-5 business days. If approved, your article will be featured on VendorHub Blog to inspire thousands of vendors.</p>
+              <p>Your story has been received. Our editorial team will review it and get back to you within 3-5 business days. If approved, your article will be featured on VendorVille Blog to inspire thousands of vendors.</p>
               <Link href="/blog" className="back-btn">← Back to Blog</Link>
             </div>
           ) : (
@@ -279,7 +279,7 @@ export default function ShareStoryPage() {
                   <li>Minimum 200 characters, recommended 500+ words</li>
                   <li>Our editorial team reviews all submissions (3-5 business days)</li>
                   <li>We reserve the right to edit for clarity and grammar</li>
-                  <li>Approved articles appear on VendorHub Blog with author credit</li>
+                  <li>Approved articles appear on VendorVille Blog with author credit</li>
                 </ul>
               </div>
 
@@ -296,7 +296,7 @@ export default function ShareStoryPage() {
         <div className="footer-grid">
           <div>
             <div className="brand">
-              <span className="mark"></span>VendorHub
+              <span className="mark"></span>VendorVille
             </div>
             <p className="tagline">The all-in-one platform for Nigerian vendors.</p>
             <span className="footer-phone">+234 707 647 3776</span>
@@ -324,7 +324,7 @@ export default function ShareStoryPage() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 VendorHub Nigeria. All rights reserved.</span>
+          <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
           <span>Building Nigeria's vendor economy</span>
         </div>
       </footer>

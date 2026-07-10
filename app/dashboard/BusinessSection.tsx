@@ -152,20 +152,43 @@ export default function BusinessSection() {
     name: string;
     preview: string | null;
   } | null>(null);
-  const [cac, setCac] = useState<{
-    file: File;
-    name: string;
-    preview: string | null;
-  } | null>(null);
-  const [shopPhoto, setShopPhoto] = useState<{
-    file: File;
-    name: string;
-    preview: string | null;
-  } | null>(null);
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const limit = plans[plan].limit;
   const atLimit = businesses.length >= limit;
+  const [shortName, setShortName] = useState("");
+  const [countryCode, setCountryCode] = useState("+234");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [businessEmail, setBusinessEmail] = useState("");
+  const [website, setWebsite] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [tiktok, setTiktok] = useState("");
+  const [telegram, setTelegram] = useState("");
+  const [startedDate, setStartedDate] = useState("");
+  const [visibility, setVisibility] = useState("public");
+  const [description, setDescription] = useState("");
+  const [premisesImages, setPremisesImages] = useState<
+    { file: File; preview: string }[]
+  >([]);
+
+  const handlePremisesUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = Array.from(e.target.files || []);
+    const newImages = await Promise.all(
+      files.map(async (file) => ({
+        file,
+        preview: await readFileAsDataUrl(file),
+      })),
+    );
+    setPremisesImages((prev) => [...prev, ...newImages]);
+  };
+
+  const removePremisesImage = (index: number) => {
+    setPremisesImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleAddClick = () => {
     if (atLimit) {
@@ -195,8 +218,19 @@ export default function BusinessSection() {
     setAddress("");
     setPhone("");
     setLogo(null);
-    setCac(null);
-    setShopPhoto(null);
+    setShortName("");
+    setCountryCode("+234");
+    setWhatsapp("");
+    setBusinessEmail("");
+    setWebsite("");
+    setFacebook("");
+    setInstagram("");
+    setTiktok("");
+    setTelegram("");
+    setStartedDate("");
+    setVisibility("public");
+    setDescription("");
+    setPremisesImages([]);
   };
 
   const closeRegister = () => {
@@ -372,100 +406,425 @@ export default function BusinessSection() {
       {/* ===== REGISTER BUSINESS MODAL ===== */}
       {showRegister && (
         <div className="modal-overlay" onClick={closeRegister}>
-          <div className="modal-card wide" onClick={(e) => e.stopPropagation()}>
-            <h3>Register a New Business</h3>
-            <p className="modal-sub">
-              Add your business details for verification on VendorHub.
-            </p>
-
-            <form onSubmit={handleSubmit}>
-              <div className="modal-field">
-                <label>Business Name</label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Prucia Couture"
-                />
+          <div className="modal-card tall" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-header-title">
+                <div className="modal-header-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4" />
+                  </svg>
+                </div>
+                <h3>Register New Business</h3>
               </div>
-
-              <UploadField
-                label="Business Logo"
-                hint="PNG or JPG, up to 5MB"
-                accept="image/*"
-                file={logo}
-                isImage
-                onChange={(file) => handleFileChange(file, setLogo, true)}
-              />
-
-              <UploadField
-                label="CAC Certificate"
-                hint="PDF, PNG, or JPG, up to 10MB"
-                accept=".pdf,image/*"
-                file={cac}
-                isImage={false}
-                onChange={(file) =>
-                  handleFileChange(
-                    file,
-                    setCac,
-                    cac?.file.type.startsWith("image/") ?? false,
-                  )
-                }
-              />
-
-              <UploadField
-                label="Photo of Business Shop"
-                hint="PNG or JPG, up to 5MB"
-                accept="image/*"
-                file={shopPhoto}
-                isImage
-                onChange={(file) => handleFileChange(file, setShopPhoto, true)}
-              />
-
-              <div className="modal-field">
-                <label>Business Address</label>
-                <input
-                  type="text"
-                  required
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Street, city, state"
-                />
-              </div>
-
-              <div className="modal-field">
-                <label>Phone Number</label>
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+234 800 000 0000"
-                />
-              </div>
-
-              <div className="modal-actions">
+              <div className="modal-header-actions">
+                <button type="button" className="how-it-works-btn">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 015.83 1c0 2-3 2-3 4" />
+                    <line x1="12" y1="17" x2="12.01" y2="17" />
+                  </svg>
+                  How it works
+                </button>
                 <button
                   type="button"
-                  className="btn-secondary-modal"
+                  className="modal-close-btn"
+                  onClick={closeRegister}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    width="20"
+                    height="20"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
+                overflow: "hidden",
+              }}
+            >
+              <div className="modal-body">
+                <div className="timezone-banner">
+                  <div className="timezone-banner-left">
+                    <div className="timezone-banner-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="timezone-banner-label">
+                        Active Timezone
+                      </div>
+                      <div className="timezone-banner-value">Africa/Lagos</div>
+                    </div>
+                  </div>
+                  <span className="timezone-banner-badge">From Account</span>
+                </div>
+
+                <div className="logo-upload-row">
+                  <div className="logo-upload-box">
+                    {logo?.preview ? (
+                      <img src={logo.preview} alt="Logo" />
+                    ) : (
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="var(--gray)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        width="22"
+                        height="22"
+                      >
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                      </svg>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) =>
+                        handleFileChange(
+                          e.target.files?.[0] || null,
+                          setLogo,
+                          true,
+                        )
+                      }
+                    />
+                    <div className="logo-upload-plus">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="logo-upload-text">
+                    <strong>Business Logo</strong>
+                    <span>Upload your brand identity (PNG, JPG).</span>
+                  </div>
+                </div>
+
+                <div className="field-row-2">
+                  <div className="field-group">
+                    <label className="field-label">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4" />
+                      </svg>
+                      Business Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Prucia Couture"
+                    />
+                  </div>
+                  <div className="field-group">
+                    <label className="field-label">Short Name</label>
+                    <input
+                      type="text"
+                      value={shortName}
+                      onChange={(e) => setShortName(e.target.value)}
+                      placeholder="e.g. Prucia"
+                    />
+                  </div>
+                </div>
+
+                <div className="field-row-2">
+                  <div className="field-group">
+                    <label className="field-label">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                      </svg>
+                      WhatsApp Business Number
+                    </label>
+                    <div className="phone-field-row">
+                      <select
+                        value={countryCode}
+                        onChange={(e) => setCountryCode(e.target.value)}
+                      >
+                        <option value="+234">NG +234</option>
+                        <option value="+233">GH +233</option>
+                        <option value="+254">KE +254</option>
+                      </select>
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        value={whatsapp}
+                        onChange={(e) => setWhatsapp(e.target.value)}
+                        placeholder="10-10 digits, no leading 0"
+                      />
+                    </div>
+                    <p className="field-hint">
+                      Must be an active WhatsApp Business number. Enter without
+                      leading 0.
+                    </p>
+                  </div>
+                  <div className="field-group">
+                    <label className="field-label">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                      </svg>
+                      Business Email
+                    </label>
+                    <input
+                      type="email"
+                      value={businessEmail}
+                      onChange={(e) => setBusinessEmail(e.target.value)}
+                      placeholder="contact@business.com"
+                    />
+                  </div>
+                </div>
+
+                <div className="field-group">
+                  <label className="field-label">Website</label>
+                  <input
+                    type="url"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="https://yourbusiness.com"
+                  />
+                </div>
+
+                <hr className="section-divider" />
+
+                <label className="field-label">
+                  Social Media Links (optional)
+                </label>
+                <div className="field-row-2" style={{ marginBottom: 14 }}>
+                  <div className="field-group" style={{ marginBottom: 0 }}>
+                    <input
+                      type="text"
+                      value={facebook}
+                      onChange={(e) => setFacebook(e.target.value)}
+                      placeholder="facebook.com/yourbusiness"
+                    />
+                  </div>
+                  <div className="field-group" style={{ marginBottom: 0 }}>
+                    <input
+                      type="text"
+                      value={instagram}
+                      onChange={(e) => setInstagram(e.target.value)}
+                      placeholder="instagram.com/yourbusiness"
+                    />
+                  </div>
+                </div>
+                <div className="field-row-2">
+                  <div className="field-group" style={{ marginBottom: 0 }}>
+                    <input
+                      type="text"
+                      value={tiktok}
+                      onChange={(e) => setTiktok(e.target.value)}
+                      placeholder="tiktok.com/@yourbusiness"
+                    />
+                  </div>
+                  <div className="field-group" style={{ marginBottom: 0 }}>
+                    <input
+                      type="text"
+                      value={telegram}
+                      onChange={(e) => setTelegram(e.target.value)}
+                      placeholder="t.me/yourbusiness"
+                    />
+                  </div>
+                </div>
+
+                <hr className="section-divider" />
+
+                <div className="field-group">
+                  <label className="field-label">Started Date</label>
+                  <input
+                    type="date"
+                    value={startedDate}
+                    onChange={(e) => setStartedDate(e.target.value)}
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label className="field-label">Public Visibility</label>
+                  <div className="info-callout">
+                    Setting your business to "Public" allows customers to easily
+                    find you on our directory. A professional business profile
+                    builds trust and attracts more customers.
+                  </div>
+                  <select
+                    value={visibility}
+                    onChange={(e) => setVisibility(e.target.value)}
+                  >
+                    <option value="public">Public — Visible to everyone</option>
+                    <option value="private">
+                      Private — Only visible to you
+                    </option>
+                  </select>
+                </div>
+
+                <div className="field-group">
+                  <label className="field-label">Headquarters Address</label>
+                  <input
+                    type="text"
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Full physical address..."
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label className="field-label">Description</label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Describe your business..."
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label className="field-label">
+                    Business Premises Images
+                  </label>
+                  <p
+                    className="field-hint"
+                    style={{ marginTop: 0, marginBottom: 10 }}
+                  >
+                    Please upload a clear front view photo of your business
+                    premises showing the business name signboard. Upload at
+                    least 3 to 5 photos.
+                  </p>
+                  <div className="premises-grid">
+                    {premisesImages.map((img, i) => (
+                      <div className="premises-thumb" key={i}>
+                        <img src={img.preview} alt={`Premises ${i + 1}`} />
+                        <button
+                          type="button"
+                          className="premises-thumb-remove"
+                          onClick={() => removePremisesImage(i)}
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            width="10"
+                            height="10"
+                          >
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                    <label className="premises-add-btn">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handlePremisesUpload}
+                      />
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                      Add
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn-cancel"
                   onClick={closeRegister}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-primary-modal"
+                  className="btn-create"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Register Business"}
+                  {isSubmitting ? "Creating..." : "Create Business"}
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
-
       {/* ===== UPGRADE / PAYWALL MODAL ===== */}
       {showUpgrade && (
         <div className="modal-overlay" onClick={() => setShowUpgrade(false)}>

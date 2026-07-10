@@ -29,11 +29,11 @@ const mockBlogPosts = [
     featured: true,
     readTime: "8 min read",
     content:
-      "Scaling a vendor business requires a multi-faceted approach combining smart operations, customer focus, and strategic partnerships. In this comprehensive guide, we share the exact strategies used by top performers on VendorHub...",
+      "Scaling a vendor business requires a multi-faceted approach combining smart operations, customer focus, and strategic partnerships. In this comprehensive guide, we share the exact strategies used by top performers on VendorVille...",
   },
   {
     id: 2,
-    title: "The Complete Guide to Using VendorHub Analytics to Boost Sales",
+    title: "The Complete Guide to Using VendorVille Analytics to Boost Sales",
     excerpt:
       "Unlock the power of data-driven decisions. See how to interpret analytics dashboards, identify trends, and optimize your product mix for maximum profitability.",
     author: "Tunde Okoro",
@@ -45,7 +45,7 @@ const mockBlogPosts = [
     featured: false,
     readTime: "6 min read",
     content:
-      "Analytics are the backbone of modern vendor operations. This guide walks you through VendorHub's powerful analytics features...",
+      "Analytics are the backbone of modern vendor operations. This guide walks you through VendorVille's powerful analytics features...",
   },
   {
     id: 3,
@@ -337,7 +337,7 @@ export default function BlogPage() {
         </div>
         <div className="hero-overlay" aria-hidden="true"></div>
         <div className="wrap">
-          <span className="hero-eyebrow">✦ VendorHub Blog</span>
+          <span className="hero-eyebrow">✦ VendorVille Blog</span>
           <h1 className="hero-title">Insights for Growing Vendors</h1>
           <p className="hero-subtitle">
             Read stories and best practices from industry leaders. Learn growth
@@ -518,7 +518,7 @@ export default function BlogPage() {
               <h4>Share Your Story</h4>
 
               <p>
-                Have a success story or business tip? Write for the VendorHub
+                Have a success story or business tip? Write for the VendorVille
                 blog and reach 10,000+ vendors.
               </p>
 
@@ -532,7 +532,7 @@ export default function BlogPage() {
         <div className="footer-grid">
           <div>
             <div className="brand">
-              <span className="mark"></span>VendorHub
+              <span className="mark"></span>VendorVille
             </div>
             <p className="tagline">
               Empowering Nigerian vendors with smart tools, insights, and
@@ -563,7 +563,7 @@ export default function BlogPage() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 VendorHub Nigeria. All rights reserved.</span>
+          <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
           <span>Building Nigeria&apos;s vendor economy</span>
         </div>
       </footer>
