@@ -94,7 +94,7 @@ export default function VerifyCodeContent() {
       await verifyEmail(email, fullCode);
       setSuccess(true);
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/auth/login");
       }, 2000);
     } catch (err: any) {
       setError(
