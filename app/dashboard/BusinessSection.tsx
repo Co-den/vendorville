@@ -38,15 +38,7 @@ const plans: Record<
   },
 };
 
-const mockBusinesses: Business[] = [
-  {
-    id: "1",
-    name: "Prucia Couture",
-    logoPreview: null,
-    address: "Enugu, Nigeria",
-    phone: "+234 803 000 0000",
-  },
-];
+const mockBusinesses: Business[] = [];
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -285,40 +277,98 @@ export default function BusinessSection() {
           Add New Business
         </button>
       </div>
-
-      <div className="biz-grid">
-        {businesses.map((biz) => (
-          <div className="biz-card" key={biz.id}>
-            <div className="biz-logo">
-              {biz.logoPreview ? (
-                <img src={biz.logoPreview} alt={biz.name} />
-              ) : (
-                biz.name[0]
-              )}
-            </div>
-            <div>
-              <div className="biz-name">{biz.name}</div>
-              <div className="biz-meta">{biz.address}</div>
-              <div className="biz-badge">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  width="10"
-                  height="10"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                Verified
+      {businesses.length === 0 ? (
+        <div
+          className="panel"
+          style={{ textAlign: "center", padding: "40px 24px" }}
+        >
+          <div
+            className="stat-icon"
+            style={{ margin: "0 auto 16px", width: 52, height: 52 }}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4" />
+            </svg>
+          </div>
+          <h3
+            style={{
+              fontFamily: "var(--font-fraunces), serif",
+              fontSize: "1.1rem",
+              marginBottom: 6,
+            }}
+          >
+            Register your first business
+          </h3>
+          <p
+            style={{
+              fontSize: "0.86rem",
+              color: "var(--gray)",
+              marginBottom: 18,
+            }}
+          >
+            Add your business details to start managing inventory, orders, and
+            payments — free on your current plan.
+          </p>
+          <button
+            className="biz-add-btn"
+            style={{ margin: "0 auto" }}
+            onClick={handleAddClick}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Register Business
+          </button>
+        </div>
+      ) : (
+        <div className="biz-grid">
+          {businesses.map((biz) => (
+            <div className="biz-card" key={biz.id}>
+              <div className="biz-logo">
+                {biz.logoPreview ? (
+                  <img src={biz.logoPreview} alt={biz.name} />
+                ) : (
+                  biz.name[0]
+                )}
+              </div>
+              <div>
+                <div className="biz-name">{biz.name}</div>
+                <div className="biz-meta">{biz.address}</div>
+                <div className="biz-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    width="10"
+                    height="10"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Verified
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
+          ))}
+        </div>
+      )}
       {/* ===== REGISTER BUSINESS MODAL ===== */}
       {showRegister && (
         <div className="modal-overlay" onClick={closeRegister}>

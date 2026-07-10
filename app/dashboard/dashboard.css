@@ -67,24 +67,35 @@
   gap: 12px;
   padding: 11px 14px;
   border-radius: 10px;
+  background: transparent;
+  border: none;
   color: #cfe0d4;
   font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
-  transition:
-    background 0.18s ease,
-    color 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.dash-sidebar .dash-nav-link:visited,
+.dash-sidebar .dash-nav-link:link {
+  color: #cfe0d4;
+  background: transparent;
+}
+
+.dash-nav-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+}
+
+.dash-nav-link.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
 }
 
 .dash-nav-link svg {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-}
-
-.dash-nav-link:hover {
-  background: rgba(255, 255, 255, 0.07);
-  color: #fff;
 }
 
 .dash-nav-link.active {
