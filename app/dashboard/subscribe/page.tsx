@@ -46,7 +46,7 @@ export default function SubscribePage() {
     setProcessing(planId as "starter" | "professional" | "enterprise");
 
     const handler = window.PaystackPop.setup({
-      key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+      key: process.env.PAYSTACK_PUBLIC_KEY,
       email: user?.email || "vendor@example.com",
       amount: plans[planId as keyof typeof plans].price * 100,
       currency: "NGN",
