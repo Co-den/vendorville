@@ -1,8 +1,11 @@
 import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const closeMenu = () => {};
+
   return (
     <>
       <ClientScripts />
@@ -37,8 +40,7 @@ export default function Home() {
                 </svg>
                 Watch Live Demo
               </Link>
-              <Link className="btn-outline" href="/partners
-              ">
+              <Link className="btn-outline" href="/partners">
                 <svg
                   width="14"
                   height="14"
@@ -614,9 +616,9 @@ export default function Home() {
                 <li>1 Staff per Store</li>
                 <li>Email &amp; WhatsApp Sharing</li>
               </ul>
-              <a className="plan-btn" href="#">
+              <Link className="plan-btn" href="/auth/signup?plan=starter">
                 Start Starter
-              </a>
+              </Link>
             </div>
             <div className="price-card pro">
               <span className="badge-pop">MOST POPULAR</span>
@@ -635,9 +637,9 @@ export default function Home() {
                 <li>3 Staff per Store</li>
                 <li>Email, SMS &amp; WhatsApp Alerts</li>
               </ul>
-              <a className="plan-btn" href="#">
+              <Link className="plan-btn" href="/auth/signup?plan=professional">
                 Start Professional
-              </a>
+              </Link>
             </div>
             <div className="price-card">
               <div className="plan-name">Enterprise Suite</div>
@@ -655,9 +657,9 @@ export default function Home() {
                 <li>Dispatch Rider Feature</li>
                 <li>Email, SMS &amp; WhatsApp Alerts</li>
               </ul>
-              <a className="plan-btn" href="#">
+              <Link className="plan-btn" href="/auth/signup?plan=premium">
                 Choose Premium
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -774,7 +776,9 @@ export default function Home() {
           <div className="faq-list reveal-stagger">
             <div className="faq-item">
               <div className="faq-head">
-                <span className="q">Do I need internet to use VendorVille?</span>
+                <span className="q">
+                  Do I need internet to use VendorVille?
+                </span>
                 <span className="plus">+</span>
               </div>
               <div className="faq-answer">
@@ -868,8 +872,8 @@ export default function Home() {
               We&apos;re Growing Across <span className="hl">Nigeria</span>
             </h2>
             <p>
-              VendorVille partners with market vendors in major cities and states
-              across Nigeria.
+              VendorVille partners with market vendors in major cities and
+              states across Nigeria.
             </p>
           </div>
           <div className="state-grid reveal-stagger">
@@ -982,7 +986,16 @@ export default function Home() {
           <div className="footer-grid">
             <div>
               <div className="brand">
-                <span className="mark"></span>VendorVille
+                <Link href="/" className="brand">
+                  <Image
+                    src="/images/vv.png"
+                    alt="VendorVille"
+                    width={180}
+                    height={55}
+                    priority
+                    className="h-12 w-auto"
+                  />
+                </Link>
               </div>
               <p className="tagline">
                 The all-in-one platform for Nigerian market vendors — track

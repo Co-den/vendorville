@@ -1,5 +1,3 @@
-/* ===== Uses --green-900, --green-800, --accent, --accent-light, --offwhite, --ink, --gray, --line
-   from signup.css — dashboard extends the same system ===== */
 
 .dash-shell {
   display: grid;
@@ -16,8 +14,8 @@
 
 /* ===== SIDEBAR ===== */
 .dash-sidebar {
-  background: linear-gradient(180deg, var(--green-900), var(--green-800));
-  color: #fff;
+  background: #fff;
+  color: #cfe0d4;
   padding: 28px 20px;
   display: flex;
   flex-direction: column;
@@ -26,6 +24,7 @@
   top: 0;
   height: 100vh;
   overflow: hidden;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .dash-brand {
@@ -33,7 +32,7 @@
   align-items: center;
   gap: 10px;
   padding: 4px 10px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 16px;
   flex-shrink: 0;
 }
@@ -87,7 +86,7 @@
 }
 
 .dash-brand span {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 1.1rem;
 }
@@ -262,7 +261,7 @@
 }
 
 .dash-welcome h1 {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   color: var(--ink);
@@ -271,13 +270,14 @@
 
 .dash-welcome h1 span {
   color: var(--accent);
-  font-style: italic;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .dash-welcome p {
   margin-top: 8px;
   color: var(--gray);
   font-size: 0.95rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 /* ===== STAT GRID ===== */
@@ -348,7 +348,7 @@
 }
 
 .stat-value {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 1.7rem;
   color: var(--ink);
@@ -428,7 +428,7 @@
 }
 
 .wallet-balance {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 2.4rem;
   letter-spacing: -0.01em;
@@ -510,7 +510,7 @@
 }
 
 .panel-head h2 {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--ink);
@@ -633,7 +633,7 @@
 }
 
 .modal-card h3 {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--ink);
@@ -745,7 +745,7 @@
 }
 
 .biz-header h2 {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
   color: var(--ink);
@@ -1052,7 +1052,7 @@
 }
 
 .plan-option-price {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 1.05rem;
   color: var(--accent);
@@ -1117,7 +1117,7 @@
 }
 
 .modal-header h3 {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--ink);
@@ -1499,4 +1499,848 @@
 .modal-footer button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+/* ===== CURRENT PLAN CARD ===== */
+.current-plan-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(
+    150deg,
+    var(--green-900) 0%,
+    var(--green-800) 60%,
+    #123321 100%
+  );
+  color: #fff;
+  border-radius: 16px;
+  padding: 26px 28px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 600px) {
+  .current-plan-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.current-plan-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7fd99a;
+  margin-bottom: 6px;
+}
+
+.current-plan-name {
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.current-plan-meta {
+  margin-top: 4px;
+  font-size: 0.84rem;
+  color: #cfe0d4;
+}
+
+.current-plan-price {
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  text-align: right;
+}
+
+.current-plan-price span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #cfe0d4;
+}
+
+/* ===== PLAN COMPARISON GRID ===== */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 900px) {
+  .plan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.plan-card {
+  position: relative;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 12px 28px rgba(58, 132, 79, 0.12);
+}
+
+.plan-card.current {
+  background: var(--offwhite);
+}
+
+.plan-card-badge {
+  position: absolute;
+  top: -12px;
+  left: 22px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.plan-card-name {
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.plan-card-price {
+  ffont-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.plan-card-price span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray);
+}
+
+.plan-card-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.plan-card-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--ink);
+}
+
+.plan-card-features li svg {
+  width: 15px;
+  height: 15px;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.plan-card-btn {
+  padding: 11px;
+  border-radius: 9px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.plan-card-btn.primary {
+  border: none;
+  background: linear-gradient(135deg, var(--green-900), var(--green-800));
+  color: #fff;
+}
+
+.plan-card-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.plan-card-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== INVOICE ROWS ===== */
+.invoice-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.invoice-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.invoice-id {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.invoice-date {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+.invoice-amount {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+.plan-card-tagline {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-bottom: 16px;
+  margin-top: -4px;
+}
+/* ===== WALLET & PAYOUT PAGES ===== */
+.wallet-page-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.wallet-page-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--green-900);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallet-page-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.wallet-page-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.wallet-page-title {
+  font-family: var(--font-fraunces), 'Fraunces', serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.wallet-page-title span {
+  color: var(--accent);
+}
+
+.wallet-page-sub {
+  color: var(--gray);
+  font-size: 0.95rem;
+  margin-bottom: 26px;
+}
+
+.wallet-hero {
+  background: linear-gradient(150deg, var(--green-900) 0%, var(--green-800) 60%, #123321 100%);
+  color: #fff;
+  border-radius: 18px;
+  padding: 32px;
+  margin-bottom: 22px;
+}
+
+.wallet-hero-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9fc2ac;
+  margin-bottom: 10px;
+}
+
+.wallet-hero-balance {
+  font-family: var(--font-fraunces), 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 3rem;
+}
+
+.wallet-hero-balance .kobo {
+  font-size: 1.6rem;
+  color: #cfe0d4;
+}
+
+.wallet-hero-usd {
+  font-size: 0.86rem;
+  color: #9fc2ac;
+  margin-top: 4px;
+}
+
+.wallet-hero-owner {
+  font-size: 0.86rem;
+  color: #cfe0d4;
+  font-weight: 600;
+  margin-top: 14px;
+}
+
+.wallet-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.wallet-hero-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.wallet-hero-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.wallet-hero-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ===== DEPOSIT ACCOUNT PANEL ===== */
+.deposit-account-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deposit-account-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.deposit-account-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.deposit-account-sub {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+.paystack-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.deposit-details {
+  background: var(--offwhite);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.deposit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.deposit-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.deposit-value {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.deposit-value.with-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn-small {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  padding: 0;
+}
+
+.icon-btn-small:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.icon-btn-small.warn {
+  color: #b4741a;
+}
+
+.copy-toast {
+  font-size: 0.76rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.deposit-note {
+  font-size: 0.78rem;
+  color: var(--gray);
+  text-align: center;
+  margin-top: 14px;
+}
+
+.deposit-issue-note {
+  font-size: 0.78rem;
+  color: #b4741a;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #b4741a;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.78rem;
+  padding: 0;
+}
+
+.deposit-empty {
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ===== EMPTY TRANSACTIONS ===== */
+.empty-transactions {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.empty-transactions-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--offwhite);
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.empty-transactions-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.empty-transactions-title {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.empty-transactions-sub {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+/* ===== PAYOUT PAGE ===== */
+.payout-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .payout-action-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.payout-action-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.payout-action-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.payout-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.payout-action-icon.amber {
+  background: #fef6ea;
+  color: #b4741a;
+}
+
+.payout-action-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.payout-action-title {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--ink);
+}
+
+.payout-action-sub {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+.wallet-balance-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+
+.wallet-balance-strip-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.wallet-balance-strip-value {
+  font-family: var(--font-fraunces), 'Fraunces', serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-top: 4px;
+}
+
+.bank-account-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.bank-account-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bank-account-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--offwhite);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bank-account-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.bank-account-info {
+  flex: 1;
+}
+
+.bank-account-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.primary-badge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #b4741a;
+  background: #fef6ea;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.bank-account-meta {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+.deposit-pending {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.deposit-pending-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #fef6ea;
+  color: #b4741a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.deposit-pending-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.deposit-pending-title {
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: var(--ink);
+}
+
+.deposit-pending-sub {
+  font-size: 0.82rem;
+  color: var(--gray);
+  margin-top: 6px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ===== INVENTORY PAGE ===== */
+.inventory-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.inventory-search {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  background: #fff;
+}
+
+.inventory-search svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gray);
+  flex-shrink: 0;
+}
+
+.inventory-search input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.86rem;
+  width: 100%;
+  color: var(--ink);
+}
+
+.inventory-filter {
+  padding: 10px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  color: var(--ink);
+  background: #fff;
+  cursor: pointer;
+}
+
+.inventory-filter:focus,
+.inventory-search:focus-within {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.inventory-table-head {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr 0.6fr;
+  gap: 12px;
+  padding: 0 0 12px;
+  border-bottom: 1.5px solid var(--line);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.inventory-row {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr 0.6fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.inventory-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .inventory-table-head {
+    display: none;
+  }
+  .inventory-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px 0;
+  }
+}
+
+.inventory-product-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.inventory-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.inventory-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inventory-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.inventory-sku {
+  font-size: 0.76rem;
+  color: var(--gray);
+  margin-top: 1px;
+}
+
+.inventory-category {
+  font-size: 0.82rem;
+  color: var(--gray);
+}
+
+.inventory-price {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--ink);
+}
+
+.inventory-stock {
+  font-size: 0.84rem;
+  color: var(--ink);
+}
+
+.inventory-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
 }

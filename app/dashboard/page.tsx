@@ -5,7 +5,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { JSX } from "react/jsx-runtime";
 import BusinessSection from "./BusinessSection";
-import WalletCard from "./walletcard";
+
 
 const mockStats = [
   {
@@ -170,10 +170,8 @@ export default function DashboardOverview() {
         ))}
       </div>
 
-      <div className="dash-grid">
-        <WalletCard />
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+     
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div className="panel">
             <div className="panel-head">
               <h2>Recent Orders</h2>
@@ -214,7 +212,6 @@ export default function DashboardOverview() {
             ))}
           </div>
         </div>
-      </div>
     </>
   );
 }

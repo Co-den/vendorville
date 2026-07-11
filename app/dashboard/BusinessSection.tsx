@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
 import { useState } from "react";
 
 declare global {
@@ -15,27 +16,6 @@ type Business = {
   logoPreview: string | null;
   address: string;
   phone: string;
-};
-
-type PlanId = "free" | "growth" | "pro";
-
-const plans: Record<
-  PlanId,
-  { name: string; limit: number; price: number; desc: string }
-> = {
-  free: { name: "Free", limit: 1, price: 0, desc: "Manage 1 business" },
-  growth: {
-    name: "Growth",
-    limit: 3,
-    price: 15000,
-    desc: "Manage up to 3 businesses",
-  },
-  pro: {
-    name: "Pro",
-    limit: Infinity,
-    price: 35000,
-    desc: "Unlimited businesses",
-  },
 };
 
 const mockBusinesses: Business[] = [];
@@ -138,10 +118,10 @@ function UploadField({
 export default function BusinessSection() {
   const { user } = useAuthStore();
   const [businesses, setBusinesses] = useState<Business[]>(mockBusinesses);
-  const [plan, setPlan] = useState<PlanId>("free");
+  const { plan, setPlan, isProcessing, setProcessing } = useSubscriptionStore();
+  const limit = plans[plan].businessLimit;
   const [showRegister, setShowRegister] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [isUpgrading, setIsUpgrading] = useState<PlanId | null>(null);
 
   // form state
   const [name, setName] = useState("");
@@ -152,10 +132,9 @@ export default function BusinessSection() {
     name: string;
     preview: string | null;
   } | null>(null);
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const limit = plans[plan].limit;
   const atLimit = businesses.length >= limit;
   const [shortName, setShortName] = useState("");
   const [countryCode, setCountryCode] = useState("+234");
@@ -259,27 +238,25 @@ export default function BusinessSection() {
     closeRegister();
   };
 
-  const handleUpgrade = (planId: PlanId) => {
+  const handleUpgrade = (planId: string) => {
     if (!window.PaystackPop) return;
 
-    setIsUpgrading(planId);
+    setProcessing(planId as keyof typeof plans);
 
     const handler = window.PaystackPop.setup({
       key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
       email: user?.email || "vendor@example.com",
-      amount: plans[planId].price * 100,
+      amount: plans[planId as keyof typeof plans].price * 100,
       currency: "NGN",
       ref: `vh_sub_${Date.now()}`,
       callback: () => {
-        // In production: verify the transaction server-side, then update the
-        // vendor's subscription record before unlocking the new business limit.
-        setPlan(planId);
-        setIsUpgrading(null);
+        setPlan(planId as keyof typeof plans);
+        setProcessing(null);
         setShowUpgrade(false);
         setShowRegister(true);
       },
       onClose: () => {
-        setIsUpgrading(null);
+        setProcessing(null);
       },
     });
 
@@ -348,7 +325,7 @@ export default function BusinessSection() {
             }}
           >
             Add your business details to start managing inventory, orders, and
-            payments — free on your current plan.
+            payments on your {plans[plan].name} plan.
           </p>
           <button
             className="biz-add-btn"
@@ -857,20 +834,22 @@ export default function BusinessSection() {
             </div>
 
             <div className="plan-options">
-              {(Object.keys(plans) as PlanId[])
-                .filter((id) => id !== "free" && id !== plan)
+              {(Object.keys(plans) as (keyof typeof plans)[])
+                .filter((id) => id !== plan)
                 .map((id) => (
                   <div
-                    className={`plan-option ${id === "growth" ? "recommended" : ""}`}
+                    className={`plan-option ${plans[id] && "popular" in plans[id] && plans[id].popular ? "recommended" : ""}`}
                     key={id}
                     onClick={() => handleUpgrade(id)}
                   >
                     <div>
                       <div className="plan-option-name">{plans[id].name}</div>
-                      <div className="plan-option-desc">{plans[id].desc}</div>
+                      <div className="plan-option-desc">
+                        {plans[id].features[0]}
+                      </div>
                     </div>
                     <div className="plan-option-price">
-                      {isUpgrading === id ? (
+                      {isProcessing === id ? (
                         "Processing..."
                       ) : (
                         <>
@@ -883,7 +862,6 @@ export default function BusinessSection() {
                   </div>
                 ))}
             </div>
-
             <div className="modal-actions">
               <button
                 className="btn-secondary-modal"
