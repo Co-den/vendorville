@@ -1,24 +1,15 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import { useBusinessStore } from "@/store/businessStore";
 import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 declare global {
   interface Window {
     PaystackPop: any;
   }
 }
-
-type Business = {
-  id: string;
-  name: string;
-  logoPreview: string | null;
-  address: string;
-  phone: string;
-};
-
-const mockBusinesses: Business[] = [];
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -29,113 +20,35 @@ function readFileAsDataUrl(file: File): Promise<string> {
   });
 }
 
-function UploadField({
-  label,
-  hint,
-  accept,
-  file,
-  onChange,
-  isImage,
-}: {
-  label: string;
-  hint: string;
-  accept: string;
-  file: { name: string; preview: string | null } | null;
-  onChange: (file: File | null) => void;
-  isImage: boolean;
-}) {
-  return (
-    <div className="modal-field">
-      <label>{label}</label>
-      {file ? (
-        <div className="upload-preview">
-          {isImage && file.preview ? (
-            <img src={file.preview} alt={file.name} />
-          ) : (
-            <div className="file-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-              </svg>
-            </div>
-          )}
-          <span className="upload-preview-name">{file.name}</span>
-          <button
-            type="button"
-            className="upload-preview-remove"
-            onClick={() => onChange(null)}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              width="18"
-              height="18"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </div>
-      ) : (
-        <div className="upload-field">
-          <input
-            type="file"
-            accept={accept}
-            onChange={(e) => onChange(e.target.files?.[0] || null)}
-          />
-          <svg
-            className="upload-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-            <polyline points="17 8 12 3 7 8" />
-            <line x1="12" y1="3" x2="12" y2="15" />
-          </svg>
-          <div className="upload-text">Click to upload</div>
-          <div className="upload-hint">{hint}</div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function BusinessSection() {
   const { user } = useAuthStore();
-  const [businesses, setBusinesses] = useState<Business[]>(mockBusinesses);
-  const { plan, setPlan, isProcessing, setProcessing } = useSubscriptionStore();
-  const limit = plans[plan].businessLimit;
+  const {
+    businesses,
+    isSubmitting,
+    error: businessError,
+    createBusiness,
+    fetchBusinesses,
+  } = useBusinessStore();
+  const {
+    plan,
+    limit,
+    isProcessing,
+    error: subError,
+    setProcessing,
+    confirmUpgrade,
+    fetchSubscription,
+  } = useSubscriptionStore();
+
   const [showRegister, setShowRegister] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // form state
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [logo, setLogo] = useState<{
-    file: File;
-    name: string;
-    preview: string | null;
-  } | null>(null);
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const atLimit = businesses.length >= limit;
+  const [logo, setLogo] = useState<{ file: File; preview: string } | null>(
+    null,
+  );
   const [shortName, setShortName] = useState("");
   const [countryCode, setCountryCode] = useState("+234");
   const [whatsapp, setWhatsapp] = useState("");
@@ -152,12 +65,27 @@ export default function BusinessSection() {
     { file: File; preview: string }[]
   >([]);
 
+  useEffect(() => {
+    fetchBusinesses();
+    fetchSubscription();
+  }, []);
+
+  const atLimit = businesses.length >= limit;
+  
   const handlePremisesUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = Array.from(e.target.files || []);
+    const remainingSlots = 5 - premisesImages.length;
+
+    if (remainingSlots <= 0) {
+      setFormError("You can upload up to 5 premises photos.");
+      return;
+    }
+
+    const filesToAdd = files.slice(0, remainingSlots);
     const newImages = await Promise.all(
-      files.map(async (file) => ({
+      filesToAdd.map(async (file) => ({
         file,
         preview: await readFileAsDataUrl(file),
       })),
@@ -177,25 +105,17 @@ export default function BusinessSection() {
     }
   };
 
-  const handleFileChange = async (
-    file: File | null,
-    setter: (
-      val: { file: File; name: string; preview: string | null } | null,
-    ) => void,
-    isImage: boolean,
-  ) => {
+  const handleLogoChange = async (file: File | null) => {
     if (!file) {
-      setter(null);
+      setLogo(null);
       return;
     }
-    const preview = isImage ? await readFileAsDataUrl(file) : null;
-    setter({ file, name: file.name, preview });
+    setLogo({ file, preview: await readFileAsDataUrl(file) });
   };
 
   const resetForm = () => {
     setName("");
     setAddress("");
-    setPhone("");
     setLogo(null);
     setShortName("");
     setCountryCode("+234");
@@ -210,6 +130,7 @@ export default function BusinessSection() {
     setVisibility("public");
     setDescription("");
     setPremisesImages([]);
+    setFormError("");
   };
 
   const closeRegister = () => {
@@ -219,41 +140,67 @@ export default function BusinessSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setFormError("");
 
-    // Mock — in production this would be a multipart/form-data POST to your backend,
-    // uploading logo/CAC/shop photo to storage (e.g. Cloudinary) and creating a business record.
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("shortName", shortName);
+    formData.append(
+      "whatsappNumber",
+      whatsapp ? `${countryCode}${whatsapp}` : "",
+    );
+    formData.append("businessEmail", businessEmail);
+    formData.append("website", website);
+    formData.append("facebook", facebook);
+    formData.append("instagram", instagram);
+    formData.append("tiktok", tiktok);
+    formData.append("telegram", telegram);
+    formData.append("startedDate", startedDate);
+    formData.append("visibility", visibility);
+    formData.append("address", address);
+    formData.append("description", description);
 
-    const newBusiness: Business = {
-      id: String(Date.now()),
-      name,
-      logoPreview: logo?.preview || null,
-      address,
-      phone,
-    };
+    if (logo) formData.append("logo", logo.file);
+    premisesImages.forEach((img) =>
+      formData.append("premisesImages", img.file),
+    );
 
-    setBusinesses((prev) => [...prev, newBusiness]);
-    setIsSubmitting(false);
-    closeRegister();
+    try {
+      await createBusiness(formData);
+      closeRegister();
+    } catch (err: any) {
+      if (err.code === "BUSINESS_LIMIT_REACHED") {
+        setShowRegister(false);
+        setShowUpgrade(true);
+      } else if (err.code === "SUBSCRIPTION_INACTIVE") {
+        setFormError(
+          "Your subscription has expired. Please renew your plan to add a business.",
+        );
+      } else {
+        setFormError(err.message || "Something went wrong. Please try again.");
+      }
+    }
   };
 
-  const handleUpgrade = (planId: string) => {
+  const handleUpgrade = (planId: keyof typeof plans) => {
     if (!window.PaystackPop) return;
 
-    setProcessing(planId as keyof typeof plans);
+    setProcessing(planId);
 
     const handler = window.PaystackPop.setup({
       key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
       email: user?.email || "vendor@example.com",
-      amount: plans[planId as keyof typeof plans].price * 100,
+      amount: plans[planId].price * 100,
       currency: "NGN",
       ref: `vh_sub_${Date.now()}`,
-      callback: () => {
-        setPlan(planId as keyof typeof plans);
-        setProcessing(null);
-        setShowUpgrade(false);
-        setShowRegister(true);
+      callback: async (response: any) => {
+        try {
+          await confirmUpgrade(planId, response.reference);
+          setShowUpgrade(false);
+          setShowRegister(true);
+        } catch {
+          // error surfaces via subError below
+        }
       },
       onClose: () => {
         setProcessing(null);
@@ -270,7 +217,7 @@ export default function BusinessSection() {
           <h2>Your Businesses</h2>
           <p>
             {businesses.length} of {limit === Infinity ? "unlimited" : limit} on
-            your {plans[plan].name} plan
+            your {plans[plan as keyof typeof plans]?.name || plan} plan
           </p>
         </div>
         <button className="biz-add-btn" onClick={handleAddClick}>
@@ -288,6 +235,7 @@ export default function BusinessSection() {
           Add New Business
         </button>
       </div>
+
       {businesses.length === 0 ? (
         <div
           className="panel"
@@ -325,7 +273,8 @@ export default function BusinessSection() {
             }}
           >
             Add your business details to start managing inventory, orders, and
-            payments on your {plans[plan].name} plan.
+            payments on your {plans[plan as keyof typeof plans]?.name || plan}{" "}
+            plan.
           </p>
           <button
             className="biz-add-btn"
@@ -348,11 +297,11 @@ export default function BusinessSection() {
         </div>
       ) : (
         <div className="biz-grid">
-          {businesses.map((biz) => (
+          {businesses.map((biz: any) => (
             <div className="biz-card" key={biz.id}>
               <div className="biz-logo">
-                {biz.logoPreview ? (
-                  <img src={biz.logoPreview} alt={biz.name} />
+                {biz.logoUrl ? (
+                  <img src={biz.logoUrl} alt={biz.name} />
                 ) : (
                   biz.name[0]
                 )}
@@ -373,13 +322,14 @@ export default function BusinessSection() {
                   >
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                  Verified
+                  {biz.isVerified ? "Verified" : "Pending Review"}
                 </div>
               </div>
             </div>
           ))}
         </div>
       )}
+
       {/* ===== REGISTER BUSINESS MODAL ===== */}
       {showRegister && (
         <div className="modal-overlay" onClick={closeRegister}>
@@ -401,21 +351,6 @@ export default function BusinessSection() {
                 <h3>Register New Business</h3>
               </div>
               <div className="modal-header-actions">
-                <button type="button" className="how-it-works-btn">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M9.09 9a3 3 0 015.83 1c0 2-3 2-3 4" />
-                    <line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                  How it works
-                </button>
                 <button
                   type="button"
                   className="modal-close-btn"
@@ -448,31 +383,11 @@ export default function BusinessSection() {
               }}
             >
               <div className="modal-body">
-                <div className="timezone-banner">
-                  <div className="timezone-banner-left">
-                    <div className="timezone-banner-icon">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="2" y1="12" x2="22" y2="12" />
-                        <path d="M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="timezone-banner-label">
-                        Active Timezone
-                      </div>
-                      <div className="timezone-banner-value">Africa/Lagos</div>
-                    </div>
+                {formError && (
+                  <div className="error-message" style={{ marginBottom: 16 }}>
+                    {formError}
                   </div>
-                  <span className="timezone-banner-badge">From Account</span>
-                </div>
+                )}
 
                 <div className="logo-upload-row">
                   <div className="logo-upload-box">
@@ -498,11 +413,7 @@ export default function BusinessSection() {
                       type="file"
                       accept="image/*"
                       onChange={(e) =>
-                        handleFileChange(
-                          e.target.files?.[0] || null,
-                          setLogo,
-                          true,
-                        )
+                        handleLogoChange(e.target.files?.[0] || null)
                       }
                     />
                     <div className="logo-upload-plus">
@@ -527,19 +438,7 @@ export default function BusinessSection() {
 
                 <div className="field-row-2">
                   <div className="field-group">
-                    <label className="field-label">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4" />
-                      </svg>
-                      Business Name *
-                    </label>
+                    <label className="field-label">Business Name *</label>
                     <input
                       type="text"
                       required
@@ -562,16 +461,6 @@ export default function BusinessSection() {
                 <div className="field-row-2">
                   <div className="field-group">
                     <label className="field-label">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                      </svg>
                       WhatsApp Business Number
                     </label>
                     <div className="phone-field-row">
@@ -591,26 +480,9 @@ export default function BusinessSection() {
                         placeholder="10-10 digits, no leading 0"
                       />
                     </div>
-                    <p className="field-hint">
-                      Must be an active WhatsApp Business number. Enter without
-                      leading 0.
-                    </p>
                   </div>
                   <div className="field-group">
-                    <label className="field-label">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
-                      </svg>
-                      Business Email
-                    </label>
+                    <label className="field-label">Business Email</label>
                     <input
                       type="email"
                       value={businessEmail}
@@ -685,11 +557,6 @@ export default function BusinessSection() {
 
                 <div className="field-group">
                   <label className="field-label">Public Visibility</label>
-                  <div className="info-callout">
-                    Setting your business to "Public" allows customers to easily
-                    find you on our directory. A professional business profile
-                    builds trust and attracts more customers.
-                  </div>
                   <select
                     value={visibility}
                     onChange={(e) => setVisibility(e.target.value)}
@@ -802,14 +669,15 @@ export default function BusinessSection() {
           </div>
         </div>
       )}
+
       {/* ===== UPGRADE / PAYWALL MODAL ===== */}
       {showUpgrade && (
         <div className="modal-overlay" onClick={() => setShowUpgrade(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Upgrade to Add More Businesses</h3>
             <p className="modal-sub">
-              Your {plans[plan].name} plan supports{" "}
-              {limit === Infinity ? "unlimited" : limit} business
+              Your {plans[plan as keyof typeof plans]?.name || plan} plan
+              supports {limit === Infinity ? "unlimited" : limit} business
               {limit === 1 ? "" : "es"}. Choose a plan below to register
               another.
             </p>
@@ -828,17 +696,23 @@ export default function BusinessSection() {
                 <line x1="12" y1="17" x2="12.01" y2="17" />
               </svg>
               <p>
-                You've reached your business limit for the {plans[plan].name}{" "}
-                plan.
+                You've reached your business limit for the{" "}
+                {plans[plan as keyof typeof plans]?.name || plan} plan.
               </p>
             </div>
+
+            {subError && (
+              <div className="error-message" style={{ marginBottom: 14 }}>
+                {subError}
+              </div>
+            )}
 
             <div className="plan-options">
               {(Object.keys(plans) as (keyof typeof plans)[])
                 .filter((id) => id !== plan)
                 .map((id) => (
                   <div
-                    className={`plan-option ${plans[id] && "popular" in plans[id] && plans[id].popular ? "recommended" : ""}`}
+                    className={`plan-option ${"popular" in plans[id] && plans[id].popular ? "recommended" : ""}`}
                     key={id}
                     onClick={() => handleUpgrade(id)}
                   >
@@ -862,6 +736,7 @@ export default function BusinessSection() {
                   </div>
                 ))}
             </div>
+
             <div className="modal-actions">
               <button
                 className="btn-secondary-modal"

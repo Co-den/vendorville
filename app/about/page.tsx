@@ -62,7 +62,7 @@ export default function AboutPage() {
               <span className="hl">Nigeria&apos;s Vendors</span>
             </h1>
             <p>
-              From manual order tracking to fully automated operations, VendorHub is the infrastructure for the modern vendor business. Simple, affordable, and built to scale.
+              From manual order tracking to fully automated operations, VendorVille is the infrastructure for the modern vendor business. Simple, affordable, and built to scale.
             </p>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function AboutPage() {
                 Built From <span className="hl">Real World Pain</span>
               </h2>
               <p>
-                Across Nigeria, we witnessed how hardworking vendors lost business to operational chaos. We built VendorHub to end the cycle of manual errors and lost sales.
+                Across Nigeria, we witnessed how hardworking vendors lost business to operational chaos. We built VendorVille to end the cycle of manual errors and lost sales.
               </p>
               <div className="problem-list reveal-stagger">
                 <div className="problem-item">
@@ -236,7 +236,7 @@ export default function AboutPage() {
             <h2>
               Our <span className="hl">Core Values</span>
             </h2>
-            <p>The principles that guide how we build, serve, and scale VendorHub for vendors across Africa.</p>
+            <p>The principles that guide how we build, serve, and scale VendorVille for vendors across Africa.</p>
           </div>
           <div className="values-grid reveal-stagger">
             <div className="value-card">
@@ -263,7 +263,7 @@ export default function AboutPage() {
               </div>
               <h3>Relentless Speed</h3>
               <p>
-                Slow software loses sales. VendorHub is built for instant order entry, tracking, and customer updates.
+                Slow software loses sales. VendorVille is built for instant order entry, tracking, and customer updates.
               </p>
             </div>
           </div>
@@ -287,7 +287,7 @@ export default function AboutPage() {
       <section className="cta-section">
         <div className="cta-card">
           <h2>Ready to Run Smarter?</h2>
-          <p>Join the fastest-growing network of Nigerian vendors scaling with VendorHub. Start free, cancel anytime.</p>
+          <p>Join the fastest-growing network of Nigerian vendors scaling with VendorVille. Start free, cancel anytime.</p>
           <a href="/signup" className="cta-btn">
             <Rocket /> Start Free Today
           </a>
@@ -300,7 +300,7 @@ export default function AboutPage() {
           <div className="footer-grid">
             <div>
               <div className="brand">
-                <span className="mark"></span>VendorHub
+                <span className="mark"></span>VendorVille
               </div>
               <p className="tagline">
                 The all-in-one platform for Nigerian vendors. Manage orders, inventory, and customer relationships in one place.
@@ -317,7 +317,7 @@ export default function AboutPage() {
             </div>
             <div className="footer-col">
               <h4>Company</h4>
-              <a href="/about">About VendorHub</a>
+              <a href="/about">About VendorVille</a>
               <a href="/">Become a Partner</a>
               <a href="/">Contact Us</a>
               <a href="/">Careers</a>
@@ -331,7 +331,7 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 VendorHub Nigeria. All rights reserved.</span>
+            <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
             <span>NDPR Compliant • ISO Certified</span>
           </div>
         </div>

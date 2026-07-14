@@ -1,7 +1,7 @@
 "use client";
 
-import type { CompleteCustomerLoginData } from "@/app/customer-login/schema";
-import { completeCustomerLoginSchema } from "@/app/customer-login/schema";
+import type { CompleteCustomerLoginData } from "@/app/auth/customer-login/schema";
+import { completeCustomerLoginSchema } from "@/app/auth/customer-login/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

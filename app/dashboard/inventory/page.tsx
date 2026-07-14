@@ -1,90 +1,41 @@
 "use client";
 
-import { useMemo, useState } from 'react'
+import { useBusinessStore } from "@/store/businessStore";
+import { useProductStore, type Product } from "@/store/productStore";
+import { useEffect, useMemo, useState } from "react";
 
-type Product = {
-  id: string;
-  name: string;
-  sku: string;
-  category: string;
-  price: number;
-  stock: number;
-  lowStockThreshold: number;
-  image: string | null;
-};
-
-const mockProducts: Product[] = [
-  {
-    id: "1",
-    name: "Ankara Fabric Bundle",
-    sku: "AF-1029",
-    category: "Fabrics",
-    price: 8500,
-    stock: 3,
-    lowStockThreshold: 5,
-    image: null,
-  },
-  {
-    id: "2",
-    name: "Beaded Sandals (Size 40)",
-    sku: "BS-4021",
-    category: "Footwear",
-    price: 6200,
-    stock: 2,
-    lowStockThreshold: 5,
-    image: null,
-  },
-  {
-    id: "3",
-    name: "Shea Butter — 500ml",
-    sku: "SB-0087",
-    category: "Beauty",
-    price: 3500,
-    stock: 5,
-    lowStockThreshold: 10,
-    image: null,
-  },
-  {
-    id: "4",
-    name: "Groundnut Oil — 5L",
-    sku: "GO-2201",
-    category: "Provisions",
-    price: 12000,
-    stock: 24,
-    lowStockThreshold: 10,
-    image: null,
-  },
-  {
-    id: "5",
-    name: "Aso-Oke Headtie",
-    sku: "AO-3312",
-    category: "Fabrics",
-    price: 15500,
-    stock: 8,
-    lowStockThreshold: 5,
-    image: null,
-  },
-  {
-    id: "6",
-    name: "Rice, 5kg bag",
-    sku: "RC-0091",
-    category: "Provisions",
-    price: 8500,
-    stock: 40,
-    lowStockThreshold: 15,
-    image: null,
-  },
+const categories = [
+  "Fabrics",
+  "Footwear",
+  "Beauty",
+  "Provisions",
+  "Electronics",
+  "Other",
 ];
 
-const categories = ["All", "Fabrics", "Footwear", "Beauty", "Provisions"];
-
 export default function InventoryPage() {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const {
+    businesses,
+    isLoading: businessesLoading,
+    fetchBusinesses,
+  } = useBusinessStore();
+  const {
+    products,
+    isSubmitting,
+    error,
+    fetchProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    clearProducts,
+  } = useProductStore();
+
+  const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
-  const [showAdd, setShowAdd] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // form state
   const [name, setName] = useState("");
@@ -93,7 +44,27 @@ export default function InventoryPage() {
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
   const [lowStockThreshold, setLowStockThreshold] = useState("");
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<{ file: File; preview: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
+
+  useEffect(() => {
+    if (businesses.length > 0 && activeBusinessId === null) {
+      setActiveBusinessId(businesses[0].id);
+    }
+  }, [businesses, activeBusinessId]);
+
+  useEffect(() => {
+    if (activeBusinessId !== null) {
+      fetchProducts(activeBusinessId);
+    } else {
+      clearProducts();
+    }
+  }, [activeBusinessId]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
@@ -108,7 +79,7 @@ export default function InventoryPage() {
 
   const totalValue = products.reduce((sum, p) => sum + p.price * p.stock, 0);
   const lowStockCount = products.filter(
-    (p) => p.stock <= p.lowStockThreshold,
+    (p) => p.stock <= p.lowStockThreshold && p.stock > 0,
   ).length;
   const outOfStockCount = products.filter((p) => p.stock === 0).length;
 
@@ -126,7 +97,7 @@ export default function InventoryPage() {
       setImage(null);
       return;
     }
-    setImage(await readFileAsDataUrl(file));
+    setImage({ file, preview: await readFileAsDataUrl(file) });
   };
 
   const resetForm = () => {
@@ -138,11 +109,12 @@ export default function InventoryPage() {
     setLowStockThreshold("");
     setImage(null);
     setEditingProduct(null);
+    setFormError("");
   };
 
   const openAdd = () => {
     resetForm();
-    setShowAdd(true);
+    setShowModal(true);
   };
 
   const openEdit = (product: Product) => {
@@ -153,59 +125,52 @@ export default function InventoryPage() {
     setPrice(String(product.price));
     setStock(String(product.stock));
     setLowStockThreshold(String(product.lowStockThreshold));
-    setImage(product.image);
-    setShowAdd(true);
+    setImage(
+      product.imageUrl
+        ? { file: null as any, preview: product.imageUrl }
+        : null,
+    );
+    setShowModal(true);
   };
 
   const closeModal = () => {
-    setShowAdd(false);
+    setShowModal(false);
     resetForm();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (activeBusinessId === null) return;
+    setFormError("");
 
-    // Mock — production POST/PATCH to your backend inventory endpoint.
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const formData = {
+      name,
+      sku,
+      category,
+      price,
+      stock,
+      lowStockThreshold,
+      image: image?.file || null,
+    };
 
-    if (editingProduct) {
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === editingProduct.id
-            ? {
-                ...p,
-                name,
-                sku,
-                category,
-                price: Number(price),
-                stock: Number(stock),
-                lowStockThreshold: Number(lowStockThreshold),
-                image,
-              }
-            : p,
-        ),
+    try {
+      if (editingProduct) {
+        await updateProduct(activeBusinessId, editingProduct.id, formData);
+      } else {
+        await createProduct(activeBusinessId, formData);
+      }
+      closeModal();
+    } catch (err: any) {
+      setFormError(
+        err.response?.data?.message ||
+          "Something went wrong. Please try again.",
       );
-    } else {
-      const newProduct: Product = {
-        id: String(Date.now()),
-        name,
-        sku,
-        category,
-        price: Number(price),
-        stock: Number(stock),
-        lowStockThreshold: Number(lowStockThreshold),
-        image,
-      };
-      setProducts((prev) => [newProduct, ...prev]);
     }
-
-    setIsSubmitting(false);
-    closeModal();
   };
 
-  const handleDelete = (id: string) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+  const handleDelete = async (productId: number) => {
+    if (activeBusinessId === null) return;
+    await deleteProduct(activeBusinessId, productId);
   };
 
   const getStockStatus = (product: Product) => {
@@ -215,6 +180,30 @@ export default function InventoryPage() {
       return { label: "Low Stock", className: "pending" };
     return { label: "In Stock", className: "paid" };
   };
+
+  if (!businessesLoading && businesses.length === 0) {
+    return (
+      <>
+        <div className="dash-welcome">
+          <div className="dash-welcome-eyebrow">
+            <span className="dot"></span>
+            Inventory
+          </div>
+          <h1>
+            Manage your <span>stock</span>.
+          </h1>
+        </div>
+        <div
+          className="panel"
+          style={{ textAlign: "center", padding: "48px 24px" }}
+        >
+          <p style={{ fontSize: "0.9rem", color: "var(--gray)" }}>
+            You need to register a business before you can add inventory.
+          </p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -228,6 +217,25 @@ export default function InventoryPage() {
         </h1>
         <p>Track products, prices, and stock levels across your business.</p>
       </div>
+
+      {businesses.length > 1 && (
+        <div
+          className="field-group"
+          style={{ maxWidth: 320, marginBottom: 20 }}
+        >
+          <label className="field-label">Business</label>
+          <select
+            value={activeBusinessId ?? ""}
+            onChange={(e) => setActiveBusinessId(Number(e.target.value))}
+          >
+            {businesses.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="stat-grid">
         <div className="stat-card">
@@ -337,6 +345,7 @@ export default function InventoryPage() {
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
           >
+            <option value="All">All Categories</option>
             {categories.map((c) => (
               <option key={c} value={c}>
                 {c}
@@ -344,7 +353,11 @@ export default function InventoryPage() {
             ))}
           </select>
 
-          <button className="biz-add-btn" onClick={openAdd}>
+          <button
+            className="biz-add-btn"
+            onClick={openAdd}
+            disabled={activeBusinessId === null}
+          >
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -360,6 +373,12 @@ export default function InventoryPage() {
           </button>
         </div>
 
+        {error && (
+          <div className="error-message" style={{ marginBottom: 16 }}>
+            {error}
+          </div>
+        )}
+
         {filteredProducts.length === 0 ? (
           <div
             style={{
@@ -368,7 +387,11 @@ export default function InventoryPage() {
               color: "var(--gray)",
             }}
           >
-            <p style={{ fontSize: "0.9rem" }}>No products match your search.</p>
+            <p style={{ fontSize: "0.9rem" }}>
+              {products.length === 0
+                ? "No products yet — add your first one."
+                : "No products match your search."}
+            </p>
           </div>
         ) : (
           <div className="inventory-table">
@@ -386,8 +409,8 @@ export default function InventoryPage() {
                 <div className="inventory-row" key={product.id}>
                   <div className="inventory-product-cell">
                     <div className="inventory-thumb">
-                      {product.image ? (
-                        <img src={product.image} alt={product.name} />
+                      {product.imageUrl ? (
+                        <img src={product.imageUrl} alt={product.name} />
                       ) : (
                         product.name[0]
                       )}
@@ -452,7 +475,7 @@ export default function InventoryPage() {
         )}
       </div>
 
-      {showAdd && (
+      {showModal && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>{editingProduct ? "Edit Product" : "Add New Product"}</h3>
@@ -462,11 +485,17 @@ export default function InventoryPage() {
                 : "Add a new item to your inventory."}
             </p>
 
+            {formError && (
+              <div className="error-message" style={{ marginBottom: 16 }}>
+                {formError}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit}>
               <div className="logo-upload-row">
                 <div className="logo-upload-box">
-                  {image ? (
-                    <img src={image} alt="Product" />
+                  {image?.preview ? (
+                    <img src={image.preview} alt="Product" />
                   ) : (
                     <svg
                       viewBox="0 0 24 24"
@@ -538,13 +567,11 @@ export default function InventoryPage() {
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    {categories
-                      .filter((c) => c !== "All")
-                      .map((c) => (
-                        <option key={c} value={c}>
-                          {c}
-                        </option>
-                      ))}
+                    {categories.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

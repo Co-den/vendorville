@@ -1,4 +1,7 @@
+import axios from "axios";
 import { create } from "zustand";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const plans = {
   starter: {
@@ -62,21 +65,73 @@ export type PlanId = keyof typeof plans;
 
 interface SubscriptionState {
   plan: PlanId;
+  status: "active" | "expired" | "cancelled";
   renewsAt: string | null;
+  limit: number;
+  isLoading: boolean;
   isProcessing: PlanId | null;
-  setPlan: (planId: PlanId) => void;
+  error: string | null;
+
+  fetchSubscription: () => Promise<void>;
+  confirmUpgrade: (planId: PlanId, reference: string) => Promise<void>;
   setProcessing: (planId: PlanId | null) => void;
 }
-export const useSubscriptionStore = create<SubscriptionState>((set) => ({
-  plan: "starter", // every vendor starts on the entry-level paid plan
-  renewsAt: null,
-  isProcessing: null,
 
-  setPlan: (planId) =>
-    set({
-      plan: planId,
-      renewsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-    }),
+export const useSubscriptionStore = create<SubscriptionState>((set) => ({
+  plan: "starter",
+  status: "active",
+  renewsAt: null,
+  limit: 1,
+  isLoading: false,
+  isProcessing: null,
+  error: null,
+
+  fetchSubscription: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/subscription`);
+      const sub = response.data.subscription;
+      set({
+        plan: sub.plan,
+        status: sub.status,
+        renewsAt: sub.renewsAt,
+        limit: sub.limit,
+        isLoading: false,
+      });
+    } catch (error: any) {
+      set({
+        error: error.response?.data?.message || "Error loading subscription",
+        isLoading: false,
+      });
+    }
+  },
+
+  // Called after Paystack's popup reports success — sends the reference
+  // to the backend, which independently verifies the payment before
+  // persisting the plan change. Never trust the client-side callback alone.
+  confirmUpgrade: async (planId, reference) => {
+    set({ isProcessing: planId, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/subscription/upgrade`, {
+        plan: planId,
+        reference,
+      });
+      const sub = response.data.subscription;
+      set({
+        plan: sub.plan,
+        status: sub.status,
+        renewsAt: sub.renewsAt,
+        limit: sub.limit,
+        isProcessing: null,
+      });
+    } catch (error: any) {
+      set({
+        error: error.response?.data?.message || "Error confirming upgrade",
+        isProcessing: null,
+      });
+      throw error;
+    }
+  },
 
   setProcessing: (planId) => set({ isProcessing: planId }),
 }));
