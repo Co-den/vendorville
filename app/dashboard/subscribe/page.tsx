@@ -35,7 +35,7 @@ const mockInvoices = [
 
 export default function SubscribePage() {
   const { user } = useAuthStore();
-  const { plan, renewsAt, isProcessing, setPlan, setProcessing } =
+  const { plan, renewsAt, isProcessing, setProcessing } =
     useSubscriptionStore();
   const currentPlan = plans[plan as keyof typeof plans];
 
@@ -53,7 +53,6 @@ export default function SubscribePage() {
       ref: `vh_sub_${Date.now()}`,
       callback: () => {
         // In production: verify server-side, then update the subscription record.
-        setPlan(planId as "starter" | "professional" | "enterprise");
         setProcessing(null);
       },
       onClose: () => {
