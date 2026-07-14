@@ -52,7 +52,6 @@ export default function SubscribePage() {
       currency: "NGN",
       ref: `vh_sub_${Date.now()}`,
       callback: () => {
-        // In production: verify server-side, then update the subscription record.
         setProcessing(null);
       },
       onClose: () => {
