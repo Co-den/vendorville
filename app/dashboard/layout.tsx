@@ -221,9 +221,10 @@ export default function DashboardLayout({
             alignItems: "center",
             justifyContent: "center",
             height: "100vh",
+            color: "var(--gray)",
           }}
         >
-          <div className="spinner"></div>
+          Loading dashboard...
         </div>
       </div>
     );
