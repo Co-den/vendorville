@@ -2576,3 +2576,51 @@
   background: #fee2e2;
   color: #dc2626;
 }
+.revenue-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  height: 180px;
+  padding-top: 10px;
+}
+
+.revenue-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.revenue-bar-track {
+  flex: 1;
+  width: 100%;
+  max-width: 36px;
+  background: var(--offwhite);
+  border-radius: 6px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.revenue-bar-fill {
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--green-800));
+  border-radius: 6px 6px 0 0;
+  min-height: 2px;
+  transition: height 0.3s ease;
+}
+
+.revenue-bar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray);
+}
+
+.dash-shell .spinner {
+  width: 48px;
+  height: 48px;
+  border-width: 5px;
+}

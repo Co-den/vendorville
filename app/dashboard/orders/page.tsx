@@ -22,7 +22,7 @@ const paymentMethods = [
 
 export default function OrdersPage() {
   const { businesses, fetchBusinesses } = useBusinessStore();
-  const { products, fetchProducts } = useProductStore();
+  const { products, fetchProducts, clearProducts } = useProductStore();
   const {
     orders,
     isSubmitting,
@@ -44,10 +44,10 @@ export default function OrdersPage() {
   useEffect(() => {
     fetchBusinesses();
   }, []);
-  
+
   useEffect(() => {
-  setCart([])
-}, [activeBusinessId])
+    setCart([]);
+  }, [activeBusinessId]);
 
   useEffect(() => {
     if (businesses.length > 0 && activeBusinessId === null) {
@@ -56,6 +56,7 @@ export default function OrdersPage() {
   }, [businesses, activeBusinessId]);
 
   useEffect(() => {
+    clearProducts();
     if (activeBusinessId !== null) {
       fetchProducts(activeBusinessId);
       fetchOrders(activeBusinessId);

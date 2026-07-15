@@ -18,11 +18,9 @@ const navItems = [
   { href: "/dashboard/inventory", label: "Inventory", icon: "box" },
   { href: "/dashboard/orders", label: "Orders", icon: "receipt" },
   { href: "/dashboard/customers", label: "Customers", icon: "users" },
-  { href: "/dashboard/wallet", label: "Wallet", icon: "wallet" },
-  { href: "/dashboard/settings", label: "Settings", icon: "settings" },
-  { href: "/dashboard", label: "Business", icon: "home" },
   { href: "/dashboard/analytics", label: "Analytics", icon: "trend" },
   { href: "/dashboard/reviews", label: "Reviews", icon: "star" },
+  { href: "/dashboard/settings", label: "Settings", icon: "settings" },
 ];
 
 const financeItems = [
@@ -223,10 +221,9 @@ export default function DashboardLayout({
             alignItems: "center",
             justifyContent: "center",
             height: "100vh",
-            color: "var(--gray)",
           }}
         >
-          Loading dashboard...
+          <div className="spinner"></div>
         </div>
       </div>
     );
