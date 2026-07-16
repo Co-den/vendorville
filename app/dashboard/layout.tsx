@@ -204,27 +204,34 @@ export default function DashboardLayout({
     }
   }, [isCheckingAuth, isAuthenticated, router]);
 
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
+
   const handleLogout = async () => {
     await logout();
     router.push("/auth/login");
   };
 
   if (isCheckingAuth || !isAuthenticated) {
-  return (
-    <div className={`dash-shell ${fraunces.variable}`} style={{ gridTemplateColumns: "1fr" }}>
+    return (
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
+        className={`dash-shell ${fraunces.variable}`}
+        style={{ gridTemplateColumns: "1fr" }}
       >
-        <div className="spinner"></div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
+          <div className="spinner"></div>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
   const initials = user?.firstName?.[0]?.toUpperCase() || "V";
 
@@ -253,6 +260,7 @@ export default function DashboardLayout({
               key={item.href}
               href={item.href}
               className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
+              onClick={() => setSidebarOpen(false)}
             >
               <NavIcon name={item.icon} />
               {item.label}
