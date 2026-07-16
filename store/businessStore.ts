@@ -7,6 +7,7 @@ export interface Business {
   id: number;
   userId: number;
   name: string;
+  slug: string;
   shortName: string | null;
   logoUrl: string | null;
   whatsappNumber: string | null;

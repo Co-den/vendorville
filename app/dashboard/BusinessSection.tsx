@@ -71,7 +71,7 @@ export default function BusinessSection() {
   }, []);
 
   const atLimit = businesses.length >= limit;
-  
+
   const handlePremisesUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -198,8 +198,8 @@ export default function BusinessSection() {
           await confirmUpgrade(planId, response.reference);
           setShowUpgrade(false);
           setShowRegister(true);
-        } catch {
-          // error surfaces via subError below
+        } catch (error) {
+          console.error("Error confirming upgrade:", error);
         }
       },
       onClose: () => {
@@ -299,32 +299,58 @@ export default function BusinessSection() {
         <div className="biz-grid">
           {businesses.map((biz: any) => (
             <div className="biz-card" key={biz.id}>
-              <div className="biz-logo">
-                {biz.logoUrl ? (
-                  <img src={biz.logoUrl} alt={biz.name} />
-                ) : (
-                  biz.name[0]
-                )}
-              </div>
-              <div>
-                <div className="biz-name">{biz.name}</div>
-                <div className="biz-meta">{biz.address}</div>
-                <div className="biz-badge">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    width="10"
-                    height="10"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  {biz.isVerified ? "Verified" : "Pending Review"}
+              <div className="biz-card-top">
+                <div className="biz-logo">
+                  {biz.logoUrl ? (
+                    <img src={biz.logoUrl} alt={biz.name} />
+                  ) : (
+                    biz.name[0]
+                  )}
+                </div>
+                <div className="biz-card-info">
+                  <div className="biz-name">{biz.name}</div>
+                  <div className="biz-meta">{biz.address}</div>
+                  <div className="biz-badge">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      width="10"
+                      height="10"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    {biz.isVerified ? "Verified" : "Pending Review"}
+                  </div>
                 </div>
               </div>
+
+              <a
+                href={`/store/${biz.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="biz-store-link"
+                title="View your storefront"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  width="16"
+                  height="16"
+                >
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                View Store
+              </a>
             </div>
           ))}
         </div>
