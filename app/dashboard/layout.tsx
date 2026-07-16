@@ -210,25 +210,21 @@ export default function DashboardLayout({
   };
 
   if (isCheckingAuth || !isAuthenticated) {
-    return (
+  return (
+    <div className={`dash-shell ${fraunces.variable}`} style={{ gridTemplateColumns: "1fr" }}>
       <div
-        className={`dash-shell ${fraunces.variable}`}
-        style={{ gridTemplateColumns: "1fr" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100vh",
-            color: "var(--gray)",
-          }}
-        >
-          Loading dashboard...
-        </div>
+        <div className="spinner"></div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   const initials = user?.firstName?.[0]?.toUpperCase() || "V";
 
