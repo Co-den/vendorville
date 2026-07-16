@@ -63,7 +63,7 @@ export default function SettingsPage() {
           </div>
         </div>
         <p className="field-hint">
-          To update your name or email, please contact support — self-service
+          To update your name or email, please contact support self-service
           profile editing is coming soon.
         </p>
       </div>
