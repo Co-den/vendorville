@@ -94,51 +94,54 @@ export default function StorefrontPage() {
   };
 
   const handleCheckout = async (e: React.FormEvent) => {
-  e.preventDefault()
-  setCheckoutError('')
+    e.preventDefault();
+    setCheckoutError("");
 
-  const payload = {
-    customerName,
-    customerPhone,
-    customerEmail: customerEmail || undefined,
-    deliveryAddress,
-    deliveryFee: Number(deliveryFee),
-    paymentMethod,
-    items: cart.map((i) => ({ productId: i.productId, quantity: i.quantity })),
-  }
+    const payload = {
+      customerName,
+      customerPhone,
+      customerEmail: customerEmail || undefined,
+      deliveryAddress,
+      deliveryFee: Number(deliveryFee),
+      paymentMethod,
+      items: cart.map((i) => ({
+        productId: i.productId,
+        quantity: i.quantity,
+      })),
+    };
 
-  try {
-    const order = await createOrder(slug, payload)
+    try {
+      const order = await createOrder(slug, payload);
 
-    if (paymentMethod === 'paystack') {
-      if (!window.PaystackPop) {
-        setCheckoutError('Payment system still loading, please try again.')
-        return
+      if (paymentMethod === "paystack") {
+        if (!window.PaystackPop) {
+          setCheckoutError("Payment system still loading, please try again.");
+          return;
+        }
+        const handler = window.PaystackPop.setup({
+          key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+          email: customerEmail || `${customerPhone}@guest.vendorville.com`,
+          amount: Math.round(grandTotal * 100),
+          currency: "NGN",
+          ref: order.paystackReference,
+          callback: async (response: any) => {
+            await verifyPayment(slug, response.reference);
+            setOrderSuccess(order);
+            setCart([]);
+            setShowCheckout(false);
+          },
+          onClose: () => {},
+        });
+        handler.openIframe();
+      } else {
+        setOrderSuccess(order);
+        setCart([]);
+        setShowCheckout(false);
       }
-      const handler = window.PaystackPop.setup({
-        key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-        email: customerEmail || `${customerPhone}@guest.vendorville.com`,
-        amount: Math.round(grandTotal * 100),
-        currency: 'NGN',
-        ref: order.paystackReference,
-        callback: async (response: any) => {
-          await verifyPayment(slug, response.reference)
-          setOrderSuccess(order)
-          setCart([])
-          setShowCheckout(false)
-        },
-        onClose: () => {},
-      })
-      handler.openIframe()
-    } else {
-      setOrderSuccess(order)
-      setCart([])
-      setShowCheckout(false)
+    } catch (err: any) {
+      setCheckoutError(err.response?.data?.message || "Could not place order.");
     }
-  } catch (err: any) {
-    setCheckoutError(err.response?.data?.message || 'Could not place order.')
-  }
-}
+  };
 
   if (isLoading) {
     return (
