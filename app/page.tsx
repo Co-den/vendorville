@@ -40,7 +40,7 @@ export default function Home() {
                 </svg>
                 Watch Live Demo
               </Link>
-              <Link className="btn-outline" href="/partners">
+              <Link className="btn-outline" href="/discover">
                 <svg
                   width="14"
                   height="14"
