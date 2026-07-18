@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/dashboard/dashboard.css";
 import { useStorefrontStore } from "@/store/storefrontStore";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -18,6 +19,7 @@ type CartItem = {
   quantity: number;
   stock: number;
 };
+type Tab = "overview" | "locations" | "reviews";
 
 export default function StorefrontPage() {
   const params = useParams();
@@ -33,6 +35,7 @@ export default function StorefrontPage() {
     verifyPayment,
   } = useStorefrontStore();
 
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCheckout, setShowCheckout] = useState(false);
   const [customerName, setCustomerName] = useState("");
@@ -176,119 +179,322 @@ export default function StorefrontPage() {
     );
   }
 
+  const tabs: { key: Tab; label: string }[] = [
+    { key: "overview", label: "Overview" },
+    { key: "locations", label: "Locations" },
+    { key: "reviews", label: "Reviews" },
+  ];
+  const activeIndex = tabs.findIndex((t) => t.key === activeTab);
+
   return (
     <div className="storefront-page">
-      <header className="storefront-header">
-        <div className="storefront-header-inner">
-          <div className="storefront-brand">
-            <div className="storefront-logo">
-              {business.logoUrl ? (
-                <img src={business.logoUrl} alt={business.name} />
+      <div className="sf-banner">
+        <div className="sf-banner-images">
+          {business.premisesImages.length > 0 ? (
+            <img src={business.premisesImages[0]} alt={business.name} />
+          ) : (
+            <div className="sf-banner-fallback" />
+          )}
+        </div>
+        <div className="sf-banner-overlay" />
+        <div className="sf-banner-content">
+          <span
+            className={`sf-status-badge ${business.isOpenToday ? "open" : "closed"}`}
+          >
+            <span className="dot"></span>
+            {business.isOpenToday ? "Available" : "Currently Unavailable"}
+          </span>
+        </div>
+      </div>
+
+      <div className="sf-header-row">
+        <div className="sf-header-left">
+          <div className="sf-logo">
+            {business.logoUrl ? (
+              <img src={business.logoUrl} alt={business.name} />
+            ) : (
+              business.name[0]
+            )}
+          </div>
+          <div>
+            <h1>{business.name}</h1>
+            <div className="sf-rating">
+              ☆☆☆☆☆ <b>0.0</b> (0 reviews)
+            </div>
+          </div>
+        </div>
+        <button
+          className="storefront-cart-btn"
+          onClick={() => setShowCheckout(true)}
+          disabled={cart.length === 0}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+          </svg>
+          Cart ({cart.reduce((s, i) => s + i.quantity, 0)}) · ₦
+          {cartTotal.toLocaleString()}
+        </button>
+      </div>
+
+      <div className="sf-tabs">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            className={`sf-tab-btn ${activeTab === tab.key ? "active" : ""}`}
+            onClick={() => setActiveTab(tab.key)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="sf-body">
+        <div className="sf-main">
+          <div
+            className="sf-slider"
+            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          >
+            {/* ===== OVERVIEW TAB ===== */}
+            <div className="sf-slide">
+              <div className="panel">
+                <h2>About this Business</h2>
+                <p
+                  style={{
+                    color: "var(--gray)",
+                    fontSize: "0.9rem",
+                    marginBottom: 20,
+                  }}
+                >
+                  {business.description || "No description provided yet."}
+                </p>
+                <hr className="section-divider" />
+                <h3
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "var(--gray)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Products
+                </h3>
+              </div>
+
+              {products.length === 0 ? (
+                <p
+                  style={{
+                    textAlign: "center",
+                    color: "var(--gray)",
+                    padding: "32px 0",
+                  }}
+                >
+                  No products available right now.
+                </p>
               ) : (
-                business.name[0]
+                <div
+                  className="storefront-product-grid"
+                  style={{ marginTop: 16 }}
+                >
+                  {products.map((product) => {
+                    const inCart = cart.find((i) => i.productId === product.id);
+                    return (
+                      <div className="storefront-product-card" key={product.id}>
+                        <div className="storefront-product-image">
+                          {product.imageUrl ? (
+                            <img src={product.imageUrl} alt={product.name} />
+                          ) : (
+                            <span>{product.name[0]}</span>
+                          )}
+                        </div>
+                        <div className="storefront-product-info">
+                          <div className="storefront-product-name">
+                            {product.name}
+                          </div>
+                          <div className="storefront-product-price">
+                            ₦{product.price.toLocaleString()}
+                          </div>
+                          {inCart ? (
+                            <div
+                              className="pos-qty-control"
+                              style={{ justifyContent: "center" }}
+                            >
+                              <button
+                                type="button"
+                                onClick={() => updateQty(product.id, -1)}
+                              >
+                                −
+                              </button>
+                              <span>{inCart.quantity}</span>
+                              <button
+                                type="button"
+                                onClick={() => updateQty(product.id, 1)}
+                                disabled={inCart.quantity >= product.stock}
+                              >
+                                +
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              className="storefront-add-btn"
+                              onClick={() => addToCart(product)}
+                            >
+                              Add to Cart
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               )}
             </div>
-            <div>
-              <h1>{business.shortName || business.name}</h1>
-              <p>{business.address}</p>
+
+            {/* ===== LOCATIONS TAB ===== */}
+            <div className="sf-slide">
+              <div className="panel">
+                <h2>Location</h2>
+                <p
+                  style={{
+                    color: "var(--ink)",
+                    fontWeight: 600,
+                    marginTop: 10,
+                  }}
+                >
+                  {business.address}
+                </p>
+                <p
+                  style={{
+                    color: "var(--gray)",
+                    fontSize: "0.86rem",
+                    marginTop: 14,
+                  }}
+                >
+                  Available: {business.availableDays?.join(", ") || "Not specified"}
+                </p>
+              </div>
+            </div>
+
+            {/* ===== REVIEWS TAB ===== */}
+            <div className="sf-slide">
+              <div
+                className="panel"
+                style={{ textAlign: "center", padding: "48px 24px" }}
+              >
+                <p style={{ color: "var(--gray)" }}>
+                  No reviews yet. Be the first to order and leave feedback.
+                </p>
+              </div>
             </div>
           </div>
-          <button
-            className="storefront-cart-btn"
-            onClick={() => setShowCheckout(true)}
-            disabled={cart.length === 0}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="9" cy="21" r="1" />
-              <circle cx="20" cy="21" r="1" />
-              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
-            </svg>
-            Cart ({cart.reduce((s, i) => s + i.quantity, 0)}) · ₦
-            {cartTotal.toLocaleString()}
-          </button>
         </div>
-      </header>
 
-      {business.description && (
-        <div className="storefront-description">
-          <p>{business.description}</p>
-        </div>
-      )}
+        {/* ===== FIXED CONTACT SIDEBAR ===== */}
+        <aside className="sf-sidebar">
+          <div className="panel">
+            <h2 style={{ marginBottom: 16 }}>Contact Details</h2>
 
-      <main className="storefront-products">
-        {products.length === 0 ? (
-          <p
-            style={{
-              textAlign: "center",
-              color: "var(--gray)",
-              padding: "48px 0",
-            }}
-          >
-            No products available right now.
-          </p>
-        ) : (
-          <div className="storefront-product-grid">
-            {products.map((product) => {
-              const inCart = cart.find((i) => i.productId === product.id);
-              return (
-                <div className="storefront-product-card" key={product.id}>
-                  <div className="storefront-product-image">
-                    {product.imageUrl ? (
-                      <img src={product.imageUrl} alt={product.name} />
-                    ) : (
-                      <span>{product.name[0]}</span>
-                    )}
-                  </div>
-                  <div className="storefront-product-info">
-                    <div className="storefront-product-name">
-                      {product.name}
-                    </div>
-                    <div className="storefront-product-price">
-                      ₦{product.price.toLocaleString()}
-                    </div>
-                    {inCart ? (
-                      <div
-                        className="pos-qty-control"
-                        style={{ justifyContent: "center" }}
-                      >
-                        <button
-                          type="button"
-                          onClick={() => updateQty(product.id, -1)}
-                        >
-                          −
-                        </button>
-                        <span>{inCart.quantity}</span>
-                        <button
-                          type="button"
-                          onClick={() => updateQty(product.id, 1)}
-                          disabled={inCart.quantity >= product.stock}
-                        >
-                          +
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        className="storefront-add-btn"
-                        onClick={() => addToCart(product)}
-                      >
-                        Add to Cart
-                      </button>
-                    )}
+            <div className="sf-contact-row">
+              <div className="sf-contact-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div>
+                <div className="sf-contact-label">Address</div>
+                <div className="sf-contact-value">{business.address}</div>
+              </div>
+            </div>
+
+            {business.businessEmail && (
+              <div className="sf-contact-row">
+                <div className="sf-contact-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="sf-contact-label">Email</div>
+                  <div className="sf-contact-value">
+                    {business.businessEmail}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </main>
+              </div>
+            )}
 
+            {(business.instagram || business.tiktok) && (
+              <div className="sf-social-row">
+                <div className="sf-contact-label" style={{ marginBottom: 8 }}>
+                  Find Us On
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {business.instagram && (
+                    <a
+                      href={`https://${business.instagram}`}
+                      target="_blank"
+                      className="sf-social-pill instagram"
+                    >
+                      Instagram
+                    </a>
+                  )}
+                  {business.tiktok && (
+                    <a
+                      href={`https://${business.tiktok}`}
+                      target="_blank"
+                      className="sf-social-pill tiktok"
+                    >
+                      TikTok
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {business.whatsappNumber && (
+              <a
+                href={`https://wa.me/${business.whatsappNumber.replace(/\D/g, "")}`}
+                target="_blank"
+                className="btn-create"
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  display: "block",
+                  marginTop: 20,
+                  textDecoration: "none",
+                }}
+              >
+                Call for Inquiries
+              </a>
+            )}
+          </div>
+        </aside>
+      </div>
+
+      {/* ===== CHECKOUT + SUCCESS MODALS unchanged from before ===== */}
       {showCheckout && (
         <div className="modal-overlay" onClick={() => setShowCheckout(false)}>
           <div className="modal-card tall" onClick={(e) => e.stopPropagation()}>
@@ -314,7 +520,6 @@ export default function StorefrontPage() {
                 </svg>
               </button>
             </div>
-
             <form
               onSubmit={handleCheckout}
               style={{
@@ -340,7 +545,6 @@ export default function StorefrontPage() {
                     </div>
                   ))}
                 </div>
-
                 <div className="field-group">
                   <label className="field-label">Full Name *</label>
                   <input
@@ -378,9 +582,7 @@ export default function StorefrontPage() {
                     onChange={(e) => setDeliveryAddress(e.target.value)}
                   />
                 </div>
-
                 <hr className="section-divider" />
-
                 <div className="field-group">
                   <label className="field-label">Payment Method</label>
                   <select
@@ -391,7 +593,6 @@ export default function StorefrontPage() {
                     <option value="paystack">Pay Now (Card/Transfer)</option>
                   </select>
                 </div>
-
                 <div className="wallet-balance-strip" style={{ marginTop: 16 }}>
                   <div>
                     <div style={{ fontSize: "0.8rem", color: "var(--gray)" }}>
@@ -403,14 +604,12 @@ export default function StorefrontPage() {
                     </div>
                   </div>
                 </div>
-
                 {checkoutError && (
                   <div className="error-message" style={{ marginTop: 14 }}>
                     {checkoutError}
                   </div>
                 )}
               </div>
-
               <div className="modal-footer">
                 <button
                   type="button"
@@ -426,7 +625,7 @@ export default function StorefrontPage() {
                 >
                   {isSubmitting
                     ? "Placing Order..."
-                    : `Place Order ₦${grandTotal.toLocaleString()}`}
+                    : `Place Order — ₦${grandTotal.toLocaleString()}`}
                 </button>
               </div>
             </form>

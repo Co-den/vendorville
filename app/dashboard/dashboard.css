@@ -2699,3 +2699,73 @@
 .social-icon.instagram { color: #e1306c; }
 .social-icon.tiktok { color: #000; }
 .social-icon.telegram { color: #26a5e4; }
+
+.biz-availability-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: none;
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.biz-availability-btn .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.biz-availability-btn.open {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.biz-availability-btn.open .dot { background: var(--accent); }
+
+.biz-availability-btn.closed {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.biz-availability-btn.closed .dot { background: #dc2626; }
+
+.avail-toggle-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 9px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.avail-toggle-btn.active {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.day-picker {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.day-chip {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.day-chip.active {
+  border-color: var(--green-900);
+  background: var(--green-900);
+  color: #fff;
+}

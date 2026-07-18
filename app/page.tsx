@@ -3,8 +3,24 @@ import NavbarMobile from "@/components/NavbarMobile";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
-  const closeMenu = () => {};
+async function getFeaturedVendors() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/store/directory`,
+      {
+        next: { revalidate: 60 },
+      },
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.businesses || []).slice(0, 3);
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const featuredVendors = await getFeaturedVendors();
 
   return (
     <>
@@ -546,40 +562,60 @@ export default function Home() {
             <span className="tag-pill">✦ Featured Vendors</span>
           </div>
           <div className="sec-head reveal">
-            <h2>Discover 5 Amazing Vendors</h2>
-            <p>Our handpicked selection of top-rated vendors across Nigeria.</p>
+            <h2>Discover Amazing Vendors</h2>
+            <p>Real vendors selling right now on VendorVille.</p>
           </div>
-          <div className="vendor-grid reveal-stagger">
-            <div className="vendor-card">
-              <div className="vendor-logo">MN</div>
-              <div className="vendor-info">
-                <div className="vname">Mama Ngozi Provisions</div>
-                <div className="vrating">★ 4.9 · Enugu</div>
-              </div>
-              <a className="vendor-view" href="#">
-                View
-              </a>
+
+          {featuredVendors.length === 0 ? (
+            <p
+              style={{
+                textAlign: "center",
+                color: "#667085",
+                padding: "20px 0",
+              }}
+            >
+              New vendors are joining every day check back soon.
+            </p>
+          ) : (
+            <div className="vendor-grid reveal-stagger">
+              {featuredVendors.map((vendor: any) => (
+                <div className="vendor-card" key={vendor.id}>
+                  <div className="vendor-logo">
+                    {vendor.logoUrl ? (
+                      <img
+                        src={vendor.logoUrl}
+                        alt={vendor.name}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "inherit",
+                        }}
+                      />
+                    ) : (
+                      vendor.name[0]
+                    )}
+                  </div>
+                  <div className="vendor-info">
+                    <div className="vname">
+                      {vendor.shortName || vendor.name}
+                    </div>
+                    <div className="vrating">
+                      {vendor.productCount} products · {vendor.address}
+                    </div>
+                  </div>
+                  <Link className="vendor-view" href={`/store/${vendor.slug}`}>
+                    View
+                  </Link>
+                </div>
+              ))}
             </div>
-            <div className="vendor-card">
-              <div className="vendor-logo">BF</div>
-              <div className="vendor-info">
-                <div className="vname">Blessing Fabrics &amp; Styles</div>
-                <div className="vrating">★ 4.8 · Abuja</div>
-              </div>
-              <a className="vendor-view" href="#">
-                View
-              </a>
-            </div>
-            <div className="vendor-card">
-              <div className="vendor-logo">CS</div>
-              <div className="vendor-info">
-                <div className="vname">Chidi Suya Spot</div>
-                <div className="vrating">★ 4.9 · Lagos</div>
-              </div>
-              <a className="vendor-view" href="#">
-                View
-              </a>
-            </div>
+          )}
+
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <Link href="/discover" className="btn-outline">
+              See All Vendors
+            </Link>
           </div>
         </div>
       </section>

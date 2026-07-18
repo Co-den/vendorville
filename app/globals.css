@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   --green-900: #132e1b;
@@ -165,7 +165,8 @@ html {
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -177,7 +178,8 @@ html {
 .reveal-stagger > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -224,8 +226,10 @@ html {
 
 /* hover lift helper */
 .lift {
-  transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.28s ease, border-color 0.28s ease;
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
 }
 
 .lift:hover {
@@ -235,7 +239,7 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -271,7 +275,9 @@ nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 nav.scrolled {
@@ -288,7 +294,10 @@ nav.scrolled {
 }
 
 .nav-cta {
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .nav-cta:hover {
@@ -305,7 +314,7 @@ nav.scrolled {
 }
 
 .nav-links a::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: -6px;
@@ -344,7 +353,7 @@ nav .wrap {
 }
 
 .brand .mark::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 6px;
   border-radius: 3px;
@@ -423,19 +432,19 @@ header.hero {
 }
 
 .hero-bg span:nth-child(1) {
-  background-image: url('https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-bg span:nth-child(2) {
-  background-image: url('https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-bg span:nth-child(3) {
-  background-image: url('https://images.pexels.com/photos/8655018/pexels-photo-8655018.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/8655018/pexels-photo-8655018.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-bg span:nth-child(4) {
-  background-image: url('https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-overlay {
@@ -515,8 +524,10 @@ header.hero .wrap {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.25s ease, background 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
 .btn-white:hover {
@@ -539,8 +550,10 @@ header.hero .wrap {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-color 0.25s ease, background 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .btn-outline:hover {
@@ -621,7 +634,8 @@ header.hero .wrap {
   display: flex;
   flex-direction: column;
   opacity: 0;
-  animation: popIn 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.35s forwards,
+  animation:
+    popIn 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.35s forwards,
     floatYSoft 7s ease-in-out 1.2s infinite;
   transition: box-shadow 0.4s ease;
   overflow: hidden;
@@ -997,8 +1011,10 @@ section {
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 30px;
-  transition: box-shadow 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.3s ease;
+  transition:
+    box-shadow 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.3s ease;
 }
 
 .feat-card:hover {
@@ -1016,8 +1032,10 @@ section {
   align-items: center;
   justify-content: center;
   color: var(--accent);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .feat-icon svg {
@@ -1093,7 +1111,9 @@ section {
   border-radius: 999px;
   font-size: 0.82rem;
   font-weight: 700;
-  transition: transform 0.25s ease, background 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
 }
 
 .stat-pill:hover {
@@ -1116,8 +1136,10 @@ section {
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 14px;
   padding: 26px;
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
-    background 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .testi-card:hover {
@@ -1198,8 +1220,10 @@ section {
   display: flex;
   align-items: center;
   gap: 14px;
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .vendor-card:hover {
@@ -1247,7 +1271,10 @@ section {
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 700;
-  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
 }
 
 .vendor-view:hover {
@@ -1285,7 +1312,8 @@ section {
   font-weight: 700;
   color: var(--gray);
   cursor: pointer;
-  transition: background 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    background 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
     color 0.3s ease;
 }
 
@@ -1307,8 +1335,10 @@ section {
   border-radius: 16px;
   padding: 32px;
   position: relative;
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .price-card:not(.pro):hover {
@@ -1383,7 +1413,7 @@ section {
 }
 
 .plan-list li::before {
-  content: '✓';
+  content: "✓";
   color: var(--accent);
   font-weight: 800;
 }
@@ -1398,7 +1428,10 @@ section {
   font-size: 0.9rem;
   border: 1.5px solid var(--green-900);
   color: var(--green-900);
-  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
 }
 
 .price-card.pro .plan-btn {
@@ -1514,8 +1547,10 @@ table.compare td.dash {
   justify-content: center;
   font-weight: 800;
   flex-shrink: 0;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .faq-item.open .plus {
@@ -1531,7 +1566,8 @@ table.compare td.dash {
 .faq-answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    max-height 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
     opacity 0.3s ease;
   opacity: 0;
 }
@@ -1585,8 +1621,10 @@ table.compare td.dash {
   font-weight: 700;
   font-size: 0.86rem;
   background: rgba(255, 255, 255, 0.03);
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
-    background 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .state-chip:hover {
@@ -1626,8 +1664,10 @@ table.compare td.dash {
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .trust-org .icon svg {

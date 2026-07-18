@@ -14,6 +14,11 @@ export interface StorefrontProduct {
 }
 
 export interface StorefrontBusiness {
+  availableDays: any;
+  businessEmail: import("react").JSX.Element;
+  instagram: any;
+  tiktok: any;
+  isOpenToday: any;
   id: number;
   name: string;
   shortName: string | null;

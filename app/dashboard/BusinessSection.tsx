@@ -3,6 +3,7 @@
 import { useAuthStore } from "@/store/authStore";
 import { useBusinessStore } from "@/store/businessStore";
 import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 declare global {
@@ -64,6 +65,45 @@ export default function BusinessSection() {
   const [premisesImages, setPremisesImages] = useState<
     { file: File; preview: string }[]
   >([]);
+
+  // New state near the top
+  const [editingAvailability, setEditingAvailability] = useState<any>(null);
+  const [availDays, setAvailDays] = useState<string[]>([]);
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [savingAvailability, setSavingAvailability] = useState(false);
+
+  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+  const openAvailabilityEditor = (biz: any) => {
+    setEditingAvailability(biz);
+    setAvailDays(biz.availableDays || daysOfWeek.slice(0, 6));
+    setIsAvailable(biz.isAvailable ?? true);
+  };
+
+  const toggleDay = (day: string) => {
+    setAvailDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
+    );
+  };
+
+  const saveAvailability = async () => {
+    setSavingAvailability(true);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/businesses/${editingAvailability.id}/availability`,
+        {
+          isAvailable,
+          availableDays: availDays,
+        },
+      );
+      await fetchBusinesses();
+      setEditingAvailability(null);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSavingAvailability(false);
+    }
+  };
 
   useEffect(() => {
     fetchBusinesses();
@@ -327,7 +367,13 @@ export default function BusinessSection() {
                   </div>
                 </div>
               </div>
-
+              <button
+                className={`biz-availability-btn ${biz.isAvailable ? "open" : "closed"}`}
+                onClick={() => openAvailabilityEditor(biz)}
+              >
+                <span className="dot"></span>
+                {biz.isAvailable ? "Available" : "Unavailable"}
+              </button>
               <a
                 href={`/store/${biz.slug}`}
                 target="_blank"
@@ -754,7 +800,71 @@ export default function BusinessSection() {
           </div>
         </div>
       )}
+      {editingAvailability && (
+        <div
+          className="modal-overlay"
+          onClick={() => setEditingAvailability(null)}
+        >
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3>Set Availability</h3>
+            <p className="modal-sub">
+              Let customers know when {editingAvailability.name} is open.
+            </p>
 
+            <div className="modal-field">
+              <label>Status</label>
+              <div style={{ display: "flex", gap: 10 }}>
+                <button
+                  type="button"
+                  className={`avail-toggle-btn ${isAvailable ? "active" : ""}`}
+                  onClick={() => setIsAvailable(true)}
+                >
+                  Available
+                </button>
+                <button
+                  type="button"
+                  className={`avail-toggle-btn ${!isAvailable ? "active" : ""}`}
+                  onClick={() => setIsAvailable(false)}
+                >
+                  Unavailable
+                </button>
+              </div>
+            </div>
+
+            <div className="modal-field">
+              <label>Available Days</label>
+              <div className="day-picker">
+                {daysOfWeek.map((day) => (
+                  <button
+                    key={day}
+                    type="button"
+                    className={`day-chip ${availDays.includes(day) ? "active" : ""}`}
+                    onClick={() => toggleDay(day)}
+                  >
+                    {day}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="modal-actions">
+              <button
+                className="btn-secondary-modal"
+                onClick={() => setEditingAvailability(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-primary-modal"
+                onClick={saveAvailability}
+                disabled={savingAvailability}
+              >
+                {savingAvailability ? "Saving..." : "Save"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* ===== UPGRADE / PAYWALL MODAL ===== */}
       {showUpgrade && (
         <div className="modal-overlay" onClick={() => setShowUpgrade(false)}>
