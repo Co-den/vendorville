@@ -16,9 +16,59 @@
 }
 
 .discover-hero {
-  background: linear-gradient(150deg, var(--green-900) 0%, var(--green-800) 100%);
+  position: relative;
+  overflow: hidden;
   padding: 60px 24px 50px;
   text-align: center;
+}
+
+.discover-hero .hero-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.discover-hero .hero-bg span {
+  background-size: cover;
+  background-position: center;
+  display: block;
+}
+
+.discover-hero .hero-bg span:nth-child(1) {
+  background-image: url('https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=600');
+}
+
+.discover-hero .hero-bg span:nth-child(2) {
+  background-image: url('https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=600');
+}
+
+.discover-hero .hero-bg span:nth-child(3) {
+  background-image: url('https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=600');
+}
+
+.discover-hero .hero-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: linear-gradient(
+    150deg,
+    rgba(15, 38, 22, 0.95) 0%,
+    rgba(25, 60, 43, 0.9) 50%,
+    rgba(12, 50, 29, 0.96) 100%
+  );
+}
+
+.discover-hero-content {
+  position: relative;
+  z-index: 2;
 }
 
 .discover-eyebrow {
@@ -172,4 +222,120 @@
   background: var(--accent-light);
   padding: 3px 10px;
   border-radius: 20px;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientDrift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ===== Hero entrance animation ===== */
+.discover-hero .hero-overlay {
+  background-size: 200% 200%;
+  animation: gradientDrift 16s ease-in-out infinite;
+}
+
+.discover-eyebrow {
+  opacity: 0;
+  animation: fadeInUp 0.7s ease 0.1s forwards;
+}
+
+.discover-hero-content h1 {
+  opacity: 0;
+  animation: fadeInUp 0.7s ease 0.22s forwards;
+}
+
+.discover-hero-content p {
+  opacity: 0;
+  animation: fadeInUp 0.7s ease 0.34s forwards;
+}
+
+.discover-search-bar {
+  opacity: 0;
+  animation: fadeInUp 0.7s ease 0.46s forwards;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.discover-search-bar:focus-within {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ===== Category buttons ===== */
+.discover-cat-btn {
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.discover-cat-btn:hover {
+  border-color: var(--green-900);
+  transform: translateY(-1px);
+}
+
+.discover-cat-btn.active {
+  animation: none;
+}
+
+/* ===== Vendor cards — staggered entrance + hover polish ===== */
+.discover-grid {
+  animation: fadeInUp 0.5s ease both;
+}
+
+.discover-card {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.discover-card:nth-child(1) { animation-delay: 0.05s; }
+.discover-card:nth-child(2) { animation-delay: 0.1s; }
+.discover-card:nth-child(3) { animation-delay: 0.15s; }
+.discover-card:nth-child(4) { animation-delay: 0.2s; }
+.discover-card:nth-child(5) { animation-delay: 0.25s; }
+.discover-card:nth-child(6) { animation-delay: 0.3s; }
+.discover-card:nth-child(n+7) { animation-delay: 0.35s; }
+
+.discover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(19, 46, 27, 0.1);
+  border-color: var(--accent);
+}
+
+.discover-card-logo {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.discover-card:hover .discover-card-logo {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.discover-card-tag {
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.discover-card:hover .discover-card-tag {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ===== Loading spinner fade-in ===== */
+.spinner {
+  animation: spin 1s linear infinite;
 }

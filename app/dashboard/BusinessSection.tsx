@@ -359,7 +359,10 @@ export default function BusinessSection() {
       {/* ===== REGISTER BUSINESS MODAL ===== */}
       {showRegister && (
         <div className="modal-overlay" onClick={closeRegister}>
-          <div className="modal-card tall" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-card tall wide"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header">
               <div className="modal-header-title">
                 <div className="modal-header-icon">
@@ -414,6 +417,34 @@ export default function BusinessSection() {
                     {formError}
                   </div>
                 )}
+
+                <div className="timezone-banner">
+                  <div className="timezone-banner-left">
+                    <div className="timezone-banner-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 010 20 15.3 15.3 0 010-20z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="timezone-banner-label">
+                        Active Timezone
+                      </div>
+                      <div className="timezone-banner-value">
+                        {user?.timeZone || "Not set"}
+                      </div>
+                    </div>
+                  </div>
+                  <span className="timezone-banner-badge">From Account</span>
+                </div>
 
                 <div className="logo-upload-row">
                   <div className="logo-upload-box">
@@ -535,38 +566,66 @@ export default function BusinessSection() {
                 </label>
                 <div className="field-row-2" style={{ marginBottom: 14 }}>
                   <div className="field-group" style={{ marginBottom: 0 }}>
-                    <input
-                      type="text"
-                      value={facebook}
-                      onChange={(e) => setFacebook(e.target.value)}
-                      placeholder="facebook.com/yourbusiness"
-                    />
+                    <div className="social-input-group">
+                      <span className="social-icon facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z" />
+                        </svg>
+                      </span>
+                      <input
+                        type="text"
+                        value={facebook}
+                        onChange={(e) => setFacebook(e.target.value)}
+                        placeholder="facebook.com/yourbusiness"
+                      />
+                    </div>
                   </div>
                   <div className="field-group" style={{ marginBottom: 0 }}>
-                    <input
-                      type="text"
-                      value={instagram}
-                      onChange={(e) => setInstagram(e.target.value)}
-                      placeholder="instagram.com/yourbusiness"
-                    />
+                    <div className="social-input-group">
+                      <span className="social-icon instagram">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47a4.9 4.9 0 011.77 1.15 4.9 4.9 0 011.15 1.77c.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 01-1.15 1.77 4.9 4.9 0 01-1.77 1.15c-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 01-1.77-1.15 4.9 4.9 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43a4.9 4.9 0 011.15-1.77A4.9 4.9 0 015.45 2.53c.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zM18.4 6.6a1.17 1.17 0 100-2.34 1.17 1.17 0 000 2.34z" />
+                        </svg>
+                      </span>
+                      <input
+                        type="text"
+                        value={instagram}
+                        onChange={(e) => setInstagram(e.target.value)}
+                        placeholder="instagram.com/yourbusiness"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="field-row-2">
                   <div className="field-group" style={{ marginBottom: 0 }}>
-                    <input
-                      type="text"
-                      value={tiktok}
-                      onChange={(e) => setTiktok(e.target.value)}
-                      placeholder="tiktok.com/@yourbusiness"
-                    />
+                    <div className="social-input-group">
+                      <span className="social-icon tiktok">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M16.6 5.82a4.28 4.28 0 01-3.03-1.26A4.28 4.28 0 0112.3 1.5h-3.1v14.6a2.6 2.6 0 11-1.84-2.49v-3.16a5.76 5.76 0 105.76 5.76V9.4a7.4 7.4 0 004.48 1.5v-3.1a4.27 4.27 0 01-1-.98z" />
+                        </svg>
+                      </span>
+                      <input
+                        type="text"
+                        value={tiktok}
+                        onChange={(e) => setTiktok(e.target.value)}
+                        placeholder="tiktok.com/@yourbusiness"
+                      />
+                    </div>
                   </div>
                   <div className="field-group" style={{ marginBottom: 0 }}>
-                    <input
-                      type="text"
-                      value={telegram}
-                      onChange={(e) => setTelegram(e.target.value)}
-                      placeholder="t.me/yourbusiness"
-                    />
+                    <div className="social-input-group">
+                      <span className="social-icon telegram">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M22 2L2 10.5l6 2.5m14-11L15.5 21l-4-8.5m10.5-10.5L8 13" />
+                        </svg>
+                      </span>
+                      <input
+                        type="text"
+                        value={telegram}
+                        onChange={(e) => setTelegram(e.target.value)}
+                        placeholder="t.me/yourbusiness"
+                      />
+                    </div>
                   </div>
                 </div>
 
