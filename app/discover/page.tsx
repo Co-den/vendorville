@@ -2,6 +2,7 @@
 
 import NavbarMobile from "@/components/NavbarMobile";
 import { useDirectoryStore } from "@/store/directoryStore";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./discover.css";
@@ -135,7 +136,62 @@ export default function DiscoverPage() {
             ))}
           </div>
         )}
+        
       </div>
+      <footer>
+        <div className="wrap">
+          <div className="footer-grid">
+            <div>
+              <div className="brand">
+                <Link href="/" className="brand">
+                  <Image
+                    src="/images/vv.png"
+                    alt="VendorVille"
+                    width={180}
+                    height={55}
+                    priority
+                    className="h-12 w-auto"
+                  />
+                </Link>
+              </div>
+              <p className="tagline">
+                The all-in-one platform for Nigerian market vendors — track
+                orders, manage stock, and send Email, SMS &amp; WhatsApp alerts,
+                all from your phone.
+              </p>
+              <span className="footer-phone">+234 707 647 3776</span>
+            </div>
+            <div className="footer-col">
+              <h4>Quick Links</h4>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#">Blog</a>
+            </div>
+            <div className="footer-col">
+              <h4>Company</h4>
+              <a href="#">About VendorVille</a>
+              <a href="#">Become a Partner</a>
+              <a href="#">Contact Us</a>
+              <a href="#">Careers</a>
+            </div>
+            <div className="footer-col">
+              <h4>VendorVille Technologies Limited</h4>
+              <a href="#">
+                123 Market Avenue,
+                <br />
+                Enugu, Nigeria
+              </a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
+            <span>Nigeria Data Protection Act (NDPR) compliant</span>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

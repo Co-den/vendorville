@@ -23,6 +23,7 @@
 
 html {
   scroll-behavior: smooth;
+   font-size: 112.5%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -485,7 +486,7 @@ header.hero .wrap {
 
 .hero h1 {
   color: #fff;
-  font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+  font-size: 4rem;
   font-weight: 800;
   line-height: 1.16;
   opacity: 0;
