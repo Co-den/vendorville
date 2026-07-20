@@ -26,11 +26,13 @@
   padding: 0;
   box-sizing: border-box;
   scrollbar-width: thin;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
 }
 
 html {
   scroll-behavior: smooth;
- 
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -247,11 +249,13 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  margin:0;
+  margin: 0;
 }
 
 a {
@@ -492,7 +496,6 @@ header.hero .wrap {
   }
 
   .btn-white {
-  
     max-width: 240px;
   }
 }
@@ -537,28 +540,27 @@ header.hero .wrap {
 }
 
 .btn-white {
-   width: 100%;
-    max-width: 240px;
-    height: 64px;
-    background-color: #ffffff;
-    color: #225232;
-    border: none;
-    border-radius: 9999px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px; /* Tailwind gap-3 */
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-                0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    cursor: pointer;
-    transition: transform 0.2s ease;
+  width: 100%;
+  max-width: 240px;
+  height: 64px;
+  background-color: #ffffff;
+  color: #225232;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* Tailwind gap-3 */
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .btn-white:hover {
-  
   transform: translateY(-2px);
-  
 }
 
 .btn-white:active {
@@ -1355,15 +1357,12 @@ section {
 }
 
 .price-card {
-  background: #fff;
-  border: 1.5px solid var(--line);
-  border-radius: 16px;
-  padding: 32px;
   position: relative;
-  transition:
-    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .price-card:not(.pro):hover {
@@ -1385,22 +1384,47 @@ section {
 
 .badge-pop {
   position: absolute;
-  top: -13px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 5px 14px;
-  border-radius: 999px;
-  letter-spacing: 0.04em;
-  animation: pulseGlow 2.4s ease-in-out infinite;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: #fbbf24;
+  color: #78350f;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.badge-pop2 {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: var(--color-green-500);
+  color: white;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .plan-name {
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: var(--text, #111827);
 }
 
 .plan-sub {
@@ -1444,19 +1468,40 @@ section {
 }
 
 .plan-btn {
-  display: block;
-  text-align: center;
-  margin-top: 26px;
-  padding: 13px;
-  border-radius: 999px;
+  width: 100%;
+  height: 64px;
+  background: #fff;
+  color: var(--color-green-500);
+  border: none;
+  border-radius: 9999px;
   font-weight: 700;
-  font-size: 0.9rem;
-  border: 1.5px solid var(--green-900);
-  color: var(--green-900);
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.p-b {
+  width: 100%;
+  height: 64px;
+  background: #fbbf24;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .price-card.pro .plan-btn {

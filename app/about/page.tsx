@@ -278,7 +278,7 @@ export default function AboutPage() {
             Our <span className="hl">North Star</span>
           </h2>
           <p className="mission-quote">
-            "To make every serious vendor business in Nigeria more profitable, less stressful, and loved by customers—using technology that just works and costs almost nothing."
+            "To make every serious vendor business in Nigeria more profitable, less stressful, and loved by customers using technology that just works and costs almost nothing."
           </p>
         </div>
       </section>
@@ -305,15 +305,15 @@ export default function AboutPage() {
               <p className="tagline">
                 The all-in-one platform for Nigerian vendors. Manage orders, inventory, and customer relationships in one place.
               </p>
-              <span className="footer-phone">+234 707 647 3776</span>
+              <span className="footer-phone">+234 903 935 4723</span>
             </div>
             <div className="footer-col">
               <h4>Quick Links</h4>
               <a href="/">Home</a>
               <a href="/about">About</a>
-              <a href="/">Features</a>
-              <a href="/">Pricing</a>
-              <a href="/">Blog</a>
+              <a href="/#features">Features</a>
+              <a href="/#pricing">Pricing</a>
+              <a href="/blog">Blog</a>
             </div>
             <div className="footer-col">
               <h4>Company</h4>

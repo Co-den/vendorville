@@ -324,10 +324,13 @@ nav .wrap {
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
+  font-family: Space Grotesk, sans-serif;
 }
 
-.hero-content h1 .hl {
+.hero-content h1 .hl
+ {
   color: #7fd99a;
+  font-family: Space Grotesk, sans-serif;
 }
 
 .hero-content p {
@@ -336,6 +339,7 @@ nav .wrap {
   max-width: 60ch;
   margin: 0 auto 32px;
   line-height: 1.6;
+  font-family: Space Grotesk, sans-serif;
 }
 
 @media (max-width: 700px) {
@@ -939,7 +943,7 @@ nav .wrap {
 }
 
 .mission-section h2 .hl {
-  font-style: italic;
+  font-family: Space Grotesk, sans-serif;
   color: #7fd99a;
 }
 
@@ -949,7 +953,7 @@ nav .wrap {
   font-size: 1.15rem;
   line-height: 1.8;
   color: #cfe0d4;
-  font-style: italic;
+  font-family: Space Grotesk, sans-serif;
 }
 
 @media (max-width: 700px) {

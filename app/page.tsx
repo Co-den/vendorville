@@ -637,6 +637,7 @@ export default async function Home() {
           </div>
           <div className="price-grid reveal-stagger">
             <div className="price-card">
+              <span className="badge-pop">14 days free trial</span>
               <div className="plan-name">Starter</div>
               <div className="plan-sub">Suitable for vendors</div>
               <div className="plan-price">
@@ -652,12 +653,12 @@ export default async function Home() {
                 <li>1 Staff per Store</li>
                 <li>Email &amp; WhatsApp Sharing</li>
               </ul>
-              <Link className="plan-btn" href="/auth/signup?plan=starter">
+              <Link className="p-b" href="/auth/signup?plan=starter">
                 Start Starter
               </Link>
             </div>
             <div className="price-card pro">
-              <span className="badge-pop">MOST POPULAR</span>
+              <span className="badge-pop2">MOST POPULAR</span>
               <div className="plan-name">Professional</div>
               <div className="plan-sub">Built for growing vendors</div>
               <div className="plan-price">
@@ -1038,18 +1039,18 @@ export default async function Home() {
                 orders, manage stock, and send Email, SMS &amp; WhatsApp alerts,
                 all from your phone.
               </p>
-              <span className="footer-phone">+234 707 647 3776</span>
+              <span className="footer-phone">+234 903 935 4723</span>
             </div>
             <div className="footer-col">
               <h4>Quick Links</h4>
               <a href="#features">Features</a>
               <a href="#pricing">Pricing</a>
               <a href="#faq">FAQ</a>
-              <a href="#">Blog</a>
+              <a href="/blog">Blog</a>
             </div>
             <div className="footer-col">
               <h4>Company</h4>
-              <a href="#">About VendorVille</a>
+              <a href="/about">About VendorVille</a>
               <a href="#">Become a Partner</a>
               <a href="#">Contact Us</a>
               <a href="#">Careers</a>
@@ -1061,8 +1062,8 @@ export default async function Home() {
                 <br />
                 Enugu, Nigeria
               </a>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Service</a>
+              <a href="/policy">Privacy Policy</a>
+              <a href="/terms">Terms of Service</a>
             </div>
           </div>
           <div className="footer-bottom">
