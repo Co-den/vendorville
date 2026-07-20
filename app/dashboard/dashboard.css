@@ -23,7 +23,7 @@
   top: 0;
   height: 100vh;
   overflow: hidden;
-  font-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
 }
 
 .dash-brand {
@@ -85,7 +85,7 @@
 }
 
 .dash-brand span {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.1rem;
 }
@@ -260,7 +260,7 @@
 }
 
 .dash-welcome h1 {
-  font-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   color: var(--ink);
@@ -269,14 +269,14 @@
 
 .dash-welcome h1 span {
   color: var(--accent);
-  font-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
 }
 
 .dash-welcome p {
   margin-top: 8px;
   color: var(--gray);
   font-size: 0.95rem;
-  font-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
 }
 
 /* ===== STAT GRID ===== */
@@ -347,7 +347,7 @@
 }
 
 .stat-value {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.7rem;
   color: var(--ink);
@@ -427,7 +427,7 @@
 }
 
 .wallet-balance {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+ font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 2.4rem;
   letter-spacing: -0.01em;
@@ -509,7 +509,7 @@
 }
 
 .panel-head h2 {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--ink);
@@ -632,7 +632,7 @@
 }
 
 .modal-card h3 {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--ink);
@@ -663,7 +663,7 @@
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family: inherit;
+   font-family: Space Grotesk, sans-serif;
   font-size: 0.86rem;
 }
 
@@ -744,7 +744,7 @@
 }
 
 .biz-header h2 {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
   color: var(--ink);
@@ -1084,7 +1084,7 @@
 }
 
 .plan-option-price {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.05rem;
   color: var(--accent);
@@ -1149,7 +1149,7 @@
 }
 
 .modal-header h3 {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--ink);
@@ -1354,7 +1354,7 @@
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family: inherit;
+   font-family: Space Grotesk, sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
@@ -1567,7 +1567,7 @@
 }
 
 .current-plan-name {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+ font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.8rem;
 }
@@ -1579,7 +1579,7 @@
 }
 
 .current-plan-price {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.6rem;
   text-align: right;
@@ -1639,7 +1639,7 @@
 }
 
 .plan-card-name {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--ink);
@@ -1647,7 +1647,7 @@
 }
 
 .plan-card-price {
-  ffont-family: "Plus Jakarta Sans", sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.8rem;
   color: var(--ink);
@@ -1783,7 +1783,7 @@
 }
 
 .wallet-page-title {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   color: var(--ink);
@@ -1823,7 +1823,7 @@
 }
 
 .wallet-hero-balance {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 3rem;
 }
@@ -2067,7 +2067,7 @@
   transition:
     border-color 0.2s ease,
     transform 0.2s ease;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: Space Grotesk, sans-serif;
 }
 
 .payout-action-card:hover {
@@ -2129,7 +2129,7 @@
 }
 
 .wallet-balance-strip-value {
-  font-family: var(--font-fraunces), "Fraunces", serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
   color: var(--ink);
@@ -2262,7 +2262,7 @@
 .inventory-search input {
   border: none;
   outline: none;
-  font-family: inherit;
+  font-family: Space Grotesk, sans-serif;
   font-size: 0.86rem;
   width: 100%;
   color: var(--ink);
@@ -2272,7 +2272,7 @@
   padding: 10px 14px;
   border: 1.5px solid var(--line);
   border-radius: 9px;
-  font-family: inherit;
+ font-family: Space Grotesk, sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
@@ -2573,8 +2573,7 @@
   border-top: 1.5px solid var(--line);
   font-weight: 800;
   font-size: 1.1rem;
-  color: var(--ink);
-  font-family: var(--font-fraunces), "Fraunces", serif;
+   font-family: Space Grotesk, sans-serif;
 }
 
 /* Order status dropdown reusing status color classes */

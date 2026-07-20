@@ -82,7 +82,7 @@
 }
 
 .article-title {
-  font-family: 'Fraunces', serif;
+   font-family: Space Grotesk, sans-serif;
   font-size: 3.5rem;
   font-weight: 800;
   line-height: 1.2;
@@ -172,7 +172,7 @@
 }
 
 .section-title {
-  font-family: 'Fraunces', serif;
+  font-family: Space Grotesk, sans-serif;
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--ink);
@@ -317,7 +317,7 @@
 }
 
 .sidebar-card h4 {
-  font-family: 'Fraunces', serif;
+ font-family: Space Grotesk, sans-serif;
   font-size: 1.1rem;
   font-weight: 800;
   margin-bottom: 16px;

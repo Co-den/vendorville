@@ -15,15 +15,22 @@
   --line: #e7eaee;
 }
 
+@layer utilities {
+  .text-slate-400 {
+    color: #94a3b8;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scrollbar-width: thin;
 }
 
 html {
   scroll-behavior: smooth;
-   font-size: 112.5%;
+ 
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -240,10 +247,11 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: Space Grotesk, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  margin:0;
 }
 
 a {
@@ -474,6 +482,19 @@ header.hero .wrap {
   .hero-bg {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .hero h1 {
+    text-align: center;
+  }
+
+  .hero-ctas {
+    justify-content: center;
+  }
+
+  .btn-white {
+  
+    max-width: 240px;
+  }
 }
 
 .hero-grid {
@@ -486,7 +507,7 @@ header.hero .wrap {
 
 .hero h1 {
   color: #fff;
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 800;
   line-height: 1.16;
   opacity: 0;
@@ -516,25 +537,28 @@ header.hero .wrap {
 }
 
 .btn-white {
-  background: #fff;
-  color: var(--green-900);
-  padding: 13px 26px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.92rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition:
-    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.25s ease,
-    background 0.25s ease;
+   width: 100%;
+    max-width: 240px;
+    height: 64px;
+    background-color: #ffffff;
+    color: #225232;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* Tailwind gap-3 */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .btn-white:hover {
-  background: #eaf4ec;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  
+  transform: translateY(-2px);
+  
 }
 
 .btn-white:active {

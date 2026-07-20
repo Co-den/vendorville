@@ -200,7 +200,7 @@
 }
 
 .sf-header-left h1 {
-  font-family: var(--font-fraunces), 'Fraunces', serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.4rem;
   color: var(--ink);
@@ -379,7 +379,7 @@
 }
 
 .sf-footer-brand {
-  font-family: var(--font-fraunces), 'Fraunces', serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.2rem;
   color: #fff;
@@ -498,17 +498,7 @@
 }
 .storefront-page {
   min-height: 100vh;
-  background: var(--offwhite);
-  font-family:
-  ui-sans-serif,
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif;
+   font-family: Space Grotesk, sans-serif;
 }
 
 .storefront-header {
@@ -558,16 +548,7 @@
 }
 
 .storefront-brand h1 {
-  font-family:
-  ui-sans-serif,
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif;
+font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.3rem;
   color: #fff;
@@ -715,16 +696,7 @@
 }
 
 .modal-header h3 {
-  font-family:
-  ui-sans-serif,
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--ink);
@@ -797,16 +769,7 @@
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family:
-  ui-sans-serif,
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif;
+  font-family: Space Grotesk, sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
@@ -914,16 +877,7 @@
 }
 
 .wallet-balance-strip-value {
-  font-family:
-  ui-sans-serif,
-  system-ui,
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  Helvetica,
-  Arial,
-  sans-serif;
+   font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.3rem;
   color: var(--ink);

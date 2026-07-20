@@ -19,7 +19,9 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   color: var(--ink);
   background: var(--offwhite);
 }
@@ -124,15 +126,15 @@ body {
 }
 
 .brand-bg span:nth-child(1) {
-  background-image: url('https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-image: url("https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=600");
 }
 
 .brand-bg span:nth-child(2) {
-  background-image: url('https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-image: url("https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=600");
 }
 
 .brand-bg span:nth-child(3) {
-  background-image: url('https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-image: url("https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=600");
 }
 
 .brand-overlay {
@@ -184,7 +186,9 @@ body {
 }
 
 .brand-content h1 {
-  font-family: 'Fraunces', serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   color: #fff;
   font-size: clamp(2.2rem, 4vw, 3rem);
@@ -197,7 +201,6 @@ body {
 .brand-content h1 span {
   display: block;
   color: #7fd99a;
-  font-style: italic;
   font-weight: 700;
 }
 
@@ -205,7 +208,6 @@ body {
   margin-top: 20px;
   color: #cfe0d4;
   font-size: 1.02rem;
-  font-style: italic;
   line-height: 1.6;
   max-width: 38ch;
   opacity: 0;
@@ -272,7 +274,9 @@ body {
 }
 
 .auth-card h2 {
-  font-family: 'Fraunces', serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.35rem;
   text-align: center;
@@ -296,7 +300,7 @@ body {
 
 .section-label {
   margin-top: 22px;
-  font-size: 0.70rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--gray);
   letter-spacing: 0.03em;
@@ -329,10 +333,14 @@ body {
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family: inherit;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   background: #fff;
 }
 
@@ -430,11 +438,15 @@ body {
   padding: 11px 12px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family: inherit;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.82rem;
   color: var(--ink);
   appearance: none;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 8px center;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667085' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")
+    no-repeat right 8px center;
   background-size: 16px;
   padding-right: 28px;
   cursor: pointer;
@@ -451,11 +463,13 @@ body {
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family: inherit;
+  font-family: Space Grotesk, sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* Dropdown arrow fix - point down */
@@ -565,7 +579,9 @@ body {
   font-weight: 700;
   color: var(--ink);
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .pin-row input:focus {
@@ -586,7 +602,9 @@ body {
   font-weight: 700;
   font-size: 0.88rem;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .btn-primary:hover {
@@ -753,7 +771,7 @@ body {
   .field input,
   .field select {
     padding: 9px 12px;
-    font-size: 0.80rem;
+    font-size: 0.8rem;
     border-radius: 8px;
   }
 
@@ -771,7 +789,7 @@ body {
   }
 
   .select-wrap select {
-    font-size: 0.80rem;
+    font-size: 0.8rem;
     padding-right: 32px;
   }
 
@@ -788,7 +806,7 @@ body {
 
   .pin-row input {
     min-height: 42px;
-    font-size: 0.90rem;
+    font-size: 0.9rem;
     border-radius: 8px;
   }
 
@@ -811,7 +829,7 @@ body {
 
   .terms-text {
     margin-top: 14px;
-    font-size: 0.70rem;
+    font-size: 0.7rem;
   }
 
   .foot-copy {
@@ -919,7 +937,7 @@ body {
 }
 
 .step-content h2 {
-  font-family: 'Fraunces', serif;
+  font-family: Space Grotesk, sans-serif;
   font-weight: 800;
   font-size: 1.3rem;
   text-align: center;
@@ -990,13 +1008,13 @@ body {
   font-weight: 600;
 }
 
-.field input[aria-invalid='true'],
-.field select[aria-invalid='true'] {
+.field input[aria-invalid="true"],
+.field select[aria-invalid="true"] {
   border-color: #d64545;
 }
 
-.field input[aria-invalid='true']:focus,
-.field select[aria-invalid='true']:focus {
+.field input[aria-invalid="true"]:focus,
+.field select[aria-invalid="true"]:focus {
   box-shadow: 0 0 0 4px rgba(214, 69, 69, 0.1);
 }
 
@@ -1012,7 +1030,7 @@ body {
   border: 1px solid rgba(58, 132, 79, 0.2);
 }
 
-.checkbox-field input[type='checkbox'] {
+.checkbox-field input[type="checkbox"] {
   width: 18px;
   height: 18px;
   margin-top: 2px;
@@ -1062,7 +1080,10 @@ body {
   background: #fff;
   color: var(--ink);
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .btn-secondary:hover {
@@ -1088,7 +1109,9 @@ body {
   font-weight: 700;
   font-size: 0.88rem;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
