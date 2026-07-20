@@ -23,7 +23,9 @@
   top: 0;
   height: 100vh;
   overflow: hidden;
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 .dash-brand {
@@ -85,7 +87,9 @@
 }
 
 .dash-brand span {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.1rem;
 }
@@ -260,7 +264,9 @@
 }
 
 .dash-welcome h1 {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   color: var(--ink);
@@ -269,14 +275,18 @@
 
 .dash-welcome h1 span {
   color: var(--accent);
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 .dash-welcome p {
   margin-top: 8px;
   color: var(--gray);
   font-size: 0.95rem;
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 /* ===== STAT GRID ===== */
@@ -300,10 +310,15 @@
 }
 
 .stat-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .stat-card-top {
@@ -347,7 +362,9 @@
 }
 
 .stat-value {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.7rem;
   color: var(--ink);
@@ -427,7 +444,9 @@
 }
 
 .wallet-balance {
- font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 2.4rem;
   letter-spacing: -0.01em;
@@ -495,10 +514,13 @@
 
 /* ===== RECENT ORDERS TABLE ===== */
 .panel {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 22px;
+  align-items: center;
+
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .panel-head {
@@ -509,7 +531,9 @@
 }
 
 .panel-head h2 {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--ink);
@@ -632,7 +656,9 @@
 }
 
 .modal-card h3 {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--ink);
@@ -663,7 +689,9 @@
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.86rem;
 }
 
@@ -744,7 +772,9 @@
 }
 
 .biz-header h2 {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
   color: var(--ink);
@@ -759,29 +789,35 @@
 .biz-add-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, var(--green-900), var(--green-800));
+  gap: 12px;
+
+  padding: 16px 32px;
+
+  background: var(--color-green-500);
   color: #fff;
-  font-weight: 700;
-  font-size: 0.85rem;
+
+  border: none;
+  border-radius: 1rem;
+
+  font-size: 14px;
+  font-weight: 900;
+
   cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.2s ease;
-  white-space: nowrap;
+
+  box-shadow: 0 20px 30px rgba(34, 82, 50, 0.3);
+
+  transition: all 0.25s ease;
 }
 
 .biz-add-btn:hover {
-  transform: translateY(-2px);
+  transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(19, 46, 27, 0.2);
 }
 
 .biz-add-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 @media (max-width: 640px) {
@@ -811,13 +847,14 @@
 }
 
 .biz-card {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  color: #fff;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, var(--primary), #1e4c2e);
+  box-shadow: 0 25px 50px rgba(34, 82, 50, 0.2);
 }
 
 .biz-card-top {
@@ -1084,7 +1121,9 @@
 }
 
 .plan-option-price {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.05rem;
   color: var(--accent);
@@ -1149,7 +1188,9 @@
 }
 
 .modal-header h3 {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--ink);
@@ -1354,7 +1395,9 @@
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
@@ -1567,7 +1610,9 @@
 }
 
 .current-plan-name {
- font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.8rem;
 }
@@ -1579,7 +1624,9 @@
 }
 
 .current-plan-price {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.6rem;
   text-align: right;
@@ -1606,14 +1653,14 @@
 }
 
 .plan-card {
-  position: relative;
+   position: relative;
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
   background: #fff;
-  border: 1.5px solid var(--line);
-  border-radius: 16px;
-  padding: 26px 22px;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
+
 
 .plan-card.featured {
   border-color: var(--accent);
@@ -1625,21 +1672,28 @@
 }
 
 .plan-card-badge {
-  position: absolute;
-  top: -12px;
-  left: 22px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: 20px;
+   position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: var(--color-green-500);
+  color: white;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .plan-card-name {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.2rem;
   color: var(--ink);
@@ -1647,7 +1701,9 @@
 }
 
 .plan-card-price {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.8rem;
   color: var(--ink);
@@ -1686,15 +1742,22 @@
 }
 
 .plan-card-btn {
-  padding: 11px;
-  border-radius: 9px;
-  border: 1.5px solid var(--line);
+   width: 100%;
+  height: 64px;
   background: #fff;
-  color: var(--ink);
+  color: var(--color-green-500);
+  border: none;
+  border-radius: 9999px;
   font-weight: 700;
-  font-size: 0.86rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
   cursor: pointer;
-  transition: transform 0.18s ease;
+  transition: all 0.2s ease;
 }
 
 .plan-card-btn.primary {
@@ -1783,7 +1846,9 @@
 }
 
 .wallet-page-title {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   color: var(--ink);
@@ -1823,7 +1888,9 @@
 }
 
 .wallet-hero-balance {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 3rem;
 }
@@ -2067,7 +2134,9 @@
   transition:
     border-color 0.2s ease,
     transform 0.2s ease;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 .payout-action-card:hover {
@@ -2129,7 +2198,9 @@
 }
 
 .wallet-balance-strip-value {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
   color: var(--ink);
@@ -2262,7 +2333,9 @@
 .inventory-search input {
   border: none;
   outline: none;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.86rem;
   width: 100%;
   color: var(--ink);
@@ -2272,7 +2345,9 @@
   padding: 10px 14px;
   border: 1.5px solid var(--line);
   border-radius: 9px;
- font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
@@ -2573,7 +2648,9 @@
   border-top: 1.5px solid var(--line);
   font-weight: 800;
   font-size: 1.1rem;
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 /* Order status dropdown reusing status color classes */
@@ -2660,7 +2737,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .modal-card.wide {
@@ -2694,10 +2773,18 @@
   height: 100%;
 }
 
-.social-icon.facebook { color: #1877f2; }
-.social-icon.instagram { color: #e1306c; }
-.social-icon.tiktok { color: #000; }
-.social-icon.telegram { color: #26a5e4; }
+.social-icon.facebook {
+  color: #1877f2;
+}
+.social-icon.instagram {
+  color: #e1306c;
+}
+.social-icon.tiktok {
+  color: #000;
+}
+.social-icon.telegram {
+  color: #26a5e4;
+}
 
 .biz-availability-btn {
   display: flex;
@@ -2716,19 +2803,24 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
+  margin-bottom:4px;
 }
 
 .biz-availability-btn.open {
   background: var(--accent-light);
   color: var(--accent);
 }
-.biz-availability-btn.open .dot { background: var(--accent); }
+.biz-availability-btn.open .dot {
+  background: var(--accent);
+}
 
 .biz-availability-btn.closed {
   background: #fee2e2;
   color: #dc2626;
 }
-.biz-availability-btn.closed .dot { background: #dc2626; }
+.biz-availability-btn.closed .dot {
+  background: #dc2626;
+}
 
 .avail-toggle-btn {
   flex: 1;
