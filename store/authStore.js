@@ -220,7 +220,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   message: null,
 
-  signup: async (data: { role: any; }) => {
+  signup: async (data) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`/auth/signup`, {
@@ -237,7 +237,7 @@ export const useAuthStore = create((set) => ({
         error: null,
       });
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       set({
         error: error.response?.data?.message || error.message,
         isLoading: false,
@@ -246,7 +246,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  login: async (data: { email: any; password: any; pin: any; }) => {
+  login: async (data) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`/auth/login`, {
@@ -264,7 +264,7 @@ export const useAuthStore = create((set) => ({
         isLoading: false,
       });
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       set({
         error: error.response?.data?.message || "Error logging in",
         isLoading: false,
@@ -290,7 +290,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  verifyEmail: async (email: any, code: any) => {
+  verifyEmail: async (email) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`/auth/verify-email`, { email, code });
@@ -303,7 +303,7 @@ export const useAuthStore = create((set) => ({
         isLoading: false,
       });
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       set({
         error: error.response?.data?.message || "Error verifying email",
         isLoading: false,
@@ -312,13 +312,13 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  resendCode: async (email: any) => {
+  resendCode: async (email) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`/auth/resend-code`, { email });
       set({ isLoading: false });
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       set({
         error: error.response?.data?.message || "Error resending code",
         isLoading: false,
@@ -327,26 +327,29 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  forgotPassword: async (email: any) => {
+  forgotPassword: async (email) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`/auth/forgot-password`, { email });
       set({ message: response.data.message, isLoading: false });
-    } catch (error: any) {
+    } catch (error) {
       set({
         isLoading: false,
-        error: error.response?.data?.message || "Error sending reset password email",
+        error:
+          error.response?.data?.message || "Error sending reset password email",
       });
       throw error;
     }
   },
 
-  resetPassword: async (token: any, password: any) => {
+  resetPassword: async (token, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.post(`/auth/reset-password/${token}`, { password });
+      const response = await api.post(`/auth/reset-password/${token}`, {
+        password,
+      });
       set({ message: response.data.message, isLoading: false });
-    } catch (error: any) {
+    } catch (error) {
       set({
         isLoading: false,
         error: error.response?.data?.message || "Error resetting password",
