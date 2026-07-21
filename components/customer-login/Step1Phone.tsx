@@ -56,7 +56,7 @@ export function Step1Phone({ register, formState: { errors }, onSubmit, isLoadin
       </div>
 
       <p className="helper-text">
-        Enter without leading 0 — your country code is already selected. Enter 10 digits for +234.
+        Enter without leading 0 your country code is already selected. Enter 10 digits for +234.
       </p>
 
       <div className="form-buttons">

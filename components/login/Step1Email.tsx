@@ -1,7 +1,7 @@
 'use client'
 
-import { useFormContext } from 'react-hook-form'
 import { CompleteLoginData } from '@/app/auth/login/schema'
+import { useFormContext } from 'react-hook-form'
 
 export function Step1Email() {
   const {
@@ -27,7 +27,7 @@ export function Step1Email() {
       </div>
 
       <p className="helper-text">
-        Enter the email address associated with your VendorHub business account.
+        Enter the email address associated with your VendorVille business account.
       </p>
     </div>
   )

@@ -1062,7 +1062,7 @@ export default async function Home() {
                 <br />
                 Enugu, Nigeria
               </a>
-              <a href="/policy">Privacy Policy</a>
+              <a href="/legal/privacy">Privacy Policy</a>
               <a href="/terms">Terms of Service</a>
             </div>
           </div>

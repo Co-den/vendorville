@@ -27,7 +27,7 @@ export default function CustomerLoginPage() {
           </div>
 
           <h1>Track Your <span className="accent">Orders</span></h1>
-          <p className="brand-tagline">Orders, payments, delivery status — all in one place.</p>
+          <p className="brand-tagline">Orders, payments, delivery status all in one place.</p>
 
           <div className="brand-features">
             <div className="feature">
@@ -69,7 +69,7 @@ export default function CustomerLoginPage() {
             <p>
               Looking for your business account? <Link href="/auth/login">Sign in here</Link>
             </p>
-            <p className="copyright">© 2026 VendorHub Nigeria</p>
+            <p className="copyright">© 2026 VendorVille Nigeria</p>
           </div>
         </div>
       </div>

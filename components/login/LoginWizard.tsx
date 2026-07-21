@@ -184,7 +184,7 @@ export function LoginWizard() {
                 color: "#c7ccd3",
               }}
             >
-              © 2026 usevendorhub.com
+              © 2026 use vendorVille.com
             </div>
           </>
         )}
