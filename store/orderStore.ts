@@ -1,7 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from "./axiosInstance";
 
 export interface OrderItem {
   productId: number | null;
@@ -57,7 +55,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
   fetchOrders: async (businessId) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/businesses/${businessId}/orders`);
+      const response = await api.get(`/businesses/${businessId}/orders`);
       set({ orders: response.data.orders, isLoading: false });
     } catch (error: any) {
       set({
@@ -70,7 +68,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
   createOrder: async (businessId, payload) => {
     set({ isSubmitting: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/businesses/${businessId}/orders`, payload);
+      const response = await api.post(`/businesses/${businessId}/orders`, payload);
       const newOrder: Order = response.data.order;
       set({ orders: [newOrder, ...get().orders], isSubmitting: false });
       return newOrder;
@@ -85,7 +83,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
 
   updateOrderStatus: async (businessId, orderId, status) => {
     try {
-      await axios.patch(`${API_URL}/businesses/${businessId}/orders/${orderId}/status`, { status });
+      await api.patch(`/businesses/${businessId}/orders/${orderId}/status`, { status });
       set({
         orders: get().orders.map((o) =>
           o.id === orderId ? { ...o, status: status as Order["status"] } : o
@@ -99,7 +97,7 @@ export const useOrderStore = create<OrderState>((set, get) => ({
 
   deleteOrder: async (businessId, orderId) => {
     try {
-      await axios.delete(`${API_URL}/businesses/${businessId}/orders/${orderId}`);
+      await api.delete(`/businesses/${businessId}/orders/${orderId}`);
       set({ orders: get().orders.filter((o) => o.id !== orderId) });
     } catch (error: any) {
       set({ error: error.response?.data?.message || "Error deleting order" });

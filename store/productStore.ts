@@ -1,6 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
-
+import api from "./axiosInstance";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface Product {
@@ -68,8 +67,8 @@ export const useProductStore = create<ProductState>((set, get) => ({
   fetchProducts: async (businessId) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(
-        `${API_URL}/businesses/${businessId}/products`,
+      const response = await api.get(
+        `/businesses/${businessId}/products`,
       );
       set({ products: response.data.products, isLoading: false });
     } catch (error: any) {
@@ -84,8 +83,8 @@ export const useProductStore = create<ProductState>((set, get) => ({
     set({ isSubmitting: true, error: null });
     try {
       const formData = buildFormData(data);
-      const response = await axios.post(
-        `${API_URL}/businesses/${businessId}/products`,
+      const response = await api.post(
+        `/businesses/${businessId}/products`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -107,8 +106,8 @@ export const useProductStore = create<ProductState>((set, get) => ({
     set({ isSubmitting: true, error: null });
     try {
       const formData = buildFormData(data);
-      const response = await axios.patch(
-        `${API_URL}/businesses/${businessId}/products/${productId}`,
+      const response = await api.patch(
+        `/businesses/${businessId}/products/${productId}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } },
       );
@@ -129,8 +128,8 @@ export const useProductStore = create<ProductState>((set, get) => ({
 
   deleteProduct: async (businessId, productId) => {
     try {
-      await axios.delete(
-        `${API_URL}/businesses/${businessId}/products/${productId}`,
+      await api.delete(
+        `/businesses/${businessId}/products/${productId}`,
       );
       set({ products: get().products.filter((p) => p.id !== productId) });
     } catch (error: any) {

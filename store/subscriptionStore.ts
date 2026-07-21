@@ -1,5 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
+import api from "./axiosInstance";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -89,7 +89,7 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
   fetchSubscription: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/subscription`);
+      const response = await api.get(`/subscription`);
       const sub = response.data.subscription;
       set({
         plan: sub.plan,
@@ -112,7 +112,7 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
   confirmUpgrade: async (planId, reference) => {
     set({ isProcessing: planId, error: null });
     try {
-      const response = await axios.post(`${API_URL}/subscription/upgrade`, {
+      const response = await api.post(`/subscription/upgrade`, {
         plan: planId,
         reference,
       });

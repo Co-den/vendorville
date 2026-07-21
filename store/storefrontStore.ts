@@ -1,7 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from "./axiosInstance";
 
 export interface StorefrontProduct {
   id: number;
@@ -61,7 +59,7 @@ export const useStorefrontStore = create<StorefrontState>((set) => ({
   fetchStorefront: async (slug) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/store/${slug}`);
+      const response = await api.get(`/store/${slug}`);
       set({
         business: response.data.business,
         products: response.data.products,
@@ -78,8 +76,8 @@ export const useStorefrontStore = create<StorefrontState>((set) => ({
   createOrder: async (slug, payload) => {
     set({ isSubmitting: true, error: null });
     try {
-      const response = await axios.post(
-        `${API_URL}/store/${slug}/orders`,
+      const response = await api.post(
+        `store/${slug}/orders`,
         payload,
         { withCredentials: true },
       );
@@ -95,6 +93,6 @@ export const useStorefrontStore = create<StorefrontState>((set) => ({
   },
 
   verifyPayment: async (slug, reference) => {
-    await axios.post(`${API_URL}/store/${slug}/verify-payment`, { reference });
+    await api.post(`/store/${slug}/verify-payment`, { reference });
   },
 }));

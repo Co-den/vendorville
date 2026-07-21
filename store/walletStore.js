@@ -1,7 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from "./axiosInstance";
 
 export const useWalletStore = create((set, get) => ({
   balance: 0,
@@ -16,7 +14,7 @@ export const useWalletStore = create((set, get) => ({
   fetchWallet: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/wallet`);
+      const response = await api.get(`/wallet`);
       set({
         balance: response.data.balance,
         accountNumber: response.data.accountNumber,
@@ -34,7 +32,7 @@ export const useWalletStore = create((set, get) => ({
 
   fetchTransactions: async () => {
     try {
-      const response = await axios.get(`${API_URL}/wallet/transactions`);
+      const response = await api.get(`/wallet/transactions`);
       set({ transactions: response.data.transactions });
     } catch (error) {
       set({
@@ -46,7 +44,7 @@ export const useWalletStore = create((set, get) => ({
   regenerateAccount: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/wallet/generate-account`);
+      const response = await api.post(`/wallet/generate-account`);
       set({
         accountNumber: response.data.accountNumber,
         bankName: response.data.bankName,
@@ -64,7 +62,7 @@ export const useWalletStore = create((set, get) => ({
 
   fetchBankAccounts: async () => {
     try {
-      const response = await axios.get(`${API_URL}/wallet/bank-accounts`);
+      const response = await api.get(`/wallet/bank-accounts`);
       set({ bankAccounts: response.data.bankAccounts });
     } catch (error) {
       set({
@@ -75,7 +73,7 @@ export const useWalletStore = create((set, get) => ({
 
   addBankAccount: async (bankCode, accountNumber) => {
     try {
-      const response = await axios.post(`${API_URL}/wallet/bank-accounts`, {
+      const response = await api.post(`/wallet/bank-accounts`, {
         bankCode,
         accountNumber,
       });
@@ -91,7 +89,7 @@ export const useWalletStore = create((set, get) => ({
 
   removeBankAccount: async (accountId) => {
     try {
-      await axios.delete(`${API_URL}/wallet/bank-accounts/${accountId}`);
+      await api.delete(`/wallet/bank-accounts/${accountId}`);
       set({
         bankAccounts: get().bankAccounts.filter((a) => a.id !== accountId),
       });
@@ -105,7 +103,7 @@ export const useWalletStore = create((set, get) => ({
 
   withdraw: async (amount, bankAccountId) => {
     try {
-      const response = await axios.post(`${API_URL}/wallet/withdraw`, {
+      const response = await api.post(`/wallet/withdraw`, {
         amount,
         bankAccountId,
       });
@@ -121,7 +119,7 @@ export const useWalletStore = create((set, get) => ({
 
   transfer: async (recipientEmail, amount) => {
     try {
-      const response = await axios.post(`${API_URL}/wallet/transfer`, {
+      const response = await api.post(`/wallet/transfer`, {
         recipientEmail,
         amount,
       });

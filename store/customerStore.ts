@@ -1,7 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from "./axiosInstance";
 
 export interface Customer {
   name: string;
@@ -36,8 +34,8 @@ export const useCustomerStore = create<CustomerState>((set, get) => ({
   fetchCustomers: async (businessId) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(
-        `${API_URL}/businesses/${businessId}/customers`,
+      const response = await api.get(
+        `/businesses/${businessId}/customers`,
       );
       set({ customers: response.data.customers, isLoading: false });
     } catch (error: any) {
@@ -50,7 +48,7 @@ export const useCustomerStore = create<CustomerState>((set, get) => ({
 
   saveNote: async (businessId, phone, name, notes) => {
     try {
-      await axios.post(`${API_URL}/businesses/${businessId}/customers/notes`, {
+      await api.post(`/businesses/${businessId}/customers/notes`, {
         phone,
         name,
         notes,

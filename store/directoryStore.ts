@@ -1,7 +1,5 @@
-import axios from "axios";
 import { create } from "zustand";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import api from "./axiosInstance";
 
 export interface DirectoryVendor {
   id: number;
@@ -30,7 +28,7 @@ export const useDirectoryStore = create<DirectoryState>((set) => ({
   fetchDirectory: async (search, category) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/store/directory`, {
+      const response = await api.get(`/store/directory`, {
         params: { search, category },
       });
       set({ vendors: response.data.businesses, isLoading: false });
