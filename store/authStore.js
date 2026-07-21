@@ -290,7 +290,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  verifyEmail: async (email) => {
+  verifyEmail: async (email, code) => {
     set({ isLoading: true, error: null });
     try {
       const response = await api.post(`/auth/verify-email`, { email, code });
