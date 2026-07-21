@@ -3,8 +3,18 @@ import { create } from "zustand";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+//in the future when using custom domain
+//turn it back on and delete the implementation below
+//axios.defaults.withCredentials = true;
 
-axios.defaults.withCredentials = true;
+axios.interceptors.request.use((config) => {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -40,8 +50,8 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  //
-  login: async (data) => {
+  //also turn this back on in the future.
+  /*login: async (data) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/auth/login`, {
@@ -63,8 +73,29 @@ export const useAuthStore = create((set) => ({
       });
       throw error;
     }
+  },*/
+  login: async (data) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, data);
+      localStorage.setItem("token", response.data.token);
+      set({
+        isAuthenticated: true,
+        user: response.data.user,
+        error: null,
+        isLoading: false,
+      });
+      return response.data;
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error logging in",
+        isLoading: false,
+      });
+      throw error;
+    }
   },
-
+  // turn this back on in the future
+  /*
   logout: async () => {
     set({ isLoading: true, error: null });
     try {
@@ -79,7 +110,13 @@ export const useAuthStore = create((set) => ({
       set({ error: "Error logging out", isLoading: false });
       throw error;
     }
+  },*/
+
+  logout: async () => {
+    localStorage.removeItem("token");
+    set({ user: null, isAuthenticated: false });
   },
+
   verifyEmail: async (email, code) => {
     set({ isLoading: true, error: null });
     try {
