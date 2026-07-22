@@ -3,11 +3,11 @@
 import { CompleteFormData } from '@/app/auth/signup/schema'
 import { useEffect, useRef } from 'react'
 import {
-    Control,
-    Controller,
-    FieldErrors,
-    UseFormRegister,
-    UseFormWatch,
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+  UseFormWatch,
 } from 'react-hook-form'
 
 interface Step4SecurityProps {
@@ -171,11 +171,11 @@ export function Step4Security({
 
         <label htmlFor="agreeTerms" className="checkbox-label">
           I agree to the{' '}
-          <a href="#terms" className="terms-link">
+          <a href="/legal/terms" className="terms-link">
             Terms of Service
           </a>{' '}
           and{' '}
-          <a href="#privacy" className="terms-link">
+          <a href="/legal/privacy" className="terms-link">
             Privacy Policy
           </a>
         </label>
