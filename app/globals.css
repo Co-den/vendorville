@@ -13,6 +13,7 @@
   --ink: #14201a;
   --gray: #667085;
   --line: #e7eaee;
+  
 }
 
 @layer utilities {
@@ -416,7 +417,7 @@ header.hero {
   min-height: max(680px, calc(100vh - 76px));
   display: flex;
   align-items: center;
-  background: var(--green-900);
+  background: var(--color-blue-600);
 }
 
 .hero-bg {
@@ -1564,12 +1565,12 @@ table.compare td {
 
 table.compare tr.group-row td {
    background-color: rgba(248, 250, 252, 0.5);
-  padding: 1rem;                      /* p-4 */
-  font-size: 11px;                    /* text-[11px] */
-  font-weight: 700;                   /* font-bold */
-  text-transform: uppercase;          /* uppercase */
-  letter-spacing: 0.05em;             /* tracking-wider */
-  border-bottom: 1px solid #e2e8f0;   /* border-b border-[#e2e8f0] */
+  padding: 1rem;                     
+  font-size: 11px;                   
+  font-weight: 700;                   
+  text-transform: uppercase;          
+  letter-spacing: 0.05em;            
+  border-bottom: 1px solid #e2e8f0;   
   color: #0f172a;         
 }
 

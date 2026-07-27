@@ -1,60 +1,67 @@
 "use client";
 
-import { useState } from 'react'
-
-const mockReviews = [
-  {
-    id: 1,
-    customer: "Chidinma O.",
-    rating: 5,
-    comment:
-      "Fast delivery and the fabric quality was exactly as pictured. Will order again!",
-    date: "2 days ago",
-    reply: null,
-  },
-  {
-    id: 2,
-    customer: "Emeka O.",
-    rating: 4,
-    comment: "Good service overall, packaging could be better.",
-    date: "5 days ago",
-    reply: "Thank you for the feedback — we've improved our packaging since!",
-  },
-  {
-    id: 3,
-    customer: "Aisha B.",
-    rating: 5,
-    comment: "Best vendor on the platform. Always responsive on WhatsApp.",
-    date: "1 week ago",
-    reply: null,
-  },
-];
+import { useBusinessStore } from "@/store/businessStore";
+import { useReviewStore } from "@/store/reviewStore";
+import { useEffect, useState } from "react";
 
 export default function ReviewsPage() {
-  const [reviews, setReviews] = useState(mockReviews);
+  const { businesses, fetchBusinesses } = useBusinessStore();
+  const { reviews, stats, isLoading, fetchVendorReviews, replyToReview } =
+    useReviewStore();
+
+  const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null);
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [replyText, setReplyText] = useState("");
 
-  const avgRating =
-    reviews.length > 0
-      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-      : 0;
-  const ratingCounts = [5, 4, 3, 2, 1].map(
-    (star) => reviews.filter((r) => r.rating === star).length,
-  );
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
 
-  const openReply = (id: number) => {
-    setReplyingTo(id);
+  useEffect(() => {
+    if (businesses.length > 0 && activeBusinessId === null) {
+      setActiveBusinessId(businesses[0].id);
+    }
+  }, [businesses, activeBusinessId]);
+
+  useEffect(() => {
+    if (activeBusinessId !== null) {
+      fetchVendorReviews(activeBusinessId);
+    }
+  }, [activeBusinessId]);
+
+  const openReply = (reviewId: number) => {
+    setReplyingTo(reviewId);
     setReplyText("");
   };
 
-  const submitReply = (id: number) => {
-    setReviews((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, reply: replyText } : r)),
-    );
+  const submitReply = async (reviewId: number) => {
+    if (activeBusinessId === null) return;
+    await replyToReview(activeBusinessId, reviewId, replyText);
     setReplyingTo(null);
-    setReplyText("");
   };
+
+  if (businesses.length === 0) {
+    return (
+      <>
+        <div className="dash-welcome">
+          <div className="dash-welcome-eyebrow">
+            <span className="dot"></span>Reviews
+          </div>
+          <h1>
+            What customers are <span>saying</span>.
+          </h1>
+        </div>
+        <div
+          className="panel"
+          style={{ textAlign: "center", padding: "48px 24px" }}
+        >
+          <p style={{ fontSize: "0.9rem", color: "var(--gray)" }}>
+            Register a business to start collecting reviews.
+          </p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -65,8 +72,27 @@ export default function ReviewsPage() {
         <h1>
           What customers are <span>saying</span>.
         </h1>
-        <p>Customer feedback appears here once your storefront goes live.</p>
+        <p>Reviews are submitted by customers after a verified order.</p>
       </div>
+
+      {businesses.length > 1 && (
+        <div
+          className="field-group"
+          style={{ maxWidth: 320, marginBottom: 20 }}
+        >
+          <label className="field-label">Business</label>
+          <select
+            value={activeBusinessId ?? ""}
+            onChange={(e) => setActiveBusinessId(Number(e.target.value))}
+          >
+            {businesses.map((b: any) => (
+              <option key={b.id} value={b.id}>
+                {b.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <div className="dash-grid" style={{ marginBottom: 20 }}>
         <div className="panel" style={{ textAlign: "center" }}>
@@ -78,16 +104,16 @@ export default function ReviewsPage() {
               color: "var(--ink)",
             }}
           >
-            {avgRating.toFixed(1)}
+            {stats.avgRating.toFixed(1)}
           </div>
           <div
             style={{ color: "#f0a23a", fontSize: "1.2rem", marginBottom: 6 }}
           >
-            {"★".repeat(Math.round(avgRating))}
-            {"☆".repeat(5 - Math.round(avgRating))}
+            {"★".repeat(Math.round(stats.avgRating))}
+            {"☆".repeat(5 - Math.round(stats.avgRating))}
           </div>
           <div style={{ fontSize: "0.82rem", color: "var(--gray)" }}>
-            {reviews.length} reviews
+            {stats.total} reviews
           </div>
         </div>
 
@@ -119,7 +145,7 @@ export default function ReviewsPage() {
                 <div
                   style={{
                     height: "100%",
-                    width: `${reviews.length ? (ratingCounts[i] / reviews.length) * 100 : 0}%`,
+                    width: `${stats.total ? (stats.breakdown[i] / stats.total) * 100 : 0}%`,
                     background: "var(--accent)",
                   }}
                 />
@@ -127,7 +153,7 @@ export default function ReviewsPage() {
               <span
                 style={{ fontSize: "0.78rem", color: "var(--gray)", width: 20 }}
               >
-                {ratingCounts[i]}
+                {stats.breakdown[i]}
               </span>
             </div>
           ))}
@@ -138,108 +164,142 @@ export default function ReviewsPage() {
         <div className="panel-head">
           <h2>Recent Reviews</h2>
         </div>
-        {reviews.map((review) => (
-          <div
-            key={review.id}
-            style={{ padding: "16px 0", borderBottom: "1px solid var(--line)" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                marginBottom: 6,
-              }}
-            >
-              <div>
-                <div
-                  style={{
-                    fontWeight: 700,
-                    fontSize: "0.9rem",
-                    color: "var(--ink)",
-                  }}
-                >
-                  {review.customer}
-                </div>
-                <div style={{ color: "#f0a23a", fontSize: "0.9rem" }}>
-                  {"★".repeat(review.rating)}
-                  {"☆".repeat(5 - review.rating)}
-                </div>
-              </div>
-              <span style={{ fontSize: "0.76rem", color: "var(--gray)" }}>
-                {review.date}
-              </span>
-            </div>
-            <p
-              style={{
-                fontSize: "0.86rem",
-                color: "var(--ink)",
-                marginBottom: 8,
-              }}
-            >
-              {review.comment}
-            </p>
 
-            {review.reply ? (
+        {isLoading ? (
+          <p
+            style={{
+              textAlign: "center",
+              padding: "32px 0",
+              color: "var(--gray)",
+            }}
+          >
+            Loading...
+          </p>
+        ) : reviews.length === 0 ? (
+          <p
+            style={{
+              textAlign: "center",
+              padding: "32px 0",
+              color: "var(--gray)",
+              fontSize: "0.86rem",
+            }}
+          >
+            No reviews yet.
+          </p>
+        ) : (
+          reviews.map((review) => (
+            <div
+              key={review.id}
+              style={{
+                padding: "16px 0",
+                borderBottom: "1px solid var(--line)",
+              }}
+            >
               <div
                 style={{
-                  background: "var(--offwhite)",
-                  borderRadius: 8,
-                  padding: "10px 14px",
-                  fontSize: "0.82rem",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  marginBottom: 6,
                 }}
               >
-                <strong style={{ color: "var(--accent)" }}>Your reply: </strong>
-                <span style={{ color: "var(--ink)" }}>{review.reply}</span>
+                <div>
+                  <div
+                    style={{
+                      fontWeight: 700,
+                      fontSize: "0.9rem",
+                      color: "var(--ink)",
+                    }}
+                  >
+                    {review.customerName}
+                  </div>
+                  <div style={{ color: "#f0a23a", fontSize: "0.9rem" }}>
+                    {"★".repeat(review.rating)}
+                    {"☆".repeat(5 - review.rating)}
+                  </div>
+                </div>
+                <span style={{ fontSize: "0.76rem", color: "var(--gray)" }}>
+                  {new Date(review.createdAt).toLocaleDateString("en-NG", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
               </div>
-            ) : replyingTo === review.id ? (
-              <div>
-                <textarea
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="Write a reply..."
+              {review.comment && (
+                <p
                   style={{
-                    width: "100%",
-                    minHeight: 70,
-                    padding: 10,
-                    borderRadius: 8,
-                    border: "1.5px solid var(--line)",
-                    fontFamily: "inherit",
-                    fontSize: "0.84rem",
+                    fontSize: "0.86rem",
+                    color: "var(--ink)",
                     marginBottom: 8,
                   }}
-                />
-                <div style={{ display: "flex", gap: 8 }}>
-                  <button
-                    className="btn-secondary-modal"
-                    onClick={() => setReplyingTo(null)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="btn-primary-modal"
-                    onClick={() => submitReply(review.id)}
-                    disabled={!replyText.trim()}
-                  >
-                    Post Reply
-                  </button>
+                >
+                  {review.comment}
+                </p>
+              )}
+
+              {review.vendorReply ? (
+                <div
+                  style={{
+                    background: "var(--offwhite)",
+                    borderRadius: 8,
+                    padding: "10px 14px",
+                    fontSize: "0.82rem",
+                  }}
+                >
+                  <strong style={{ color: "var(--accent)" }}>
+                    Your reply:{" "}
+                  </strong>
+                  {review.vendorReply}
                 </div>
-              </div>
-            ) : (
-              <button
-                className="panel-link"
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-                onClick={() => openReply(review.id)}
-              >
-                Reply to this review
-              </button>
-            )}
-          </div>
-        ))}
+              ) : replyingTo === review.id ? (
+                <div>
+                  <textarea
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    placeholder="Write a reply..."
+                    style={{
+                      width: "100%",
+                      minHeight: 70,
+                      padding: 10,
+                      borderRadius: 8,
+                      border: "1.5px solid var(--line)",
+                      fontFamily: "inherit",
+                      fontSize: "0.84rem",
+                      marginBottom: 8,
+                    }}
+                  />
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      className="btn-secondary-modal"
+                      onClick={() => setReplyingTo(null)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="btn-primary-modal"
+                      onClick={() => submitReply(review.id)}
+                      disabled={!replyText.trim()}
+                    >
+                      Post Reply
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className="panel-link"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => openReply(review.id)}
+                >
+                  Reply to this review
+                </button>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </>
   );
