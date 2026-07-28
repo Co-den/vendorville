@@ -2,15 +2,13 @@
 
 import { useCustomerAuthStore } from "@/store/customerAuthStore";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import "../customer-auth.css";
 
 export default function CustomerLoginPage() {
   const { login, isLoading, error } = useCustomerAuthStore();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectSlug = searchParams.get("redirect");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +17,7 @@ export default function CustomerLoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      router.push(redirectSlug ? `/store/${redirectSlug}` : "/customer/orders");
+      router.push( "/customer/orders");
     } catch {}
   };
 
@@ -57,7 +55,7 @@ export default function CustomerLoginPage() {
         <p className="ca-switch">
           New here?{" "}
           <Link
-            href={`/auth/customer/signup${redirectSlug ? `?redirect=${redirectSlug}` : ""}`}
+            href={`/customer/signup`}
           >
             Create an account
           </Link>
