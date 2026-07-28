@@ -227,7 +227,7 @@ export default function BlogDetailPage() {
               <div className="cta-icon">📚</div>
               <h4>Share Your Story</h4>
               <p>Have a vendor success story? Write a guest post and inspire other Nigerian entrepreneurs.</p>
-              <button className="cta-btn">Contribute a Post</button>
+              <Link className="cta-btn" href="share-story">Contribute a Post</Link>
             </div>
           </aside>
         </div>

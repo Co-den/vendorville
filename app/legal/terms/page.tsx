@@ -78,8 +78,8 @@ export default function TermsOfServicePage() {
 
           <h2>4. Payments, Wallet, and Withdrawals</h2>
           <p>
-            Payments made through VendorVille — including customer orders and
-            wallet deposits — are processed by Paystack, a licensed third-party
+            Payments made through VendorVille including customer orders and
+            wallet deposits are processed by Paystack, a licensed third-party
             payment processor. VendorVille is not a bank or licensed financial
             institution; wallet balances represent funds held on your behalf for
             withdrawal to your linked bank account.

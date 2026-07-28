@@ -648,9 +648,11 @@
 }
 
 .modal-card {
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
   background: #fff;
-  border-radius: 16px;
-  padding: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 420px;
 }

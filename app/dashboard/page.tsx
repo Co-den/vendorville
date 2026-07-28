@@ -43,7 +43,7 @@ export default function DashboardOverview() {
   const { orders, fetchOrders } = useOrderStore()
 
   const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null)
-  const firstName = user?.firstName || 'Vendor'
+  
 
   useEffect(() => {
     fetchBusinesses()
@@ -92,7 +92,7 @@ export default function DashboardOverview() {
           Vendor Dashboard
         </div>
         <h1>
-          Welcome back, <span>{firstName}</span>.
+          Welcome back, <span>{user?.firstName}</span>.
         </h1>
         <p>Here's what's happening with your business today.</p>
       </div>

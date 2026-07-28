@@ -25,7 +25,7 @@ export default function PrivacyPolicyPage() {
             "our") operates a platform that helps Nigerian online vendors manage
             inventory, orders, payments, and storefronts. This Privacy Policy
             explains what information we collect, how we use it, and the choices
-            you have — whether you're a vendor using our dashboard or a customer
+            you have whether you're a vendor using our dashboard or a customer
             ordering from a vendor's storefront.
           </p>
 
@@ -40,8 +40,8 @@ export default function PrivacyPolicyPage() {
 
           <h3>1.2 Customer Orders</h3>
           <p>
-            When you place an order through a vendor's storefront — with or
-            without creating a customer account — we collect your name, phone
+            When you place an order through a vendor's storefront with or
+            without creating a customer account we collect your name, phone
             number, delivery address, and optionally your email. This
             information is shared with the vendor you're ordering from so they
             can fulfill your order.
@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
           <p>
             Payments are processed by Paystack, a licensed payment processor.
             VendorVille does not store your card details, bank account numbers,
-            or other sensitive payment credentials — these are handled directly
+            or other sensitive payment credentials these are handled directly
             by Paystack under their own security standards and privacy
             practices.
           </p>
@@ -91,22 +91,22 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul>
             <li>
-              <strong>Paystack</strong> — payment processing, bank transfers,
+              <strong>Paystack</strong> : payment processing, bank transfers,
               and wallet transactions
             </li>
             <li>
-              <strong>Cloudinary</strong> — secure storage and delivery of
+              <strong>Cloudinary</strong>: secure storage and delivery of
               uploaded images (logos, product photos, premises photos)
             </li>
             <li>
-              <strong>Neon</strong> — our database infrastructure provider
+              <strong>Neon</strong>:  our database infrastructure provider
             </li>
             <li>
-              <strong>Termii</strong> — SMS and WhatsApp delivery for order and
+              <strong>Termii</strong>:  SMS and WhatsApp delivery for order and
               account notifications
             </li>
             <li>
-              <strong>Resend</strong> — transactional email delivery
+              <strong>Resend</strong>: transactional email delivery
             </li>
           </ul>
           <p>

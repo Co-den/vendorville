@@ -173,7 +173,7 @@ export function LoginWizard() {
                 Create Account
               </Link>
             </div>
-            <Link href="/auth/customer-login" className="secondary-btn">
+            <Link href="/customer/login" className="secondary-btn">
               Login as Customer
             </Link>
             <div

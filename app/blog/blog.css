@@ -304,9 +304,10 @@ body {
 }
 
 .featured-card {
-  background: var(--paper);
-  border: 1.5px solid var(--line);
-  border-radius: 16px;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   display: grid;
   grid-template-columns: 400px 1fr;
@@ -499,9 +500,11 @@ body {
 }
 
 .blog-post-card {
-  background: var(--paper);
-  border: 1.5px solid var(--line);
-  border-radius: 12px;
+ 
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   display: grid;
   grid-template-columns: 220px 1fr;
@@ -650,10 +653,11 @@ body {
 }
 
 .sidebar-card {
-  background: var(--paper);
-  border: 1.5px solid var(--line);
-  border-radius: 12px;
-  padding: 24px;
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   opacity: 0;
   animation: popIn 0.5s ease forwards;
   transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s ease;

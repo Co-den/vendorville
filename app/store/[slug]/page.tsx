@@ -345,6 +345,7 @@ export default function StorefrontPage() {
               </div>
             </div>
           </div>
+
           <button
             className="storefront-cart-btn"
             onClick={() => setShowCheckout(true)}
@@ -365,6 +366,13 @@ export default function StorefrontPage() {
             Cart ({cart.reduce((s, i) => s + i.quantity, 0)}) · ₦
             {cartTotal.toLocaleString()}
           </button>
+          <Link
+            href={`/customer/login?redirect=${slug}`}
+            className="storefront-cart-btn"
+            style={{ marginRight: 8 }}
+          >
+            My Account
+          </Link>
         </div>
 
         <div className="sf-tabs">
