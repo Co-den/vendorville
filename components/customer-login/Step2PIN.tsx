@@ -1,6 +1,6 @@
 "use client";
 
-import type { CompleteCustomerLoginData } from "@/app/auth/customer/schema";
+import type { CompleteCustomerLoginData } from "@/app/customer/schema";
 import { useEffect, useRef, useState } from "react";
 import { FormState, UseFormRegister, UseFormSetValue } from "react-hook-form";
 

@@ -1,6 +1,6 @@
 'use client'
 
-import type { CompleteCustomerLoginData } from '@/app/auth/customer/schema';
+import type { CompleteCustomerLoginData } from '@/app/customer/schema';
 import { FormState, UseFormRegister } from 'react-hook-form';
 
 interface Step1PhoneProps {
