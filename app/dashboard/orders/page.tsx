@@ -1,5 +1,6 @@
 "use client";
 
+import api from "@/store/axiosInstance";
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore, type Order } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
@@ -41,6 +42,33 @@ export default function OrdersPage() {
   const [checkoutError, setCheckoutError] = useState("");
   const [showSuccess, setShowSuccess] = useState<Order | null>(null);
 
+  const [aiInput, setAiInput] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
+
+  const handleAiParse = async () => {
+    if (!activeBusinessId || !aiInput.trim()) return;
+    setAiLoading(true);
+    setAiError("");
+    try {
+      const res = await api.post(`/businesses/${activeBusinessId}/ai-order`, {
+        text: aiInput,
+      });
+      const newCartItems = res.data.items.map((item: any) => ({
+        productId: item.productId,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        stock: item.stock,
+      }));
+      setCart(newCartItems);
+      setAiInput("");
+    } catch (err: any) {
+      setAiError(err.response?.data?.message || "Could not parse that order");
+    } finally {
+      setAiLoading(false);
+    }
+  };
   useEffect(() => {
     fetchBusinesses();
   }, []);
@@ -236,7 +264,38 @@ export default function OrdersPage() {
               onChange={(e) => setProductSearch(e.target.value)}
             />
           </div>
-
+          <div className="panel" style={{ marginBottom: 16 }}>
+            <label className="field-label">
+              AI Order Entry{" "}
+              <span style={{ color: "var(--accent)" }}>✦ Enterprise</span>
+            </label>
+            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+              <input
+                type="text"
+                value={aiInput}
+                onChange={(e) => setAiInput(e.target.value)}
+                placeholder="e.g. 2 bags of rice and 1 groundnut oil"
+                style={{
+                  flex: 1,
+                  padding: "11px 14px",
+                  borderRadius: 9,
+                  border: "1.5px solid var(--line)",
+                }}
+              />
+              <button
+                className="btn-create"
+                onClick={handleAiParse}
+                disabled={aiLoading}
+              >
+                {aiLoading ? "Thinking..." : "Build Order"}
+              </button>
+            </div>
+            {aiError && (
+              <div className="error-message" style={{ marginTop: 10 }}>
+                {aiError}
+              </div>
+            )}
+          </div>
           <div className="pos-product-grid">
             {filteredProducts.map((product) => (
               <button
