@@ -1,9 +1,56 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { useState } from "react";
+import api from "@/store/axiosInstance";
+import { useBusinessStore } from "@/store/businessStore";
+import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
+  const { businesses } = useBusinessStore();
+  const [staff, setStaff] = useState<any[]>([]);
+  const [showInvite, setShowInvite] = useState(false);
+  const [staffName, setStaffName] = useState("");
+  const [staffEmail, setStaffEmail] = useState("");
+  const [staffRole, setStaffRole] = useState("staff");
+  const [staffPassword, setStaffPassword] = useState("");
+  const [staffError, setStaffError] = useState("");
+  const activeBusinessId = businesses[0]?.id;
+
+  useEffect(() => {
+    if (activeBusinessId) {
+      api
+        .get(`/businesses/${activeBusinessId}/staff`)
+        .then((res) => setStaff(res.data.staff));
+    }
+  }, [activeBusinessId]);
+
+  const inviteStaff = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStaffError("");
+    try {
+      const res = await api.post(`/businesses/${activeBusinessId}/staff`, {
+        name: staffName,
+        email: staffEmail,
+        role: staffRole,
+        tempPassword: staffPassword,
+      });
+      setStaff((prev) => [...prev, res.data.staff]);
+      setShowInvite(false);
+      setStaffName("");
+      setStaffEmail("");
+      setStaffPassword("");
+    } catch (err: any) {
+      setStaffError(
+        err.response?.data?.message || "Could not add staff member",
+      );
+    }
+  };
+
+  const removeStaffMember = async (staffId: number) => {
+    await api.delete(`/businesses/${activeBusinessId}/staff/${staffId}`);
+    setStaff((prev) => prev.filter((s) => s.id !== staffId));
+  };
+
   const { user } = useAuthStore();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -128,6 +175,108 @@ export default function SettingsPage() {
           </button>
         </form>
       </div>
+      <div className="panel" style={{ marginTop: 20 }}>
+        <div className="panel-head">
+          <h2>Team Members</h2>
+          <button className="biz-add-btn" onClick={() => setShowInvite(true)}>
+            Add Staff
+          </button>
+        </div>
+        {staff.length === 0 ? (
+          <p
+            style={{
+              fontSize: "0.86rem",
+              color: "var(--gray)",
+              textAlign: "center",
+              padding: "24px 0",
+            }}
+          >
+            No team members yet.
+          </p>
+        ) : (
+          staff.map((s) => (
+            <div className="stock-row" key={s.id}>
+              <div>
+                <div className="stock-name">
+                  {s.name}{" "}
+                  <span style={{ fontWeight: 400, color: "var(--gray)" }}>
+                    ({s.role})
+                  </span>
+                </div>
+                <div className="stock-sub">{s.email}</div>
+              </div>
+              <button
+                className="icon-btn-small warn"
+                onClick={() => removeStaffMember(s.id)}
+              >
+                Remove
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      {showInvite && (
+        <div className="modal-overlay" onClick={() => setShowInvite(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3>Add Team Member</h3>
+            <form onSubmit={inviteStaff}>
+              <div className="modal-field">
+                <label>Name</label>
+                <input
+                  required
+                  value={staffName}
+                  onChange={(e) => setStaffName(e.target.value)}
+                />
+              </div>
+              <div className="modal-field">
+                <label>Email</label>
+                <input
+                  type="email"
+                  required
+                  value={staffEmail}
+                  onChange={(e) => setStaffEmail(e.target.value)}
+                />
+              </div>
+              <div className="modal-field">
+                <label>Role</label>
+                <select
+                  value={staffRole}
+                  onChange={(e) => setStaffRole(e.target.value)}
+                >
+                  <option value="staff">Staff (Orders & Inventory)</option>
+                  <option value="manager">
+                    Manager (+ Customers & Analytics)
+                  </option>
+                </select>
+              </div>
+              <div className="modal-field">
+                <label>Temporary Password</label>
+                <input
+                  type="password"
+                  required
+                  minLength={8}
+                  value={staffPassword}
+                  onChange={(e) => setStaffPassword(e.target.value)}
+                />
+              </div>
+              {staffError && <div className="error-message">{staffError}</div>}
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary-modal"
+                  onClick={() => setShowInvite(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary-modal">
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
