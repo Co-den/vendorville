@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import { useStaffAuthStore } from "@/store/staffAuthStore";
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -190,6 +191,28 @@ export default function DashboardLayout({
 }) {
   const { user, isAuthenticated, isCheckingAuth, checkAuth, logout } =
     useAuthStore();
+
+  const { staff, logout: staffLogout } = useStaffAuthStore();
+  const isStaffSession =
+    typeof window !== "undefined" && !!localStorage.getItem("staff_token");
+  const staffNavItems = [
+    { href: "/dashboard", label: "Overview", icon: "grid" },
+    { href: "/dashboard/inventory", label: "Inventory", icon: "box" },
+    { href: "/dashboard/orders", label: "Orders", icon: "receipt" },
+  ];
+
+  const managerNavItems = [
+    ...staffNavItems,
+    { href: "/dashboard/customers", label: "Customers", icon: "users" },
+    { href: "/dashboard/analytics", label: "Analytics", icon: "trend" },
+  ];
+
+  const effectiveNavItems = isStaffSession
+    ? staff?.role === "manager"
+      ? managerNavItems
+      : staffNavItems
+    : navItems;
+
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -209,8 +232,12 @@ export default function DashboardLayout({
   }, [pathname]);
 
   const handleLogout = async () => {
-    await logout();
-    router.push("/auth/login");
+    if (isStaffSession) {
+      staffLogout();
+    } else {
+      await logout();
+    }
+    router.push(isStaffSession ? "/staff/login" : "/auth/login");
   };
 
   if (isCheckingAuth || !isAuthenticated) {
@@ -242,7 +269,7 @@ export default function DashboardLayout({
           <span>VendorVille</span>
         </Link>
         <nav className="dash-nav">
-          {navItems.map((item) => (
+          {effectiveNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -253,19 +280,24 @@ export default function DashboardLayout({
               {item.label}
             </Link>
           ))}
-          <div className="dash-nav-section-label">Finance</div>
 
-          {financeItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              <NavIcon name={item.icon} />
-              {item.label}
-            </Link>
-          ))}
+          {!isStaffSession && (
+            <>
+              <div className="dash-nav-section-label">Finance</div>
+
+              {financeItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  <NavIcon name={item.icon} />
+                  {item.label}
+                </Link>
+              ))}
+            </>
+          )}
         </nav>
         <div className="dash-sidebar-footer">
           <button className="dash-logout-btn" onClick={handleLogout}>

@@ -376,4 +376,28 @@ export const useAuthStore = create((set) => ({
       });
     }
   },
+  updatePassword: async (currentPassword, newPassword) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await api.patch("/auth/change-password", {
+        currentPassword,
+        newPassword,
+      });
+
+      set({
+        isLoading: false,
+        message: response.data.message,
+      });
+
+      return response.data;
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Failed to update password",
+      });
+
+      throw error;
+    }
+  },
 }));

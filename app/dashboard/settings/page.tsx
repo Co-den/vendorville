@@ -24,6 +24,11 @@ export default function SettingsPage() {
     }
   }, [activeBusinessId]);
 
+  const [inviteSuccess, setInviteSuccess] = useState<{
+    email: string;
+    tempPassword: string;
+  } | null>(null);
+
   const inviteStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     setStaffError("");
@@ -35,6 +40,7 @@ export default function SettingsPage() {
         tempPassword: staffPassword,
       });
       setStaff((prev) => [...prev, res.data.staff]);
+      setInviteSuccess({ email: staffEmail, tempPassword: staffPassword });
       setShowInvite(false);
       setStaffName("");
       setStaffEmail("");
@@ -51,16 +57,16 @@ export default function SettingsPage() {
     setStaff((prev) => prev.filter((s) => s.id !== staffId));
   };
 
-  const { user } = useAuthStore();
+  const { user, updatePassword, isLoading} = useAuthStore();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
-  const [isSaving, setIsSaving] = useState(false);
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setPasswordError("");
     setPasswordSuccess("");
 
@@ -68,19 +74,25 @@ export default function SettingsPage() {
       setPasswordError("New passwords do not match.");
       return;
     }
+
     if (newPassword.length < 8) {
       setPasswordError("New password must be at least 8 characters.");
       return;
     }
 
-    setIsSaving(true);
-    // TODO: wire to a real POST /api/auth/change-password endpoint once built —
-    // this form is UI-complete but not yet connected to the backend.
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setIsSaving(false);
-    setPasswordSuccess(
-      "This feature is coming soon — password changes aren't wired up yet.",
-    );
+    try {
+      const response = await updatePassword(currentPassword, newPassword);
+
+      setPasswordSuccess(response.message);
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err: any) {
+      setPasswordError(
+        err.response?.data?.message || "Could not update password.",
+      );
+    }
   };
 
   return (
@@ -170,8 +182,8 @@ export default function SettingsPage() {
             </div>
           )}
 
-          <button type="submit" className="btn-create" disabled={isSaving}>
-            {isSaving ? "Saving..." : "Update Password"}
+          <button type="submit" className="btn-create" disabled={isLoading}>
+            {isLoading ? "Updating..." : "Update Password"}
           </button>
         </form>
       </div>
@@ -274,6 +286,85 @@ export default function SettingsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {inviteSuccess && (
+        <div className="modal-overlay" onClick={() => setInviteSuccess(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-success">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <h3>Team Member Added</h3>
+              <p className="modal-sub">
+                Share these login details with {inviteSuccess.email}:
+              </p>
+              <div
+                style={{
+                  background: "var(--offwhite)",
+                  borderRadius: 10,
+                  padding: 16,
+                  textAlign: "left",
+                  marginBottom: 16,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "var(--gray)",
+                    marginBottom: 4,
+                  }}
+                >
+                  Login URL
+                </div>
+                <div style={{ fontWeight: 700, marginBottom: 12 }}>
+                  vendorville.vercel.app/staff/login
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "var(--gray)",
+                    marginBottom: 4,
+                  }}
+                >
+                  Email
+                </div>
+                <div style={{ fontWeight: 700, marginBottom: 12 }}>
+                  {inviteSuccess.email}
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "var(--gray)",
+                    marginBottom: 4,
+                  }}
+                >
+                  Temporary Password
+                </div>
+                <div style={{ fontWeight: 700 }}>
+                  {inviteSuccess.tempPassword}
+                </div>
+              </div>
+              <div className="modal-actions">
+                <button
+                  className="btn-primary-modal"
+                  style={{ flex: "none", width: "100%" }}
+                  onClick={() => setInviteSuccess(null)}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

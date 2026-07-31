@@ -1,6 +1,9 @@
 "use client";
 
-import { CompleteLoginData, completeLoginSchema } from "@/app/auth/login/schema";
+import {
+  CompleteLoginData,
+  completeLoginSchema,
+} from "@/app/auth/login/schema";
 import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -60,14 +63,14 @@ export function LoginWizard() {
     setIsLoading(true);
     try {
       // Handle login submission
-     await login({
+      await login({
         email: data.email,
         password: data.password,
         pin: data.pin,
         rememberMe: data.rememberMe,
       });
       // Redirect to dashboard after successful login
-      router.push('/dashboard');
+      router.push("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
     } finally {
@@ -176,6 +179,23 @@ export function LoginWizard() {
             <Link href="/customer/login" className="secondary-btn">
               Login as Customer
             </Link>
+            
+            <div
+              style={{
+                marginTop: "12px",
+                textAlign: "center",
+                fontSize: "0.78rem",
+                color: "#9ca3af",
+              }}
+            >
+              Team member?{" "}
+              <Link
+                href="/staff/login"
+                style={{ color: "#667085", fontWeight: "600" }}
+              >
+                Staff Login
+              </Link>
+            </div>
             <div
               style={{
                 marginTop: "16px",
