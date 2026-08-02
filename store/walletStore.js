@@ -77,7 +77,7 @@ export const useWalletStore = create((set, get) => ({
       bankCode,
       accountNumber,
     });
-    return response.data; // { accountName, accountNumber, bankCode }
+    return response.data;
   },
 
   fetchBankAccounts: async () => {
