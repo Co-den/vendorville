@@ -18,7 +18,11 @@ export default function DiscoverPage() {
 
   const allCategories = useMemo(() => {
     const cats = new Set<string>();
-    vendors.forEach((v) => v.categories.forEach((c) => cats.add(c)));
+
+    vendors.forEach((v) => {
+      (v.categories ?? []).forEach((c) => cats.add(c));
+    });
+
     return ["All", ...Array.from(cats)];
   }, [vendors]);
 
@@ -26,7 +30,7 @@ export default function DiscoverPage() {
     return vendors.filter((v) => {
       const matchesSearch = v.name.toLowerCase().includes(search.toLowerCase());
       const matchesCategory =
-        category === "All" || v.categories.includes(category);
+        category === "All" || (v.categories ?? []).includes(category);
       return matchesSearch && matchesCategory;
     });
   }, [vendors, search, category]);
@@ -126,7 +130,7 @@ export default function DiscoverPage() {
                   <span className="discover-card-count">
                     {vendor.productCount} products
                   </span>
-                  {vendor.categories.slice(0, 1).map((c) => (
+                  {(vendor.categories ?? []).slice(0, 1).map((c) => (
                     <span className="discover-card-tag" key={c}>
                       {c}
                     </span>
@@ -136,7 +140,6 @@ export default function DiscoverPage() {
             ))}
           </div>
         )}
-        
       </div>
       <footer>
         <div className="wrap">
