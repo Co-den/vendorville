@@ -8,6 +8,7 @@ export const useWalletStore = create((set, get) => ({
   accountName: null,
   transactions: [],
   bankAccounts: [],
+  banks: [],
   isLoading: false,
   error: null,
 
@@ -58,6 +59,25 @@ export const useWalletStore = create((set, get) => ({
       });
       throw error;
     }
+  },
+
+  fetchBanks: async () => {
+    try {
+      const response = await api.get(`/wallet/banks`);
+      set({ banks: response.data.banks });
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || "Error loading banks",
+      });
+    }
+  },
+
+  resolveAccount: async (bankCode, accountNumber) => {
+    const response = await api.post(`/wallet/resolve-account`, {
+      bankCode,
+      accountNumber,
+    });
+    return response.data; // { accountName, accountNumber, bankCode }
   },
 
   fetchBankAccounts: async () => {

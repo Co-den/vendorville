@@ -3,22 +3,16 @@
 import { useWalletStore } from "@/store/walletStore";
 import { useEffect, useState } from "react";
 
-const nigerianBanks = [
-  { code: "058", name: "GTBank" },
-  { code: "044", name: "Access Bank" },
-  { code: "057", name: "Zenith Bank" },
-  { code: "033", name: "UBA" },
-  { code: "999992", name: "OPay" },
-  { code: "999991", name: "PalmPay" },
-];
-
 export default function PayoutPage() {
   const {
     balance,
+    banks,
     bankAccounts,
     isLoading,
     fetchWallet,
     fetchBankAccounts,
+    fetchBanks,
+    resolveAccount,
     addBankAccount,
     removeBankAccount,
   } = useWalletStore();
@@ -26,12 +20,15 @@ export default function PayoutPage() {
   const [showAddAccount, setShowAddAccount] = useState(false);
   const [bankCode, setBankCode] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
+  const [resolvedName, setResolvedName] = useState("");
+  const [isResolving, setIsResolving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [addError, setAddError] = useState("");
 
   useEffect(() => {
     fetchWallet();
     fetchBankAccounts();
+    fetchBanks();
   }, []);
 
   const formattedBalance = balance.toLocaleString("en-NG", {
@@ -39,37 +36,54 @@ export default function PayoutPage() {
     maximumFractionDigits: 2,
   });
 
-  const handleAddAccount = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleResolveAccount = async () => {
+    setResolvedName("");
     setAddError("");
-    setIsVerifying(true);
+    if (!bankCode || accountNumber.length !== 10) return;
+
+    setIsResolving(true);
+    try {
+      const result = await resolveAccount(bankCode, accountNumber);
+      setResolvedName(result.accountName);
+    } catch (err: any) {
+      setAddError(err.response?.data?.message || "Could not verify this account.");
+    } finally {
+      setIsResolving(false);
+    }
+  };
+
+  const handleSaveAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!bankCode || !accountNumber || !resolvedName) {
+      setAddError("Please resolve the account before saving.");
+      return;
+    }
+
+    setIsSaving(true);
+    setAddError("");
     try {
       await addBankAccount(bankCode, accountNumber);
-      setShowAddAccount(false);
-      setBankCode("");
-      setAccountNumber("");
+      closeModal();
     } catch (err: any) {
-      setAddError(
-        err.response?.data?.message ||
-          "Could not verify this account. Check the details and try again.",
-      );
+      setAddError(err.response?.data?.message || "Could not save this account.");
     } finally {
-      setIsVerifying(false);
+      setIsSaving(false);
     }
+  };
+
+  const closeModal = () => {
+    setShowAddAccount(false);
+    setBankCode("");
+    setAccountNumber("");
+    setResolvedName("");
+    setAddError("");
   };
 
   return (
     <>
       <div className="wallet-page-head">
         <div className="wallet-page-icon">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="1" y="4" width="22" height="16" rx="2" />
             <line x1="1" y1="10" x2="23" y2="10" />
           </svg>
@@ -85,16 +99,8 @@ export default function PayoutPage() {
       <div className="payout-action-grid">
         <div className="payout-action-card">
           <div className="payout-action-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
           </div>
           <div className="payout-action-title">Send Money</div>
@@ -102,16 +108,8 @@ export default function PayoutPage() {
         </div>
         <div className="payout-action-card">
           <div className="payout-action-icon amber">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="19" x2="12" y2="5" />
-              <polyline points="5 12 12 5 19 12" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5" /><polyline points="5 12 12 5 19 12" />
             </svg>
           </div>
           <div className="payout-action-title">Withdraw</div>
@@ -125,18 +123,8 @@ export default function PayoutPage() {
           <div className="wallet-balance-strip-value">₦{formattedBalance}</div>
         </div>
         <button className="icon-btn-small" onClick={fetchWallet}>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            width="16"
-            height="16"
-          >
-            <polyline points="23 4 23 10 17 10" />
-            <polyline points="1 20 1 14 7 14" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+            <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
             <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
           </svg>
         </button>
@@ -146,81 +134,39 @@ export default function PayoutPage() {
         <div className="panel-head">
           <div>
             <h2>Bank Accounts</h2>
-            <p className="deposit-account-sub">
-              {bankAccounts.length}/4 accounts
-            </p>
+            <p className="deposit-account-sub">{bankAccounts.length}/4 accounts</p>
           </div>
-          <button
-            className="biz-add-btn"
-            onClick={() => setShowAddAccount(true)}
-            disabled={bankAccounts.length >= 4}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
+          <button className="biz-add-btn" onClick={() => setShowAddAccount(true)} disabled={bankAccounts.length >= 4}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
             </svg>
             Add Account
           </button>
         </div>
 
         {bankAccounts.length === 0 ? (
-          <p
-            style={{
-              fontSize: "0.86rem",
-              color: "var(--gray)",
-              textAlign: "center",
-              padding: "20px 0",
-            }}
-          >
+          <p style={{ fontSize: "0.86rem", color: "var(--gray)", textAlign: "center", padding: "20px 0" }}>
             No bank accounts added yet.
           </p>
         ) : (
           bankAccounts.map((acc: any) => (
             <div className="bank-account-row" key={acc.id}>
               <div className="bank-account-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4" />
                 </svg>
               </div>
               <div className="bank-account-info">
                 <div className="bank-account-name">
                   {acc.bankName}
-                  {acc.isPrimary && (
-                    <span className="primary-badge">Primary</span>
-                  )}
+                  {acc.isPrimary && <span className="primary-badge">Primary</span>}
                 </div>
                 <div className="bank-account-meta">
                   {acc.accountName} · •••• {acc.accountNumber.slice(-4)}
                 </div>
               </div>
-              <button
-                className="icon-btn-small warn"
-                onClick={() => removeBankAccount(acc.id)}
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  width="16"
-                  height="16"
-                >
+              <button className="icon-btn-small warn" onClick={() => removeBankAccount(acc.id)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
                   <polyline points="3 6 5 6 21 6" />
                   <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
                 </svg>
@@ -231,28 +177,29 @@ export default function PayoutPage() {
       </div>
 
       {showAddAccount && (
-        <div className="modal-overlay" onClick={() => setShowAddAccount(false)}>
+        <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Add Bank Account</h3>
-            <p className="modal-sub">
-              We'll verify this account before saving it.
-            </p>
-            <form onSubmit={handleAddAccount}>
+            <p className="modal-sub">We'll verify this account before saving it.</p>
+
+            <form onSubmit={handleSaveAccount}>
               <div className="modal-field">
                 <label>Bank</label>
                 <select
                   required
                   value={bankCode}
-                  onChange={(e) => setBankCode(e.target.value)}
+                  onChange={(e) => {
+                    setBankCode(e.target.value);
+                    setResolvedName("");
+                  }}
                 >
                   <option value="">Select bank</option>
-                  {nigerianBanks.map((b) => (
-                    <option key={b.code} value={b.code}>
-                      {b.name}
-                    </option>
+                  {banks.map((b:any) => (
+                    <option key={b.code} value={b.code}>{b.name}</option>
                   ))}
                 </select>
               </div>
+
               <div className="modal-field">
                 <label>Account Number</label>
                 <input
@@ -260,25 +207,34 @@ export default function PayoutPage() {
                   required
                   maxLength={10}
                   value={accountNumber}
-                  onChange={(e) => setAccountNumber(e.target.value)}
+                  onChange={(e) => {
+                    setAccountNumber(e.target.value);
+                    setResolvedName("");
+                  }}
+                  onBlur={handleResolveAccount}
                   placeholder="0123456789"
                 />
               </div>
+
+              <div className="modal-field">
+                <label>Account Name</label>
+                <input
+                  type="text"
+                  readOnly
+                  value={isResolving ? "Resolving..." : resolvedName}
+                  placeholder="Auto-filled after entering account number"
+                  style={{ background: "var(--offwhite)" }}
+                />
+              </div>
+
               {addError && <div className="error-message">{addError}</div>}
+
               <div className="modal-actions">
-                <button
-                  type="button"
-                  className="btn-secondary-modal"
-                  onClick={() => setShowAddAccount(false)}
-                >
+                <button type="button" className="btn-secondary-modal" onClick={closeModal}>
                   Cancel
                 </button>
-                <button
-                  type="submit"
-                  className="btn-primary-modal"
-                  disabled={isVerifying}
-                >
-                  {isVerifying ? "Verifying..." : "Verify & Add"}
+                <button type="submit" className="btn-primary-modal" disabled={isSaving || !resolvedName}>
+                  {isSaving ? "Saving..." : "Save Account"}
                 </button>
               </div>
             </form>
