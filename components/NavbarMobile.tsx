@@ -59,6 +59,11 @@ export default function NavbarMobile() {
           <Link href="/#faq" className="nav-link">
             FAQ
           </Link>
+          {!isCheckingAuth && !isAuthenticated && (
+            <Link href="/auth/login" className="nav-login">
+              Login
+            </Link>
+          )}
         </div>
 
         <button
@@ -116,7 +121,7 @@ export default function NavbarMobile() {
                   Login
                 </Link>
                 <Link
-                  className="nav-cta"
+                  className="nav-signup"
                   href="/auth/signup"
                   onClick={closeMenu}
                 >
@@ -134,14 +139,9 @@ export default function NavbarMobile() {
               Dashboard
             </Link>
           ) : (
-            <>
-              <Link className="nav-login" href="/auth/login">
-                Login
-              </Link>
-              <Link className="nav-cta" href="/auth/signup">
-                Create Free Account
-              </Link>
-            </>
+            <Link className="nav-cta" href="/auth/signup">
+              Create Free Account
+            </Link>
           )}
         </div>
       </div>

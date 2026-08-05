@@ -33,7 +33,9 @@ nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 nav.scrolled {
@@ -50,7 +52,10 @@ nav.scrolled {
 }
 
 .nav-cta {
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .nav-cta:hover {
@@ -66,8 +71,8 @@ nav.scrolled {
   position: relative;
 }
 
-.nav-links a::after {
-  content: '';
+.nav-links a:not(.nav-login)::after {
+  content: "";
   position: absolute;
   left: 0;
   bottom: -6px;
@@ -77,11 +82,12 @@ nav.scrolled {
   transition: width 0.25s ease;
 }
 
-.nav-links a:hover::after {
+.nav-links a:not(.nav-login):hover::after {
   width: 100%;
 }
 
 nav .wrap {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -95,6 +101,8 @@ nav .wrap {
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--green-900);
+  flex-shrink: 0;
+  z-index: 2;
 }
 
 .brand .mark {
@@ -106,7 +114,7 @@ nav .wrap {
 }
 
 .brand .mark::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 6px;
   border-radius: 3px;
@@ -114,32 +122,71 @@ nav .wrap {
 }
 
 .nav-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  align-items: center;
   gap: 30px;
   font-size: 0.93rem;
-  color: #3b4553;
   font-weight: 500;
+  color: #3b4553;
+  white-space: nowrap;
 }
 
-.nav-links a:hover {
+.nav-links a:not(.nav-login):hover {
   color: var(--ink);
 }
 
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: flex-end;
+  margin-left: auto;
+  flex-shrink: 0;
+  z-index: 2;
 }
 
 .nav-login {
-  font-size: 0.93rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
   color: var(--ink);
+  text-decoration: none;
+  position: relative;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease;
+}
+
+.nav-login:hover,
+.nav-login:focus,
+.nav-login:active {
+  text-decoration: none;
+  background: #eef2f7;
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(19, 46, 27, 0.08);
+}
+
+.nav-login::after {
+  display: none !important;
+  content: none !important;
 }
 
 .nav-cta {
-  background: #7fd99a;
-  color: var(--green-900);
+  background: var(--color-green-700);
+  color: #fff;
   padding: 11px 22px;
   border-radius: 999px;
   font-weight: 700;
@@ -152,6 +199,12 @@ nav .wrap {
 
 @media (max-width: 840px) {
   .nav-links {
+    display: none;
+    position: static;
+    transform: none;
+  }
+
+  .nav-right {
     display: none;
   }
 }
@@ -177,8 +230,6 @@ nav .wrap {
   height: 70px;
   position: relative;
 }
-
-
 
 /* ===== HAMBURGER MENU ===== */
 .navbar-toggle {
@@ -215,7 +266,7 @@ nav .wrap {
 /* ===== MOBILE MENU ===== */
 .navbar-menu {
   display: none;
- position: absolute;
+  position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
@@ -283,16 +334,20 @@ nav .wrap {
   background: none;
 }
 
-.navbar-menu .navbar-cta {
+.navbar-menu .nav-signup {
   padding: 10px 16px;
   text-align: center;
+   border: 1.5px solid var(--line);
+    border-radius: 999px;
+    background: var(--color-green-600);
+    color:#fff;
 }
 
 /* ===== OVERLAY ===== */
 .navbar-overlay {
   position: fixed;
-  inset:70px 0 0 0;
-  background: rgba(0, 0, 0, .45);
+  inset: 70px 0 0 0;
+  background: rgba(0, 0, 0, 0.45);
   z-index: 99;
   animation: fadeIn 0.2s ease-out;
 }
@@ -308,7 +363,6 @@ nav .wrap {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-
   .nav-links {
     display: none;
   }
@@ -360,8 +414,7 @@ nav .wrap {
     font-size: 0.8rem;
   }
 
-  .navbar-overlay{
-    inset:60px 0 0 0;
+  .navbar-overlay {
+    inset: 60px 0 0 0;
+  }
 }
-}
-

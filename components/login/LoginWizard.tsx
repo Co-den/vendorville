@@ -5,6 +5,8 @@ import {
   completeLoginSchema,
 } from "@/app/auth/login/schema";
 import { useAuthStore } from "@/store/authStore";
+import api from "@/store/axiosInstance";
+import { useStaffAuthStore } from "@/store/staffAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -15,16 +17,14 @@ import { Step1Email } from "./Step1Email";
 import { Step2Password } from "./Step2Password";
 import { Step3PIN } from "./Step3PIN";
 
-const steps = [
-  { id: 1, title: "Email", key: "email" },
-  { id: 2, title: "Password", key: "password" },
-  { id: 3, title: "PIN", key: "pin" },
-];
-
 export function LoginWizard() {
   const { login } = useAuthStore();
+  const { login: staffLogin } = useStaffAuthStore();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [accountType, setAccountType] = useState<"vendor" | "staff" | null>(
+    null,
+  );
   const router = useRouter();
 
   const methods = useForm<CompleteLoginData>({
@@ -41,15 +41,56 @@ export function LoginWizard() {
   const {
     handleSubmit,
     trigger,
+    getValues,
     formState: { isValid },
   } = methods;
 
+  const steps =
+    accountType === "staff"
+      ? [
+          { id: 1, title: "Email", key: "email" },
+          { id: 2, title: "Password", key: "password" },
+        ]
+      : [
+          { id: 1, title: "Email", key: "email" },
+          { id: 2, title: "Password", key: "password" },
+          { id: 3, title: "PIN", key: "pin" },
+        ];
+
   const onNext = async () => {
-    const isStepValid = await trigger(
-      ["email", "password", "pin"][currentStep - 1] as any,
-    );
-    if (isStepValid && currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
+    if (currentStep === 1) {
+      const isStepValid = await trigger("email");
+      if (!isStepValid) return;
+
+      const email = getValues("email");
+      try {
+        const res = await api.post("/auth/check-account-type", { email });
+        setAccountType(res.data.type === "staff" ? "staff" : "vendor");
+      } catch {
+        setAccountType("vendor");
+      }
+
+      setCurrentStep(2);
+      return;
+    }
+
+    if (currentStep === 2) {
+      const isStepValid = await trigger("password");
+      if (!isStepValid) return;
+
+      if (accountType === "staff") {
+        // Staff accounts have no PIN submit directly after password.
+        await onSubmit(getValues());
+        return;
+      }
+
+      setCurrentStep(3);
+      return;
+    }
+
+    if (currentStep < steps.length) {
+      const isStepValid = await trigger("pin");
+      if (isStepValid) setCurrentStep(currentStep + 1);
     }
   };
 
@@ -62,14 +103,16 @@ export function LoginWizard() {
   const onSubmit = async (data: CompleteLoginData) => {
     setIsLoading(true);
     try {
-      // Handle login submission
-      await login({
-        email: data.email,
-        password: data.password,
-        pin: data.pin,
-        rememberMe: data.rememberMe,
-      });
-      // Redirect to dashboard after successful login
+      if (accountType === "staff") {
+        await staffLogin(data.email, data.password);
+      } else {
+        await login({
+          email: data.email,
+          password: data.password,
+          pin: data.pin,
+          rememberMe: data.rememberMe,
+        });
+      }
       router.push("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
@@ -131,7 +174,7 @@ export function LoginWizard() {
         {/* Step Content */}
         {currentStep === 1 && <Step1Email />}
         {currentStep === 2 && <Step2Password />}
-        {currentStep === 3 && <Step3PIN />}
+        {currentStep === 3 && accountType !== "staff" && <Step3PIN />}
 
         {/* Form Buttons */}
         <div className="form-buttons">
@@ -179,23 +222,6 @@ export function LoginWizard() {
             <Link href="/customer/login" className="secondary-btn">
               Login as Customer
             </Link>
-            
-            <div
-              style={{
-                marginTop: "12px",
-                textAlign: "center",
-                fontSize: "0.78rem",
-                color: "#9ca3af",
-              }}
-            >
-              Team member?{" "}
-              <Link
-                href="/staff/login"
-                style={{ color: "#667085", fontWeight: "600" }}
-              >
-                Staff Login
-              </Link>
-            </div>
             <div
               style={{
                 marginTop: "16px",
@@ -204,7 +230,7 @@ export function LoginWizard() {
                 color: "#c7ccd3",
               }}
             >
-              © 2026 use vendorVille.com
+              © 2026 usevendorhub.com
             </div>
           </>
         )}

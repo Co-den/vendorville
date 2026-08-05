@@ -56,7 +56,7 @@ export default async function Home() {
                 </svg>
                 Watch Live Demo
               </Link>
-              <Link className="btn-outline" href="/discover">
+              <Link className="discover-btn" href="/discover">
                 <svg
                   width="14"
                   height="14"
@@ -613,7 +613,7 @@ export default async function Home() {
           )}
 
           <div style={{ textAlign: "center", marginTop: 28 }}>
-            <Link href="/discover" className="btn-outline">
+            <Link href="/discover" className="btn-outline1">
               See All Vendors
             </Link>
           </div>
@@ -643,6 +643,10 @@ export default async function Home() {
               <div className="plan-price">
                 ₦5,500<span>/month</span>
               </div>
+              <p className="pricing-note">
+                ≈ <span className="price">$4.34</span> /mo · incl. VAT
+              </p>
+              <p className="trial-note">after your free trial ends</p>
               <ul className="plan-list">
                 <li>1 Business, 1 Stall/Front</li>
                 <li>Up to 200 POS order items/month</li>
@@ -656,6 +660,23 @@ export default async function Home() {
               <Link className="p-b" href="/auth/signup?plan=starter">
                 Start Starter
               </Link>
+              <div className="t-badge">
+                <svg
+                  className="t-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+
+                <span>No credit card required · Cancel anytime</span>
+              </div>
             </div>
             <div className="price-card pro">
               <span className="badge-pop2">MOST POPULAR</span>
@@ -664,6 +685,10 @@ export default async function Home() {
               <div className="plan-price">
                 ₦10,500<span>/month</span>
               </div>
+              <p className="pricing-note">
+                ≈ <span className="price">8.28</span> /mo · incl. VAT
+              </p>
+              <p className="trial-note">+7.5% VAT</p>
               <ul className="plan-list">
                 <li>2 Businesses, 2 Stores per Brand</li>
                 <li>Up to 400 POS order items/month</li>
@@ -677,6 +702,23 @@ export default async function Home() {
               <Link className="plan-btn" href="/auth/signup?plan=professional">
                 Start Professional
               </Link>
+              <div className="t-badge">
+                <svg
+                  className="t-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+
+                <span>No credit card required · Cancel anytime</span>
+              </div>
             </div>
             <div className="price-card">
               <div className="plan-name">Enterprise Suite</div>
@@ -684,6 +726,10 @@ export default async function Home() {
               <div className="plan-price">
                 ₦15,500<span>/month</span>
               </div>
+              <p className="pricing-note">
+                ≈ <span className="price">12.22</span> /mo · incl. VAT
+              </p>
+              <p className="trial-note">+7.5% VAT</p>
               <ul className="plan-list">
                 <li>Unlimited Businesses &amp; Stalls</li>
                 <li>Unlimited POS order items</li>
@@ -697,9 +743,25 @@ export default async function Home() {
               <Link className="plan-btn" href="/auth/signup?plan=premium">
                 Choose Premium
               </Link>
+              <div className="t-badge">
+                <svg
+                  className="t-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+
+                <span>No credit card required · Cancel anytime</span>
+              </div>
             </div>
           </div>
-
           <div style={{ textAlign: "center", margin: "44px 0 18px" }}>
             <span className="tag-pill">✦ Compare Plans</span>
           </div>

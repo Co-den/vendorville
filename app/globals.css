@@ -13,7 +13,6 @@
   --ink: #14201a;
   --gray: #667085;
   --line: #e7eaee;
-  
 }
 
 @layer utilities {
@@ -35,7 +34,19 @@
 html {
   scroll-behavior: smooth;
 }
-
+body {
+  display: block;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family:
+    Space Grotesk,
+    sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  
+}
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
@@ -247,28 +258,15 @@ html {
   transform: translateY(-6px);
 }
 
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family:
-    Space Grotesk,
-    sans-serif;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  margin: 0;
-}
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
 .wrap {
-  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 28px;
-  width: 100%;
+  padding-inline: 32px;
+  width: min(96%, 1600px);
 }
 
 :focus-visible {
@@ -475,7 +473,7 @@ header.hero .wrap {
   z-index: 2;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1400px) {
   .hero-bg {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -560,7 +558,7 @@ header.hero .wrap {
   transform: translateY(-1px) scale(0.98);
 }
 
-.btn-outline {
+.discover-btn {
   border: 1.5px solid rgba(255, 255, 255, 0.35);
   color: #fff;
   padding: 13px 26px;
@@ -576,13 +574,30 @@ header.hero .wrap {
     background 0.25s ease;
 }
 
-.btn-outline:hover {
+.btn-outline1 {
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  background: var(--color-green-600);
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.btn-outline1:hover {
   border-color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-green-400);
   transform: translateY(-3px);
 }
 
-.btn-outline:active {
+.btn-outline1:active {
   transform: translateY(-1px) scale(0.98);
 }
 
@@ -1005,7 +1020,7 @@ section {
 
 .sec-head h2 {
   font-size: clamp(1.7rem, 3.2vw, 2.4rem);
-  font-weight: 800;
+  font-weight: 900;
   color: var(--ink);
 }
 
@@ -1022,8 +1037,8 @@ section {
 /* FEATURES */
 .feat-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
 }
 
 .feat-card {
@@ -1292,19 +1307,19 @@ section {
 }
 
 .vendor-view {
-   flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: .65rem 1.2rem;
-    border-radius: .75rem;
-    background: var(--color-green-500);
-    color: #fff;
-    font-size: .875rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all .25s ease;
-    margin-top:15px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.75rem;
+  background: var(--color-green-500);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  margin-top: 15px;
 }
 
 .vendor-view:hover {
@@ -1424,7 +1439,7 @@ section {
 }
 
 .plan-name {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: var(--text, #111827);
@@ -1432,8 +1447,9 @@ section {
 
 .plan-sub {
   color: var(--gray);
-  font-size: 0.82rem;
+  font-size: 1rem;
   margin-top: 4px;
+  font-weight: 900;
 }
 
 .plan-price {
@@ -1462,6 +1478,7 @@ section {
   gap: 9px;
   font-size: 0.86rem;
   color: #3b4553;
+  font-weight: 900;
 }
 
 .plan-list li::before {
@@ -1487,7 +1504,9 @@ section {
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-top: 20px;
 }
+
 .p-b {
   width: 100%;
   height: 64px;
@@ -1505,14 +1524,47 @@ section {
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-top: 20px;
+}
+.t-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: #94a3b8; /* Slate 400 */
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
 }
 
+.t-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
 .price-card.pro .plan-btn {
   background: var(--green-900);
   color: #fff;
   border-color: var(--green-900);
 }
+.pricing-note {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8; /* Slate 400 */
+}
 
+.pricing-note .price {
+  font-weight: 700;
+  color: #64748b; /* Slate 500 */
+}
+
+.trial-note {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #94a3b8;
+}
 .plan-btn:hover {
   background: var(--green-900);
   color: #fff;
@@ -1541,11 +1593,11 @@ section {
 }
 
 table.compare {
-   width: 100%;                
+  width: 100%;
   text-align: left;
-  border-collapse: collapse;    
-  background-color: #ffffff;    
-  min-width: 700px;     
+  border-collapse: collapse;
+  background-color: #ffffff;
+  min-width: 700px;
 }
 
 table.compare th {
@@ -1564,14 +1616,14 @@ table.compare td {
 }
 
 table.compare tr.group-row td {
-   background-color: rgba(248, 250, 252, 0.5);
-  padding: 1rem;                     
-  font-size: 11px;                   
-  font-weight: 700;                   
-  text-transform: uppercase;          
-  letter-spacing: 0.05em;            
-  border-bottom: 1px solid #e2e8f0;   
-  color: #0f172a;         
+  background-color: rgba(248, 250, 252, 0.5);
+  padding: 1rem;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
 }
 
 table.compare td.check {
@@ -1586,9 +1638,15 @@ table.compare td.dash {
 }
 
 /* FAQ */
+
 .faq-list {
-  max-width: 760px;
+  max-width: 1400px;
   margin: 0 auto;
+  background: #fff;
+  padding: 3rem;
+  border-radius: 40px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
 .faq-item {
