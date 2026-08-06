@@ -2,6 +2,7 @@
 
 import "@/app/dashboard/dashboard.css";
 import NavbarMobile from "@/components/NavbarMobile";
+import api from "@/store/axiosInstance";
 import { useReviewStore } from "@/store/reviewStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
 import Image from "next/image";
@@ -83,7 +84,19 @@ export default function StorefrontPage() {
   useEffect(() => {
     if (slug) fetchPublicReviews(slug);
   }, [slug]);
+  const [myPoints, setMyPoints] = useState(0);
+  const [redeemPoints, setRedeemPoints] = useState(0);
+  const [giftCardCode, setGiftCardCode] = useState("");
 
+  useEffect(() => {
+    const token = localStorage.getItem("customer_token");
+    if (token) {
+      api
+        .get(`/store/${slug}/my-points`)
+        .then((res) => setMyPoints(res.data.points))
+        .catch(() => {});
+    }
+  }, [slug]);
   const cartTotal = useMemo(
     () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [cart],
@@ -160,6 +173,8 @@ export default function StorefrontPage() {
         productId: i.productId,
         quantity: i.quantity,
       })),
+      redeemPoints: redeemPoints > 0 ? redeemPoints : undefined,
+      giftCardCode: giftCardCode || undefined,
     };
 
     try {
@@ -995,7 +1010,33 @@ export default function StorefrontPage() {
             </div>
           </div>
         )}
+        {myPoints > 0 && (
+          <div className="field-group">
+            <label className="field-label">
+              Redeem Points (You have {myPoints})
+            </label>
+            <input
+              type="number"
+              min="0"
+              max={myPoints}
+              value={redeemPoints}
+              onChange={(e) =>
+                setRedeemPoints(Math.min(myPoints, Number(e.target.value)))
+              }
+              placeholder="0"
+            />
+          </div>
+        )}
 
+        <div className="field-group">
+          <label className="field-label">Gift Card Code (optional)</label>
+          <input
+            type="text"
+            value={giftCardCode}
+            onChange={(e) => setGiftCardCode(e.target.value.toUpperCase())}
+            placeholder="e.g. A1B2C3D4E5F6"
+          />
+        </div>
         <script src="https://js.paystack.co/v1/inline.js" async></script>
 
         <footer>

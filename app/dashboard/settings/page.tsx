@@ -6,6 +6,29 @@ import { useBusinessStore } from "@/store/businessStore";
 import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
+  const [giftCards, setGiftCards] = useState<any[]>([]);
+  const [showIssueGiftCard, setShowIssueGiftCard] = useState(false);
+  const [giftCardValue, setGiftCardValue] = useState("");
+  const [giftCardError, setGiftCardError] = useState("");
+  const [issuedCard, setIssuedCard] = useState<any>(null);
+
+  const issueGiftCard = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setGiftCardError("");
+    try {
+      const res = await api.post(`/businesses/${activeBusinessId}/gift-cards`, {
+        value: Number(giftCardValue),
+      });
+      setGiftCards((prev) => [...prev, res.data.card]);
+      setIssuedCard(res.data.card);
+      setShowIssueGiftCard(false);
+      setGiftCardValue("");
+    } catch (err: any) {
+      setGiftCardError(
+        err.response?.data?.message || "Could not issue gift card",
+      );
+    }
+  };
   const { businesses } = useBusinessStore();
   const [staff, setStaff] = useState<any[]>([]);
   const [showInvite, setShowInvite] = useState(false);
@@ -21,6 +44,15 @@ export default function SettingsPage() {
       api
         .get(`/businesses/${activeBusinessId}/staff`)
         .then((res) => setStaff(res.data.staff));
+    }
+  }, [activeBusinessId]);
+
+  useEffect(() => {
+    if (activeBusinessId) {
+      api
+        .get(`/businesses/${activeBusinessId}/gift-cards`)
+        .then((res) => setGiftCards(res.data.cards))
+        .catch(() => {});
     }
   }, [activeBusinessId]);
 
@@ -57,7 +89,7 @@ export default function SettingsPage() {
     setStaff((prev) => prev.filter((s) => s.id !== staffId));
   };
 
-  const { user, updatePassword, isLoading} = useAuthStore();
+  const { user, updatePassword, isLoading } = useAuthStore();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -360,6 +392,123 @@ export default function SettingsPage() {
                   className="btn-primary-modal"
                   style={{ flex: "none", width: "100%" }}
                   onClick={() => setInviteSuccess(null)}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="panel" style={{ marginTop: 20 }}>
+        <div className="panel-head">
+          <h2>Gift Cards</h2>
+          <button
+            className="biz-add-btn"
+            onClick={() => setShowIssueGiftCard(true)}
+          >
+            Issue Gift Card
+          </button>
+        </div>
+        {giftCards.length === 0 ? (
+          <p
+            style={{
+              fontSize: "0.86rem",
+              color: "var(--gray)",
+              textAlign: "center",
+              padding: "24px 0",
+            }}
+          >
+            No gift cards issued yet. Requires Professional plan or higher.
+          </p>
+        ) : (
+          giftCards.map((c) => (
+            <div className="stock-row" key={c.id}>
+              <div>
+                <div className="stock-name">{c.code}</div>
+                <div className="stock-sub">
+                  ₦{c.remainingValue.toLocaleString()} of ₦
+                  {c.initialValue.toLocaleString()} remaining
+                </div>
+              </div>
+              <span
+                className="stock-badge"
+                style={{
+                  color: c.isActive ? "var(--accent)" : "#dc2626",
+                  background: c.isActive ? "var(--accent-light)" : "#fee2e2",
+                }}
+              >
+                {c.isActive ? "Active" : "Inactive"}
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+
+      {showIssueGiftCard && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowIssueGiftCard(false)}
+        >
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3>Issue Gift Card</h3>
+            <form onSubmit={issueGiftCard}>
+              <div className="modal-field">
+                <label>Value (₦)</label>
+                <input
+                  type="number"
+                  required
+                  min="100"
+                  value={giftCardValue}
+                  onChange={(e) => setGiftCardValue(e.target.value)}
+                />
+              </div>
+              {giftCardError && (
+                <div className="error-message">{giftCardError}</div>
+              )}
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary-modal"
+                  onClick={() => setShowIssueGiftCard(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary-modal">
+                  Issue Card
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {issuedCard && (
+        <div className="modal-overlay" onClick={() => setIssuedCard(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-success">
+              <div className="icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <h3>Gift Card Issued</h3>
+              <p className="modal-sub">
+                Code: <strong>{issuedCard.code}</strong> — ₦
+                {issuedCard.initialValue.toLocaleString()}
+              </p>
+              <div className="modal-actions">
+                <button
+                  className="btn-primary-modal"
+                  style={{ flex: "none", width: "100%" }}
+                  onClick={() => setIssuedCard(null)}
                 >
                   Done
                 </button>
