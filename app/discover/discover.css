@@ -148,81 +148,6 @@
   color: #fff;
 }
 
-.discover-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
-  padding-bottom: 60px;
-}
-
-.discover-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 20px;
-  text-decoration: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.discover-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
-}
-
-.discover-card-logo {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  background: var(--accent-light);
-  color: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.2rem;
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-
-.discover-card-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.discover-card-name {
-  font-weight: 700;
-  font-size: 0.98rem;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-
-.discover-card-meta {
-  font-size: 0.8rem;
-  color: var(--gray);
-  margin-bottom: 14px;
-}
-
-.discover-card-footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.discover-card-count {
-  font-size: 0.76rem;
-  color: var(--gray);
-}
-
-.discover-card-tag {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--accent);
-  background: var(--accent-light);
-  padding: 3px 10px;
-  border-radius: 20px;
-}
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -293,49 +218,238 @@
   animation: none;
 }
 
-/* ===== Vendor cards — staggered entrance + hover polish ===== */
-.discover-grid {
-  animation: fadeInUp 0.5s ease both;
-}
 
-.discover-card {
-  opacity: 0;
-  animation: fadeInUp 0.5s ease forwards;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
-}
 
-.discover-card:nth-child(1) { animation-delay: 0.05s; }
-.discover-card:nth-child(2) { animation-delay: 0.1s; }
-.discover-card:nth-child(3) { animation-delay: 0.15s; }
-.discover-card:nth-child(4) { animation-delay: 0.2s; }
-.discover-card:nth-child(5) { animation-delay: 0.25s; }
-.discover-card:nth-child(6) { animation-delay: 0.3s; }
-.discover-card:nth-child(n+7) { animation-delay: 0.35s; }
 
-.discover-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 32px rgba(19, 46, 27, 0.1);
-  border-color: var(--accent);
-}
 
-.discover-card-logo {
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
 
-.discover-card:hover .discover-card-logo {
-  transform: scale(1.05) rotate(-2deg);
-}
 
-.discover-card-tag {
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.discover-card:hover .discover-card-tag {
-  background: var(--accent);
-  color: #fff;
-}
 
 /* ===== Loading spinner fade-in ===== */
 .spinner {
   animation: spin 1s linear infinite;
+}
+
+.vendor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.vendor-card {
+  position: relative;
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.vendor-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(19, 46, 27, 0.1);
+  border-color: #d7e4da;
+}
+
+.vendor-logo {
+  position: relative;
+  width: 6rem;
+  height: 6rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border-radius: 2rem;
+  transition: transform 0.7s ease;
+}
+
+.vendor-card:hover .vendor-logo {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.vendor-info {
+  flex: 1;
+  min-width: 0;
+  padding-top: 0.25rem;
+  text-align: left;
+}
+
+.vendor-info .vname {
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: #0f172a;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.vendor-info .vrating {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+}
+
+.vendor-view {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.2rem;
+  border-radius: 0.75rem;
+  background: var(--color-green-500);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  margin-top: 15px;
+}
+
+.vendor-card-v2 {
+  display: block;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vendor-card-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+.vendor-card-banner {
+  position: relative;
+  height: 140px;
+  background: linear-gradient(150deg, #132e1b, #1f4935);
+}
+
+.vendor-card-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vendor-card-banner-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.vendor-availability-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  z-index: 2;
+}
+
+.vendor-availability-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.vendor-availability-badge.open {
+  background: rgba(58, 132, 79, 0.92);
+  color: #fff;
+}
+.vendor-availability-badge.open .dot { background: #7fd99a; }
+
+.vendor-availability-badge.closed {
+  background: rgba(220, 38, 38, 0.92);
+  color: #fff;
+}
+.vendor-availability-badge.closed .dot { background: #fecaca; }
+
+.vendor-plan-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  z-index: 2;
+}
+
+.vendor-plan-badge.plan-starter {
+  background: rgba(255, 255, 255, 0.85);
+  color: #3d4a45;
+}
+
+.vendor-plan-badge.plan-professional {
+  background: rgba(58, 132, 79, 0.92);
+  color: #fff;
+}
+
+.vendor-plan-badge.plan-enterprise {
+  background: linear-gradient(135deg, #f0a23a, #d4841f);
+  color: #fff;
+}
+
+.vendor-card-body {
+  padding: 16px;
+}
+
+.vname {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: #14201a;
+  margin-bottom: 4px;
+}
+
+.vendor-card-meta {
+  font-size: 0.8rem;
+  color: #667085;
+  margin-bottom: 12px;
+}
+
+.vendor-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vendor-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vendor-card-rating .stars {
+  color: #f0a23a;
+  font-size: 0.85rem;
+}
+
+.vendor-card-rating .rating-value {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #14201a;
+}
+
+.vendor-card-rating .review-count {
+  font-size: 0.76rem;
+  color: #667085;
 }

@@ -20,6 +20,26 @@ interface DirectoryState {
   fetchDirectory: (search?: string, category?: string) => Promise<void>;
 }
 
+export async function fetchDirectory(
+  search?: string,
+  category?: string,
+  limit?: number,
+) {
+  try {
+    const response = await api.get(`/store/directory`, {
+      params: { search, category },
+    });
+
+    const businesses = Array.isArray(response.data?.businesses)
+      ? response.data.businesses
+      : [];
+
+    return typeof limit === "number" ? businesses.slice(0, limit) : businesses;
+  } catch {
+    return [];
+  }
+}
+
 export const useDirectoryStore = create<DirectoryState>((set) => ({
   vendors: [],
   isLoading: false,
@@ -28,10 +48,8 @@ export const useDirectoryStore = create<DirectoryState>((set) => ({
   fetchDirectory: async (search, category) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(`/store/directory`, {
-        params: { search, category },
-      });
-      set({ vendors: response.data.businesses, isLoading: false });
+      const businesses = await fetchDirectory(search, category);
+      set({ vendors: businesses, isLoading: false });
     } catch (error: any) {
       set({
         error: error.response?.data?.message || "Could not load vendors",

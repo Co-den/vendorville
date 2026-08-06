@@ -1,5 +1,6 @@
 "use client";
 
+import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
 import { useDirectoryStore } from "@/store/directoryStore";
 import Image from "next/image";
@@ -7,14 +8,23 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./discover.css";
 
+
+
+const planLabels: Record<string, string> = {
+  starter: "Starter",
+  professional: "Professional",
+  enterprise: "Enterprise",
+};
+
 export default function DiscoverPage() {
-  const { vendors, isLoading, fetchDirectory } = useDirectoryStore();
+  
+  const { vendors, isLoading, fetchDirectory: loadDirectory } = useDirectoryStore();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
 
   useEffect(() => {
-    fetchDirectory();
-  }, []);
+    loadDirectory();
+  }, [loadDirectory]);
 
   const allCategories = useMemo(() => {
     const cats = new Set<string>();
@@ -37,6 +47,7 @@ export default function DiscoverPage() {
 
   return (
     <>
+      <ClientScripts />
       <NavbarMobile />
       <div className="discover-hero">
         <div className="hero-bg" aria-hidden="true">
@@ -108,37 +119,70 @@ export default function DiscoverPage() {
             No vendors found. Try a different search or category.
           </p>
         ) : (
-          <div className="discover-grid">
-            {filteredVendors.map((vendor) => (
-              <Link
-                href={`/store/${vendor.slug}`}
-                className="discover-card"
-                key={vendor.id}
-              >
-                <div className="discover-card-logo">
-                  {vendor.logoUrl ? (
-                    <img src={vendor.logoUrl} alt={vendor.name} />
-                  ) : (
-                    vendor.name[0]
-                  )}
-                </div>
-                <div className="discover-card-name">
-                  {vendor.shortName || vendor.name}
-                </div>
-                <div className="discover-card-meta">{vendor.address}</div>
-                <div className="discover-card-footer">
-                  <span className="discover-card-count">
-                    {vendor.productCount} products
-                  </span>
-                  {(vendor.categories ?? []).slice(0, 1).map((c) => (
-                    <span className="discover-card-tag" key={c}>
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
-          </div>
+          <div className="vendor-grid reveal-stagger">
+              {filteredVendors.map((vendor: any) => {
+                const safeRating =
+                  typeof vendor.avgRating === "number" &&
+                  Number.isFinite(vendor.avgRating)
+                    ? vendor.avgRating
+                    : 0;
+                const safeReviewCount =
+                  typeof vendor.reviewCount === "number" &&
+                  Number.isFinite(vendor.reviewCount)
+                    ? vendor.reviewCount
+                    : 0;
+                const safeInitial = vendor.name?.[0] || "V";
+
+                return (
+                  <Link
+                    href={`/store/${vendor.slug}`}
+                    className="vendor-card-v2"
+                    key={vendor.id}
+                  >
+                    <div className="vendor-card-banner">
+                      {vendor.logoUrl ? (
+                        <img src={vendor.logoUrl} alt={vendor.name} />
+                      ) : (
+                        <div className="vendor-card-banner-fallback">
+                          {safeInitial}
+                        </div>
+                      )}
+                      <span
+                        className={`vendor-availability-badge ${vendor.isOpenToday ? "open" : "closed"}`}
+                      >
+                        <span className="dot"></span>
+                        {vendor.isOpenToday ? "Open" : "Closed"}
+                      </span>
+                      <span className={`vendor-plan-badge plan-${vendor.plan}`}>
+                        {planLabels[vendor.plan]}
+                      </span>
+                    </div>
+
+                    <div className="vendor-card-body">
+                      <div className="vname">
+                        {vendor.shortName || vendor.name}
+                      </div>
+                      <div className="vendor-card-meta">{vendor.address}</div>
+
+                      <div className="vendor-card-footer">
+                        <div className="vendor-card-rating">
+                          <span className="stars">
+                            {"★".repeat(Math.round(safeRating))}
+                            {"☆".repeat(5 - Math.round(safeRating))}
+                          </span>
+                          <span className="rating-value">
+                            {safeRating.toFixed(1)}
+                          </span>
+                          <span className="review-count">
+                            ({safeReviewCount})
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
         )}
       </div>
       <footer>

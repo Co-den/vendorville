@@ -3,6 +3,12 @@ import NavbarMobile from "@/components/NavbarMobile";
 import Image from "next/image";
 import Link from "next/link";
 
+const planLabels: Record<string, string> = {
+  starter: "Starter",
+  professional: "Professional",
+  enterprise: "Enterprise",
+};
+
 async function getFeaturedVendors() {
   try {
     const res = await fetch(
@@ -578,37 +584,68 @@ export default async function Home() {
             </p>
           ) : (
             <div className="vendor-grid reveal-stagger">
-              {featuredVendors.map((vendor: any) => (
-                <div className="vendor-card" key={vendor.id}>
-                  <div className="vendor-logo">
-                    {vendor.logoUrl ? (
-                      <img
-                        src={vendor.logoUrl}
-                        alt={vendor.name}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          borderRadius: "inherit",
-                        }}
-                      />
-                    ) : (
-                      vendor.name[0]
-                    )}
-                  </div>
-                  <div className="vendor-info">
-                    <div className="vname">
-                      {vendor.shortName || vendor.name}
+              {featuredVendors.map((vendor: any) => {
+                const safeRating =
+                  typeof vendor.avgRating === "number" &&
+                  Number.isFinite(vendor.avgRating)
+                    ? vendor.avgRating
+                    : 0;
+                const safeReviewCount =
+                  typeof vendor.reviewCount === "number" &&
+                  Number.isFinite(vendor.reviewCount)
+                    ? vendor.reviewCount
+                    : 0;
+                const safeInitial = vendor.name?.[0] || "V";
+
+                return (
+                  <Link
+                    href={`/store/${vendor.slug}`}
+                    className="vendor-card-v2"
+                    key={vendor.id}
+                  >
+                    <div className="vendor-card-banner">
+                      {vendor.logoUrl ? (
+                        <img src={vendor.logoUrl} alt={vendor.name} />
+                      ) : (
+                        <div className="vendor-card-banner-fallback">
+                          {safeInitial}
+                        </div>
+                      )}
+                      <span
+                        className={`vendor-availability-badge ${vendor.isOpenToday ? "open" : "closed"}`}
+                      >
+                        <span className="dot"></span>
+                        {vendor.isOpenToday ? "Open" : "Closed"}
+                      </span>
+                      <span className={`vendor-plan-badge plan-${vendor.plan}`}>
+                        {planLabels[vendor.plan]}
+                      </span>
                     </div>
-                    <div className="vrating">
-                      {vendor.productCount} products · {vendor.address}
+
+                    <div className="vendor-card-body">
+                      <div className="vname">
+                        {vendor.shortName || vendor.name}
+                      </div>
+                      <div className="vendor-card-meta">{vendor.address}</div>
+
+                      <div className="vendor-card-footer">
+                        <div className="vendor-card-rating">
+                          <span className="stars">
+                            {"★".repeat(Math.round(safeRating))}
+                            {"☆".repeat(5 - Math.round(safeRating))}
+                          </span>
+                          <span className="rating-value">
+                            {safeRating.toFixed(1)}
+                          </span>
+                          <span className="review-count">
+                            ({safeReviewCount})
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <Link className="vendor-view" href={`/store/${vendor.slug}`}>
-                    View
                   </Link>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 

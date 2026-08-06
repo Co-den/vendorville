@@ -6,12 +6,48 @@ import { useBusinessStore } from "@/store/businessStore";
 import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
+  const { user, updatePassword, isLoading } = useAuthStore();
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const { businesses } = useBusinessStore();
+  const [staff, setStaff] = useState<any[]>([]);
+  const [showInvite, setShowInvite] = useState(false);
+  const [staffName, setStaffName] = useState("");
+  const [staffEmail, setStaffEmail] = useState("");
+  const [staffRole, setStaffRole] = useState("staff");
+  const [staffPassword, setStaffPassword] = useState("");
+  const [staffError, setStaffError] = useState("");
+  const activeBusinessId = businesses[0]?.id;
   const [giftCards, setGiftCards] = useState<any[]>([]);
   const [showIssueGiftCard, setShowIssueGiftCard] = useState(false);
   const [giftCardValue, setGiftCardValue] = useState("");
   const [giftCardError, setGiftCardError] = useState("");
   const [issuedCard, setIssuedCard] = useState<any>(null);
+  const [riders, setRiders] = useState<any[]>([]);
+  const [showAddRider, setShowAddRider] = useState(false);
+  const [riderName, setRiderName] = useState("");
+  const [riderPhone, setRiderPhone] = useState("");
+  const [riderError, setRiderError] = useState("");
 
+  const addRider = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setRiderError("");
+    try {
+      const res = await api.post(`/businesses/${activeBusinessId}/riders`, {
+        name: riderName,
+        phone: riderPhone,
+      });
+      setRiders((prev) => [...prev, res.data.rider]);
+      setShowAddRider(false);
+      setRiderName("");
+      setRiderPhone("");
+    } catch (err: any) {
+      setRiderError(err.response?.data?.message || "Could not add rider");
+    }
+  };
   const issueGiftCard = async (e: React.FormEvent) => {
     e.preventDefault();
     setGiftCardError("");
@@ -29,15 +65,6 @@ export default function SettingsPage() {
       );
     }
   };
-  const { businesses } = useBusinessStore();
-  const [staff, setStaff] = useState<any[]>([]);
-  const [showInvite, setShowInvite] = useState(false);
-  const [staffName, setStaffName] = useState("");
-  const [staffEmail, setStaffEmail] = useState("");
-  const [staffRole, setStaffRole] = useState("staff");
-  const [staffPassword, setStaffPassword] = useState("");
-  const [staffError, setStaffError] = useState("");
-  const activeBusinessId = businesses[0]?.id;
 
   useEffect(() => {
     if (activeBusinessId) {
@@ -52,6 +79,15 @@ export default function SettingsPage() {
       api
         .get(`/businesses/${activeBusinessId}/gift-cards`)
         .then((res) => setGiftCards(res.data.cards))
+        .catch(() => {});
+    }
+  }, [activeBusinessId]);
+
+  useEffect(() => {
+    if (activeBusinessId) {
+      api
+        .get(`/businesses/${activeBusinessId}/riders`)
+        .then((res) => setRiders(res.data.riders))
         .catch(() => {});
     }
   }, [activeBusinessId]);
@@ -88,13 +124,6 @@ export default function SettingsPage() {
     await api.delete(`/businesses/${activeBusinessId}/staff/${staffId}`);
     setStaff((prev) => prev.filter((s) => s.id !== staffId));
   };
-
-  const { user, updatePassword, isLoading } = useAuthStore();
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordSuccess, setPasswordSuccess] = useState("");
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,7 +288,89 @@ export default function SettingsPage() {
           ))
         )}
       </div>
+      <div className="panel" style={{ marginTop: 20 }}>
+        <div className="panel-head">
+          <h2>
+            Dispatch Riders{" "}
+            <span style={{ color: "var(--accent)", fontSize: "0.7rem" }}>
+              ✦ Enterprise
+            </span>
+          </h2>
+          <button className="biz-add-btn" onClick={() => setShowAddRider(true)}>
+            Add Rider
+          </button>
+        </div>
+        {riders.length === 0 ? (
+          <p
+            style={{
+              fontSize: "0.86rem",
+              color: "var(--gray)",
+              textAlign: "center",
+              padding: "24px 0",
+            }}
+          >
+            No riders added yet.
+          </p>
+        ) : (
+          riders.map((r) => (
+            <div className="stock-row" key={r.id}>
+              <div>
+                <div className="stock-name">{r.name}</div>
+                <div className="stock-sub">{r.phone}</div>
+              </div>
+              <span
+                className="stock-badge"
+                style={{
+                  color: r.isActive ? "var(--accent)" : "#dc2626",
+                  background: r.isActive ? "var(--accent-light)" : "#fee2e2",
+                }}
+              >
+                {r.isActive ? "Active" : "Inactive"}
+              </span>
+            </div>
+          ))
+        )}
+      </div>
 
+      {showAddRider && (
+        <div className="modal-overlay" onClick={() => setShowAddRider(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3>Add Rider</h3>
+            <form onSubmit={addRider}>
+              <div className="modal-field">
+                <label>Name</label>
+                <input
+                  required
+                  value={riderName}
+                  onChange={(e) => setRiderName(e.target.value)}
+                />
+              </div>
+              <div className="modal-field">
+                <label>Phone</label>
+                <input
+                  type="tel"
+                  required
+                  value={riderPhone}
+                  onChange={(e) => setRiderPhone(e.target.value)}
+                />
+              </div>
+              {riderError && <div className="error-message">{riderError}</div>}
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary-modal"
+                  onClick={() => setShowAddRider(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary-modal">
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       {showInvite && (
         <div className="modal-overlay" onClick={() => setShowInvite(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
