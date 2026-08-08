@@ -22,6 +22,10 @@ const paymentMethods = [
 ];
 
 export default function OrdersPage() {
+  const [riders, setRiders] = useState<any[]>([]);
+  const [orderDispatch, setOrderDispatch] = useState<
+    Record<number, { riderId: number; status: string }>
+  >({});
   const { businesses, fetchBusinesses } = useBusinessStore();
   const { products, fetchProducts, clearProducts } = useProductStore();
   const {
@@ -88,6 +92,17 @@ export default function OrdersPage() {
     if (activeBusinessId !== null) {
       fetchProducts(activeBusinessId);
       fetchOrders(activeBusinessId);
+    }
+  }, [activeBusinessId]);
+  //riders
+  useEffect(() => {
+    if (activeBusinessId) {
+      api
+        .get(`/businesses/${activeBusinessId}/riders`)
+        .then((res) => {
+          setRiders(res.data.riders.filter((r: any) => r.isActive));
+        })
+        .catch(() => {});
     }
   }, [activeBusinessId]);
 
@@ -209,6 +224,32 @@ export default function OrdersPage() {
         </div>
       </>
     );
+  }
+  //rider
+  const handleDispatchStatusChange = async (
+    orderId: number,
+    status: string,
+  ) => {
+    if (!activeBusinessId) return;
+    try {
+      await api.patch(
+        `/businesses/${activeBusinessId}/orders/${orderId}/dispatch-status`,
+        { status },
+      );
+      setOrderDispatch((prev) => ({
+        ...prev,
+        [orderId]: { ...prev[orderId], status },
+      }));
+      // If delivered, the backend also marks the order "fulfilled" — refresh orders to reflect that
+      if (status === "delivered") {
+        fetchOrders(activeBusinessId);
+      }
+    } catch (err) {
+      console.error("Could not update dispatch status", err);
+    }
+  };
+  function handleAssignRider(id: number, arg1: number): void {
+    throw new Error("Function not implemented.");
   }
 
   return (
@@ -495,28 +536,63 @@ export default function OrdersPage() {
           </p>
         ) : (
           orders.map((order) => (
-            <div className="order-row" key={order.id}>
-              <div>
-                <div className="order-customer">{order.customerName}</div>
-                <div className="order-id">
-                  {order.orderNumber} · {order.items.length} item
-                  {order.items.length === 1 ? "" : "s"}
+            <div className="order-row-dispatch" key={order.id}>
+              <div className="order-row">
+                <div>
+                  <div className="order-customer">{order.customerName}</div>
+                  <div className="order-id">
+                    {order.orderNumber} · {order.items.length} item
+                    {order.items.length === 1 ? "" : "s"}
+                  </div>
                 </div>
+                <div className="order-amount">
+                  ₦{order.totalAmount.toLocaleString()}
+                </div>
+                <select
+                  className={`order-status-select ${order.status}`}
+                  value={order.status}
+                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="paid">Paid</option>
+                  <option value="fulfilled">Fulfilled</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
               </div>
-              <div />
-              <div className="order-amount">
-                ₦{order.totalAmount.toLocaleString()}
-              </div>
-              <select
-                className={`order-status-select ${order.status}`}
-                value={order.status}
-                onChange={(e) => handleStatusChange(order.id, e.target.value)}
-              >
-                <option value="pending">Pending</option>
-                <option value="paid">Paid</option>
-                <option value="fulfilled">Fulfilled</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
+
+              {riders.length > 0 && order.status !== "cancelled" && (
+                <div className="dispatch-row">
+                  <select
+                    className="dispatch-select"
+                    value={orderDispatch[order.id]?.riderId || ""}
+                    onChange={(e) =>
+                      handleAssignRider(order.id, Number(e.target.value))
+                    }
+                  >
+                    <option value="">Assign rider...</option>
+                    {riders.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  {orderDispatch[order.id]?.riderId && (
+                    <select
+                      className="dispatch-select"
+                      value={orderDispatch[order.id]?.status || "assigned"}
+                      onChange={(e) =>
+                        handleDispatchStatusChange(order.id, e.target.value)
+                      }
+                    >
+                      <option value="assigned">Assigned</option>
+                      <option value="picked_up">Picked Up</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="failed">Failed</option>
+                    </select>
+                  )}
+                </div>
+              )}
             </div>
           ))
         )}

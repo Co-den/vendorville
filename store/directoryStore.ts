@@ -11,6 +11,11 @@ export interface DirectoryVendor {
   address: string;
   productCount: number;
   categories: string[];
+  avgRating: number;
+  reviewCount: number;
+  plan: "starter" | "professional" | "enterprise";
+  isAvailable: boolean;
+  isOpenToday: boolean;
 }
 
 interface DirectoryState {
@@ -18,26 +23,6 @@ interface DirectoryState {
   isLoading: boolean;
   error: string | null;
   fetchDirectory: (search?: string, category?: string) => Promise<void>;
-}
-
-export async function fetchDirectory(
-  search?: string,
-  category?: string,
-  limit?: number,
-) {
-  try {
-    const response = await api.get(`/store/directory`, {
-      params: { search, category },
-    });
-
-    const businesses = Array.isArray(response.data?.businesses)
-      ? response.data.businesses
-      : [];
-
-    return typeof limit === "number" ? businesses.slice(0, limit) : businesses;
-  } catch {
-    return [];
-  }
 }
 
 export const useDirectoryStore = create<DirectoryState>((set) => ({
@@ -48,7 +33,12 @@ export const useDirectoryStore = create<DirectoryState>((set) => ({
   fetchDirectory: async (search, category) => {
     set({ isLoading: true, error: null });
     try {
-      const businesses = await fetchDirectory(search, category);
+      const response = await api.get(`/store/directory`, {
+        params: { search, category },
+      });
+      const businesses = Array.isArray(response.data?.businesses)
+        ? response.data.businesses
+        : [];
       set({ vendors: businesses, isLoading: false });
     } catch (error: any) {
       set({

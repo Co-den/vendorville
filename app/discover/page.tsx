@@ -119,7 +119,7 @@ export default function DiscoverPage() {
             No vendors found. Try a different search or category.
           </p>
         ) : (
-          <div className="vendor-grid reveal-stagger">
+          <div className="vendor-grid">
               {filteredVendors.map((vendor: any) => {
                 const safeRating =
                   typeof vendor.avgRating === "number" &&

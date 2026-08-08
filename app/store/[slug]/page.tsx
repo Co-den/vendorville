@@ -975,7 +975,33 @@ export default function StorefrontPage() {
             </div>
           </div>
         )}
+        {myPoints > 0 && (
+          <div className="field-group">
+            <label className="field-label">
+              Redeem Points (You have {myPoints})
+            </label>
+            <input
+              type="number"
+              min="0"
+              max={myPoints}
+              value={redeemPoints}
+              onChange={(e) =>
+                setRedeemPoints(Math.min(myPoints, Number(e.target.value)))
+              }
+              placeholder="0"
+            />
+          </div>
+        )}
 
+        <div className="field-group">
+          <label className="field-label">Gift Card Code (optional)</label>
+          <input
+            type="text"
+            value={giftCardCode}
+            onChange={(e) => setGiftCardCode(e.target.value.toUpperCase())}
+            placeholder="e.g. A1B2C3D4E5F6"
+          />
+        </div>
         {orderSuccess && (
           <div className="modal-overlay" onClick={() => setOrderSuccess(null)}>
             <div className="modal-card" onClick={(e) => e.stopPropagation()}>
@@ -1010,33 +1036,7 @@ export default function StorefrontPage() {
             </div>
           </div>
         )}
-        {myPoints > 0 && (
-          <div className="field-group">
-            <label className="field-label">
-              Redeem Points (You have {myPoints})
-            </label>
-            <input
-              type="number"
-              min="0"
-              max={myPoints}
-              value={redeemPoints}
-              onChange={(e) =>
-                setRedeemPoints(Math.min(myPoints, Number(e.target.value)))
-              }
-              placeholder="0"
-            />
-          </div>
-        )}
 
-        <div className="field-group">
-          <label className="field-label">Gift Card Code (optional)</label>
-          <input
-            type="text"
-            value={giftCardCode}
-            onChange={(e) => setGiftCardCode(e.target.value.toUpperCase())}
-            placeholder="e.g. A1B2C3D4E5F6"
-          />
-        </div>
         <script src="https://js.paystack.co/v1/inline.js" async></script>
 
         <footer>

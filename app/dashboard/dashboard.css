@@ -548,7 +548,7 @@
 
 .order-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
+  grid-template-columns: minmax(0, 1.6fr) minmax(90px, 0.9fr) auto;
   align-items: center;
   gap: 12px;
   padding: 12px 0;
@@ -564,17 +564,20 @@
 .order-customer {
   font-weight: 700;
   color: var(--ink);
+  margin-bottom: 2px;
 }
 
 .order-id {
   color: var(--gray);
   font-size: 0.8rem;
+  line-height: 1.4;
 }
 
 .order-amount {
   font-weight: 700;
   color: var(--ink);
   text-align: right;
+  white-space: nowrap;
 }
 
 .order-status {
@@ -2861,4 +2864,38 @@
   border-color: var(--green-900);
   background: var(--green-900);
   color: #fff;
+}
+
+.order-row-dispatch {
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0 10px;
+}
+
+.order-row-dispatch:last-child {
+  border-bottom: none;
+}
+
+.order-row-dispatch .order-row {
+  border-bottom: none;
+  padding-bottom: 8px;
+}
+
+.dispatch-row {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.dispatch-select {
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  min-width: 140px;
 }
