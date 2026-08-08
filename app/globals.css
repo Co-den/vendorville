@@ -519,7 +519,6 @@ header.hero .wrap {
   max-width: 46ch;
   opacity: 0;
   animation: fadeInUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s forwards;
-  text-align: center;
 }
 
 .hero-ctas {
