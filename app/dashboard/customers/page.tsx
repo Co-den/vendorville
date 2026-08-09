@@ -124,10 +124,7 @@ export default function CustomersPage() {
         </div>
       )}
 
-      <div
-        className="stat-grid"
-        style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
-      >
+      <div className="stat-grid customer-stat-grid">
         <div className="stat-card">
           <div className="stat-card-top">
             <div className="stat-icon">
@@ -233,11 +230,8 @@ export default function CustomersPage() {
               : "No customers match your search."}
           </p>
         ) : (
-          <div className="inventory-table">
-            <div
-              className="inventory-table-head"
-              style={{ gridTemplateColumns: "1.8fr 1fr 1fr 1fr 0.6fr" }}
-            >
+          <div className="customer-table">
+            <div className="customer-table-head">
               <span>Customer</span>
               <span>Orders</span>
               <span>Total Spent</span>
@@ -245,11 +239,7 @@ export default function CustomersPage() {
               <span></span>
             </div>
             {filteredCustomers.map((customer) => (
-              <div
-                className="inventory-row"
-                key={customer.phone || customer.name}
-                style={{ gridTemplateColumns: "1.8fr 1fr 1fr 1fr 0.6fr" }}
-              >
+              <div className="customer-row" key={customer.phone || customer.name}>
                 <div className="inventory-product-cell">
                   <div className="inventory-thumb">{customer.name[0]}</div>
                   <div>
@@ -259,11 +249,11 @@ export default function CustomersPage() {
                     </div>
                   </div>
                 </div>
-                <span className="inventory-stock">{customer.orderCount}</span>
-                <span className="inventory-price">
+                <span className="customer-cell" data-label="Orders">{customer.orderCount}</span>
+                <span className="customer-cell" data-label="Total Spent">
                   ₦{customer.totalSpent.toLocaleString()}
                 </span>
-                <span className="inventory-category">
+                <span className="customer-cell" data-label="Last Order">
                   {new Date(customer.lastOrderAt).toLocaleDateString("en-NG", {
                     month: "short",
                     day: "numeric",

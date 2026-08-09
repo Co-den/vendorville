@@ -39,14 +39,16 @@ export default function AllBusinessesPage() {
         <tbody>
           {businesses.map((biz) => (
             <tr key={biz.id}>
-              <td>{biz.name}</td>
-              <td>{biz.address}</td>
-              <td>
+              <td data-label="Business">{biz.name}</td>
+              <td data-label="Address">{biz.address}</td>
+              <td data-label="Status">
                 <span className={`admin-badge ${biz.verificationStatus}`}>
                   {biz.verificationStatus}
                 </span>
               </td>
-              <td>{new Date(biz.createdAt).toLocaleDateString()}</td>
+              <td data-label="Created">
+                {new Date(biz.createdAt).toLocaleDateString()}
+              </td>
             </tr>
           ))}
         </tbody>

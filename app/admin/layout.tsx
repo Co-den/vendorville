@@ -3,7 +3,7 @@
 import { useAdminAuthStore } from "@/store/adminAuthStore";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./admin.css";
 
 export default function AdminLayout({
@@ -14,6 +14,7 @@ export default function AdminLayout({
   const { admin, isAuthenticated, logout } = useAdminAuthStore();
   const router = useRouter();
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (pathname === "/admin/login") return;
@@ -21,11 +22,15 @@ export default function AdminLayout({
     if (!token) router.push("/admin/login");
   }, [pathname]);
 
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [pathname]);
+
   if (pathname === "/admin/login") return <>{children}</>;
 
   return (
     <div className="admin-shell">
-      <aside className="admin-sidebar">
+      <aside className={`admin-sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="admin-brand">VendorVille Admin</div>
         <nav>
           <Link href="/admin" className={pathname === "/admin" ? "active" : ""}>
@@ -60,7 +65,33 @@ export default function AdminLayout({
           Logout
         </button>
       </aside>
-      <main className="admin-main">{children}</main>
+
+      {sidebarOpen && (
+        <div className="admin-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
+
+      <main className="admin-main">
+        <button
+          className="admin-mobile-toggle"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            width="20"
+            height="20"
+          >
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        {children}
+      </main>
     </div>
   );
 }

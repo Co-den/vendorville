@@ -2986,3 +2986,69 @@
   font-weight: 700;
   cursor: pointer;
 }
+/* ===== CUSTOMER TABLE (desktop grid, mobile stacked cards) ===== */
+.customer-table-head {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr 0.6fr;
+  gap: 12px;
+  padding: 0 0 12px;
+  border-bottom: 1.5px solid var(--line);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+.customer-row {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr 0.6fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.customer-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .customer-table-head {
+    display: none;
+  }
+
+  .customer-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px 0;
+  }
+
+  .customer-cell {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.84rem;
+  }
+
+  .customer-cell::before {
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .inventory-actions {
+    justify-content: flex-start;
+    margin-top: 6px;
+  }
+}
+
+/* Customer stat grid — collapse to 1 col below 480px instead of default 2 */
+@media (max-width: 480px) {
+  .customer-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
