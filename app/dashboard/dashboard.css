@@ -1658,14 +1658,13 @@
 }
 
 .plan-card {
-   position: relative;
+  position: relative;
   padding: 2.5rem;
   border-radius: 2.5rem;
   border: 1px solid #f1f5f9;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-
 
 .plan-card.featured {
   border-color: var(--accent);
@@ -1677,7 +1676,7 @@
 }
 
 .plan-card-badge {
-   position: absolute;
+  position: absolute;
   top: -20px;
   left: 50%;
   transform: translateX(-50%);
@@ -1747,7 +1746,7 @@
 }
 
 .plan-card-btn {
-   width: 100%;
+  width: 100%;
   height: 64px;
   background: #fff;
   color: var(--color-green-500);
@@ -2808,7 +2807,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  margin-bottom:4px;
+  margin-bottom: 4px;
 }
 
 .biz-availability-btn.open {
@@ -2898,4 +2897,92 @@
   color: var(--ink);
   cursor: pointer;
   min-width: 140px;
+}
+
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--green-900);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+.chat-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  width: 340px;
+  height: 460px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+.chat-panel-header {
+  background: var(--green-900);
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}
+.chat-panel-header button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.chat-panel-messages {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-bubble {
+  max-width: 75%;
+  padding: 9px 13px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+}
+.chat-bubble.sent {
+  align-self: flex-end;
+  background: var(--accent-light);
+  color: var(--ink);
+}
+.chat-bubble.received {
+  align-self: flex-start;
+  background: var(--offwhite);
+  color: var(--ink);
+}
+.chat-panel-input {
+  display: flex;
+  border-top: 1px solid var(--line);
+}
+.chat-panel-input input {
+  flex: 1;
+  border: none;
+  padding: 12px 14px;
+  font-size: 0.86rem;
+}
+.chat-panel-input button {
+  padding: 0 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
 }

@@ -43,6 +43,12 @@ export default function AdminLayout({
           >
             All Businesses
           </Link>
+          <Link
+            href="/admin/chat"
+            className={pathname === "/admin/chat" ? "active" : ""}
+          >
+            Support Chat
+          </Link>
         </nav>
         <button
           className="admin-logout"

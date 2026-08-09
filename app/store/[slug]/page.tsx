@@ -533,6 +533,64 @@ export default function StorefrontPage() {
                     Available: {business.availableDays.join(", ")}
                   </p>
                 </div>
+                // In the Locations tab slide, storefront page:
+                <div className="panel" style={{ marginTop: 16 }}>
+                  <h2>Get Directions</h2>
+                  <p
+                    style={{
+                      color: "var(--gray)",
+                      fontSize: "0.86rem",
+                      margin: "8px 0 16px",
+                    }}
+                  >
+                    Visit {business.name} in person using the address above.
+                  </p>
+
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-create"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 8,
+                      textDecoration: "none",
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      width="16"
+                      height="16"
+                    >
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    Open in Google Maps
+                  </a>
+
+                  <div
+                    style={{
+                      marginTop: 16,
+                      borderRadius: 12,
+                      overflow: "hidden",
+                      border: "1px solid var(--line)",
+                    }}
+                  >
+                    <iframe
+                      width="100%"
+                      height="280"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(business.address)}&output=embed`}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* ===== REVIEWS TAB ===== */}

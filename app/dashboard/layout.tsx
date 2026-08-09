@@ -1,5 +1,6 @@
 "use client";
 
+import ChatWidget from "@/components/chatWidget";
 import { useAuthStore } from "@/store/authStore";
 import { useStaffAuthStore } from "@/store/staffAuthStore";
 import { Fraunces } from "next/font/google";
@@ -263,6 +264,8 @@ export default function DashboardLayout({
   const initials = user?.firstName?.[0]?.toUpperCase() || "V";
 
   return (
+    <>
+    <ChatWidget />
     <div className={`dash-shell ${fraunces.variable}`}>
       <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
         <Link className="dash-brand" href="/">
@@ -350,6 +353,9 @@ export default function DashboardLayout({
 
         <main className="dash-content">{children}</main>
       </div>
+
     </div>
+    
+    </>
   );
 }
