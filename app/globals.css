@@ -2040,3 +2040,64 @@ footer p.tagline {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.vendor-card-v3 {
+  display: block;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vendor-card-v3:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+.vendor-card-v3-image {
+  position: relative;
+  height: 150px;
+  background: linear-gradient(150deg, #132e1b, #1f4935);
+}
+
+.vendor-card-v3-image img { width: 100%; height: 100%; object-fit: cover; }
+.vendor-card-v3-fallback {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 2rem; font-weight: 800;
+}
+
+.vendor-card-v3-badges-top {
+  position: absolute; top: 10px; left: 10px; right: 10px;
+  display: flex; justify-content: space-between; z-index: 2;
+}
+
+.v3-badge {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px; font-size: 0.66rem; font-weight: 800;
+}
+
+.v3-badge.availability.open { background: rgba(58,132,79,0.92); color: #fff; }
+.v3-badge.availability.open .dot { width: 6px; height: 6px; border-radius: 50%; background: #7fd99a; }
+.v3-badge.availability.closed { background: rgba(220,38,38,0.92); color: #fff; }
+.v3-badge.availability.closed .dot { width: 6px; height: 6px; border-radius: 50%; background: #fecaca; }
+
+.v3-badge.plan { text-transform: uppercase; }
+.v3-badge.plan-starter { background: rgba(255,255,255,0.85); color: #3d4a45; }
+.v3-badge.plan-professional { background: rgba(58,132,79,0.92); color: #fff; }
+.v3-badge.plan-enterprise { background: linear-gradient(135deg, #f0a23a, #d4841f); color: #fff; }
+
+.v3-badge.verified {
+  position: absolute; bottom: 10px; left: 10px; z-index: 2;
+  background: rgba(255,255,255,0.95); color: #3a844f;
+}
+
+.vendor-card-v3-body { padding: 16px; }
+
+.vendor-card-v3-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.vendor-card-v3-rating .stars { color: #f0a23a; font-size: 0.85rem; }
+.vendor-card-v3-rating .review-count { font-size: 0.76rem; color: #667085; }
+
+.vendor-card-v3-address { font-size: 0.8rem; color: #667085; margin-top: 4px; }
+.vendor-card-v3-branches { font-size: 0.74rem; color: #3a844f; font-weight: 700; margin-top: 8px; }

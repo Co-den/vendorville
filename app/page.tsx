@@ -600,48 +600,72 @@ export default async function Home() {
                 return (
                   <Link
                     href={`/store/${vendor.slug}`}
-                    className="vendor-card-v2"
+                    className="vendor-card-v3"
                     key={vendor.id}
                   >
-                    <div className="vendor-card-banner">
+                    <div className="vendor-card-v3-image">
                       {vendor.logoUrl ? (
                         <img src={vendor.logoUrl} alt={vendor.name} />
                       ) : (
-                        <div className="vendor-card-banner-fallback">
-                          {safeInitial}
+                        <div className="vendor-card-v3-fallback">
+                          {vendor.name[0]}
                         </div>
                       )}
-                      <span
-                        className={`vendor-availability-badge ${vendor.isOpenToday ? "open" : "closed"}`}
-                      >
-                        <span className="dot"></span>
-                        {vendor.isOpenToday ? "Open" : "Closed"}
-                      </span>
-                      <span className={`vendor-plan-badge plan-${vendor.plan}`}>
-                        {planLabels[vendor.plan]}
-                      </span>
+
+                      <div className="vendor-card-v3-badges-top">
+                        <span
+                          className={`v3-badge availability ${vendor.isOpenToday ? "open" : "closed"}`}
+                        >
+                          <span className="dot"></span>
+                          {vendor.isOpenToday ? "Open" : "Closed"}
+                        </span>
+                        <span className={`v3-badge plan plan-${vendor.plan}`}>
+                          {planLabels[vendor.plan]}
+                        </span>
+                      </div>
+
+                      {vendor.isVerified && (
+                        <span className="v3-badge verified">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            width="12"
+                            height="12"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                          Verified
+                        </span>
+                      )}
                     </div>
 
-                    <div className="vendor-card-body">
+                    <div className="vendor-card-v3-body">
+                      <div className="vendor-card-v3-rating">
+                        <span className="stars">
+                          {"★".repeat(Math.round(vendor.avgRating))}
+                          {"☆".repeat(5 - Math.round(vendor.avgRating))}
+                        </span>
+                        <span className="review-count">
+                          ({vendor.reviewCount})
+                        </span>
+                      </div>
+
                       <div className="vname">
                         {vendor.shortName || vendor.name}
                       </div>
-                      <div className="vendor-card-meta">{vendor.address}</div>
-
-                      <div className="vendor-card-footer">
-                        <div className="vendor-card-rating">
-                          <span className="stars">
-                            {"★".repeat(Math.round(safeRating))}
-                            {"☆".repeat(5 - Math.round(safeRating))}
-                          </span>
-                          <span className="rating-value">
-                            {safeRating.toFixed(1)}
-                          </span>
-                          <span className="review-count">
-                            ({safeReviewCount})
-                          </span>
-                        </div>
+                      <div className="vendor-card-v3-address">
+                        {vendor.address}
                       </div>
+
+                      {vendor.branchCount > 1 && (
+                        <div className="vendor-card-v3-branches">
+                          {vendor.branchCount} locations
+                        </div>
+                      )}
                     </div>
                   </Link>
                 );
