@@ -2,6 +2,14 @@
 
 import { adminApi } from "@/store/adminAuthStore";
 import { useEffect, useState } from "react";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 const planLabels: Record<string, string> = {
   starter: "Starter",
@@ -18,7 +26,20 @@ const defaultStats = {
   planBusinessCounts: { starter: 0, professional: 0, enterprise: 0 },
   totalSubscriptionRevenue: 0,
   locationData: [] as { state: string; count: number }[],
+  topSellingVendor: undefined as { name: string; totalSales: number } | undefined,
+  topVendorState: "N/A",
 };
+
+const COLORS = [
+  "#3a844f",
+  "#7fd99a",
+  "#b4741a",
+  "#dc2626",
+  "#3b5fd9",
+  "#8134af",
+  "#f0a23a",
+  "#0369a1",
+];
 
 export default function AdminOverviewPage() {
   const [stats, setStats] = useState(defaultStats);
@@ -41,7 +62,25 @@ export default function AdminOverviewPage() {
   return (
     <div>
       <h1>Overview</h1>
-
+      <div className="admin-section-grid" style={{ marginTop: 20 }}>
+        <div className="admin-stat-card">
+          <div className="label">Top Selling Vendor</div>
+          <div className="value" style={{ fontSize: "1.2rem" }}>
+            {stats.topSellingVendor?.name || "N/A"}
+          </div>
+          {stats.topSellingVendor && (
+            <div className="admin-plan-sub">
+              ₦{stats.topSellingVendor.totalSales.toLocaleString()} in sales
+            </div>
+          )}
+        </div>
+        <div className="admin-stat-card">
+          <div className="label">State with Most Vendors</div>
+          <div className="value" style={{ fontSize: "1.2rem" }}>
+            {stats.topVendorState}
+          </div>
+        </div>
+      </div>
       <div className="admin-stat-grid">
         <div className="admin-stat-card">
           <div className="value">{stats.total}</div>
@@ -115,6 +154,35 @@ export default function AdminOverviewPage() {
                 <span className="admin-location-count">{item.count}</span>
               </div>
             ))
+          )}
+        </div>
+
+        <div className="admin-panel">
+          <h2>Vendor Distribution</h2>
+          {stats.locationData.length === 0 ? (
+            <p style={{ color: "#667085", fontSize: "0.86rem" }}>
+              No location data yet.
+            </p>
+          ) : (
+            <ResponsiveContainer width="100%" height={260}>
+              <PieChart>
+                <Pie
+                  data={stats.locationData}
+                  dataKey="count"
+                  nameKey="state"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={85}
+                  label={(entry) => (entry.payload as { state: string }).state}
+                >
+                  {stats.locationData.map((_: any, i: number) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           )}
         </div>
       </div>

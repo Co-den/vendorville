@@ -1,9 +1,9 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import api from "@/store/axiosInstance";
 import { useBusinessStore } from "@/store/businessStore";
 import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 declare global {
@@ -89,8 +89,8 @@ export default function BusinessSection() {
   const saveAvailability = async () => {
     setSavingAvailability(true);
     try {
-      await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/businesses/${editingAvailability.id}/availability`,
+      await api.patch(
+        `/businesses/${editingAvailability.id}/availability`,
         {
           isAvailable,
           availableDays: availDays,

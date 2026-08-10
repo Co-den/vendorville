@@ -8,8 +8,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./discover.css";
 
-
-
 const planLabels: Record<string, string> = {
   starter: "Starter",
   professional: "Professional",
@@ -17,10 +15,97 @@ const planLabels: Record<string, string> = {
 };
 
 export default function DiscoverPage() {
-  
-  const { vendors, isLoading, fetchDirectory: loadDirectory } = useDirectoryStore();
+  const {
+    vendors,
+    isLoading,
+    fetchDirectory: loadDirectory,
+  } = useDirectoryStore();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const [userLocation, setUserLocation] = useState<string | null>(null);
+  const [isLocating, setIsLocating] = useState(false);
+  const [locationFilterActive, setLocationFilterActive] = useState(false);
+
+  const nigerianStates = [
+    "Lagos",
+    "Abuja",
+    "FCT",
+    "Rivers",
+    "Kano",
+    "Oyo",
+    "Delta",
+    "Edo",
+    "Kaduna",
+    "Imo",
+    "Plateau",
+    "Anambra",
+    "Enugu",
+    "Abia",
+    "Cross River",
+    "Ogun",
+    "Ondo",
+    "Osun",
+    "Ekiti",
+    "Kwara",
+    "Kogi",
+    "Benue",
+    "Niger",
+    "Sokoto",
+    "Kebbi",
+    "Zamfara",
+    "Katsina",
+    "Jigawa",
+    "Bauchi",
+    "Gombe",
+    "Adamawa",
+    "Taraba",
+    "Yobe",
+    "Borno",
+    "Nasarawa",
+    "Ebonyi",
+    "Akwa Ibom",
+    "Bayelsa",
+  ];
+
+  const handleUseMyLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Location services are not available on this device.");
+      return;
+    }
+
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+          );
+          const data = await res.json();
+          const state = data.address?.state || data.address?.county;
+
+          const matchedState = nigerianStates.find((s) =>
+            state?.toLowerCase().includes(s.toLowerCase()),
+          );
+
+          if (matchedState) {
+            setUserLocation(matchedState);
+            setLocationFilterActive(true);
+          } else {
+            alert("Couldn't determine your state. Try searching manually.");
+          }
+        } catch {
+          alert("Could not determine your location.");
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      () => {
+        alert("Location permission denied.");
+        setIsLocating(false);
+      },
+    );
+  };
 
   useEffect(() => {
     loadDirectory();
@@ -40,10 +125,14 @@ export default function DiscoverPage() {
     return vendors.filter((v) => {
       const matchesSearch = v.name.toLowerCase().includes(search.toLowerCase());
       const matchesCategory =
-        category === "All" || (v.categories ?? []).includes(category);
-      return matchesSearch && matchesCategory;
+        category === "All" || v.categories.includes(category);
+      const matchesLocation =
+        !locationFilterActive ||
+        !userLocation ||
+        v.address.toLowerCase().includes(userLocation.toLowerCase());
+      return matchesSearch && matchesCategory && matchesLocation;
     });
-  }, [vendors, search, category]);
+  }, [vendors, search, category, locationFilterActive, userLocation]);
 
   return (
     <>
@@ -56,6 +145,28 @@ export default function DiscoverPage() {
           <span></span>
         </div>
         <div className="hero-overlay" aria-hidden="true"></div>
+        <button
+          className="discover-location-btn"
+          onClick={handleUseMyLocation}
+          disabled={isLocating}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          {isLocating
+            ? "Locating..."
+            : locationFilterActive
+              ? userLocation
+              : "Near Me"}
+        </button>
         <div className="wrap discover-hero-content">
           <span className="discover-eyebrow">✦ Discover Vendors</span>
           <h1>Shop from Nigerian vendors near you</h1>
@@ -85,6 +196,16 @@ export default function DiscoverPage() {
           </div>
         </div>
       </div>
+      {locationFilterActive && (
+        <div className="wrap" style={{ paddingTop: 12 }}>
+          <button
+            className="discover-clear-location"
+            onClick={() => setLocationFilterActive(false)}
+          >
+            Showing vendors in {userLocation} · Clear filter ✕
+          </button>
+        </div>
+      )}
       <div className="wrap">
         <div className="discover-categories">
           {allCategories.map((cat) => (
@@ -120,69 +241,93 @@ export default function DiscoverPage() {
           </p>
         ) : (
           <div className="vendor-grid">
-              {filteredVendors.map((vendor: any) => {
-                const safeRating =
-                  typeof vendor.avgRating === "number" &&
-                  Number.isFinite(vendor.avgRating)
-                    ? vendor.avgRating
-                    : 0;
-                const safeReviewCount =
-                  typeof vendor.reviewCount === "number" &&
-                  Number.isFinite(vendor.reviewCount)
-                    ? vendor.reviewCount
-                    : 0;
-                const safeInitial = vendor.name?.[0] || "V";
+            {filteredVendors.map((vendor: any) => {
+              const safeRating =
+                typeof vendor.avgRating === "number" &&
+                Number.isFinite(vendor.avgRating)
+                  ? vendor.avgRating
+                  : 0;
+              const safeReviewCount =
+                typeof vendor.reviewCount === "number" &&
+                Number.isFinite(vendor.reviewCount)
+                  ? vendor.reviewCount
+                  : 0;
+              const safeInitial = vendor.name?.[0] || "V";
 
-                return (
-                  <Link
-                    href={`/store/${vendor.slug}`}
-                    className="vendor-card-v2"
-                    key={vendor.id}
-                  >
-                    <div className="vendor-card-banner">
-                      {vendor.logoUrl ? (
-                        <img src={vendor.logoUrl} alt={vendor.name} />
-                      ) : (
-                        <div className="vendor-card-banner-fallback">
-                          {safeInitial}
-                        </div>
-                      )}
+              return (
+                <Link
+                  href={`/store/${vendor.slug}`}
+                  className="vendor-card-v3"
+                  key={vendor.id}
+                >
+                  <div className="vendor-card-v3-image">
+                    {vendor.logoUrl ? (
+                      <img src={vendor.logoUrl} alt={vendor.name} />
+                    ) : (
+                      <div className="vendor-card-v3-fallback">
+                        {vendor.name[0]}
+                      </div>
+                    )}
+
+                    <div className="vendor-card-v3-badges-top">
                       <span
-                        className={`vendor-availability-badge ${vendor.isOpenToday ? "open" : "closed"}`}
+                        className={`v3-badge availability ${vendor.isOpenToday ? "open" : "closed"}`}
                       >
                         <span className="dot"></span>
                         {vendor.isOpenToday ? "Open" : "Closed"}
                       </span>
-                      <span className={`vendor-plan-badge plan-${vendor.plan}`}>
+                      <span className={`v3-badge plan plan-${vendor.plan}`}>
                         {planLabels[vendor.plan]}
                       </span>
                     </div>
 
-                    <div className="vendor-card-body">
-                      <div className="vname">
-                        {vendor.shortName || vendor.name}
-                      </div>
-                      <div className="vendor-card-meta">{vendor.address}</div>
+                    {vendor.isVerified && (
+                      <span className="v3-badge verified">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          width="12"
+                          height="12"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Verified
+                      </span>
+                    )}
+                  </div>
 
-                      <div className="vendor-card-footer">
-                        <div className="vendor-card-rating">
-                          <span className="stars">
-                            {"★".repeat(Math.round(safeRating))}
-                            {"☆".repeat(5 - Math.round(safeRating))}
-                          </span>
-                          <span className="rating-value">
-                            {safeRating.toFixed(1)}
-                          </span>
-                          <span className="review-count">
-                            ({safeReviewCount})
-                          </span>
-                        </div>
-                      </div>
+                  <div className="vendor-card-v3-body">
+                    <div className="vendor-card-v3-rating">
+                      <span className="stars">
+                        {"★".repeat(Math.round(vendor.avgRating))}
+                        {"☆".repeat(5 - Math.round(vendor.avgRating))}
+                      </span>
+                      <span className="review-count">
+                        ({vendor.reviewCount})
+                      </span>
                     </div>
-                  </Link>
-                );
-              })}
-            </div>
+
+                    <div className="vname">
+                      {vendor.shortName || vendor.name}
+                    </div>
+                    <div className="vendor-card-v3-address">
+                      {vendor.address}
+                    </div>
+
+                    {vendor.branchCount > 1 && (
+                      <div className="vendor-card-v3-branches">
+                        {vendor.branchCount} locations
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         )}
       </div>
       <footer>

@@ -40,15 +40,15 @@
 }
 
 .discover-hero .hero-bg span:nth-child(1) {
-  background-image: url('https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-image: url("https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=600");
 }
 
 .discover-hero .hero-bg span:nth-child(2) {
-  background-image: url('https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-image: url("https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=600");
 }
 
 .discover-hero .hero-bg span:nth-child(3) {
-  background-image: url('https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-image: url("https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=600");
 }
 
 .discover-hero .hero-overlay {
@@ -85,7 +85,7 @@
 }
 
 .discover-hero h1 {
-  font-family: var(--font-fraunces), 'Fraunces', serif;
+  font-family: var(--font-fraunces), "Fraunces", serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   color: #fff;
@@ -160,8 +160,13 @@
 }
 
 @keyframes gradientDrift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -196,7 +201,9 @@
 .discover-search-bar {
   opacity: 0;
   animation: fadeInUp 0.7s ease 0.46s forwards;
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
 
 .discover-search-bar:focus-within {
@@ -206,7 +213,11 @@
 
 /* ===== Category buttons ===== */
 .discover-cat-btn {
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .discover-cat-btn:hover {
@@ -217,7 +228,6 @@
 .discover-cat-btn.active {
   animation: none;
 }
-
 
 /* ===== Loading spinner fade-in ===== */
 .spinner {
@@ -237,7 +247,9 @@
   border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .vendor-card-v2:hover {
@@ -292,13 +304,17 @@
   background: rgba(58, 132, 79, 0.92);
   color: #fff;
 }
-.vendor-availability-badge.open .dot { background: #7fd99a; }
+.vendor-availability-badge.open .dot {
+  background: #7fd99a;
+}
 
 .vendor-availability-badge.closed {
   background: rgba(220, 38, 38, 0.92);
   color: #fff;
 }
-.vendor-availability-badge.closed .dot { background: #fecaca; }
+.vendor-availability-badge.closed .dot {
+  background: #fecaca;
+}
 
 .vendor-plan-badge {
   position: absolute;
@@ -371,4 +387,182 @@
 .vendor-card-rating .review-count {
   font-size: 0.76rem;
   color: #667085;
+}
+
+.discover-location-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.discover-location-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+.discover-location-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.discover-location-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.discover-clear-location {
+  background: var(--accent-light);
+  color: var(--accent);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vendor-card-v3 {
+  display: block;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.vendor-card-v3:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+.vendor-card-v3-image {
+  position: relative;
+  height: 150px;
+  background: linear-gradient(150deg, #132e1b, #1f4935);
+}
+
+.vendor-card-v3-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vendor-card-v3-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.vendor-card-v3-badges-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.v3-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.v3-badge.availability.open {
+  background: rgba(58, 132, 79, 0.92);
+  color: #fff;
+}
+.v3-badge.availability.open .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7fd99a;
+}
+.v3-badge.availability.closed {
+  background: rgba(220, 38, 38, 0.92);
+  color: #fff;
+}
+.v3-badge.availability.closed .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fecaca;
+}
+
+.v3-badge.plan {
+  text-transform: uppercase;
+}
+.v3-badge.plan-starter {
+  background: rgba(255, 255, 255, 0.85);
+  color: #3d4a45;
+}
+.v3-badge.plan-professional {
+  background: rgba(58, 132, 79, 0.92);
+  color: #fff;
+}
+.v3-badge.plan-enterprise {
+  background: linear-gradient(135deg, #f0a23a, #d4841f);
+  color: #fff;
+}
+
+.v3-badge.verified {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  color: #3a844f;
+}
+
+.vendor-card-v3-body {
+  padding: 16px;
+}
+
+.vendor-card-v3-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.vendor-card-v3-rating .stars {
+  color: #f0a23a;
+  font-size: 0.85rem;
+}
+.vendor-card-v3-rating .review-count {
+  font-size: 0.76rem;
+  color: #667085;
+}
+
+.vendor-card-v3-address {
+  font-size: 0.8rem;
+  color: #667085;
+  margin-top: 4px;
+}
+.vendor-card-v3-branches {
+  font-size: 0.74rem;
+  color: #3a844f;
+  font-weight: 700;
+  margin-top: 8px;
 }
