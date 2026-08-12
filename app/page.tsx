@@ -1,5 +1,6 @@
 import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
+import PricingSection from "@/components/PricingSection";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -680,149 +681,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
+      <PricingSection />
       <section id="pricing">
         <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="tag-pill">✦ Pricing</span>
-          </div>
-          <div className="sec-head reveal">
-            <h2>Simple, Transparent Pricing</h2>
-            <p>Start free. Upgrade anytime. Cancel anytime.</p>
-          </div>
-          <div className="toggle">
-            <div className="toggle-pill">
-              <span className="active">Monthly</span>
-              <span>Yearly</span>
-            </div>
-          </div>
-          <div className="price-grid reveal-stagger">
-            <div className="price-card">
-              <span className="badge-pop">14 days free trial</span>
-              <div className="plan-name">Starter</div>
-              <div className="plan-sub">Suitable for vendors</div>
-              <div className="plan-price">
-                ₦5,500<span>/month</span>
-              </div>
-              <p className="pricing-note">
-                ≈ <span className="price">$4.34</span> /mo · incl. VAT
-              </p>
-              <p className="trial-note">after your free trial ends</p>
-              <ul className="plan-list">
-                <li>1 Business, 1 Stall/Front</li>
-                <li>Up to 200 POS order items/month</li>
-                <li>Up to 50 orders per customer</li>
-                <li>Standard POS &amp; Inventory</li>
-                <li>Up to 50 Customers per store</li>
-                <li>5 Shelf/Rack Compartments</li>
-                <li>1 Staff per Store</li>
-                <li>Email &amp; WhatsApp Sharing</li>
-              </ul>
-              <Link className="p-b" href="/auth/signup?plan=starter">
-                Start Starter
-              </Link>
-              <div className="t-badge">
-                <svg
-                  className="t-icon"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-                  <path d="M9 12l2 2 4-4" />
-                </svg>
-
-                <span>No credit card required · Cancel anytime</span>
-              </div>
-            </div>
-            <div className="price-card pro">
-              <span className="badge-pop2">MOST POPULAR</span>
-              <div className="plan-name">Professional</div>
-              <div className="plan-sub">Built for growing vendors</div>
-              <div className="plan-price">
-                ₦10,500<span>/month</span>
-              </div>
-              <p className="pricing-note">
-                ≈ <span className="price">8.28</span> /mo · incl. VAT
-              </p>
-              <p className="trial-note">+7.5% VAT</p>
-              <ul className="plan-list">
-                <li>2 Businesses, 2 Stores per Brand</li>
-                <li>Up to 400 POS order items/month</li>
-                <li>Up to 100 orders per customer</li>
-                <li>Gift Card &amp; Loyalty Points</li>
-                <li>Up to 120 Customers per store</li>
-                <li>15 Shelf/Rack Compartments</li>
-                <li>3 Staff per Store</li>
-                <li>Email, SMS &amp; WhatsApp Alerts</li>
-              </ul>
-              <Link className="plan-btn" href="/auth/signup?plan=professional">
-                Start Professional
-              </Link>
-              <div className="t-badge">
-                <svg
-                  className="t-icon"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-                  <path d="M9 12l2 2 4-4" />
-                </svg>
-
-                <span>No credit card required · Cancel anytime</span>
-              </div>
-            </div>
-            <div className="price-card">
-              <div className="plan-name">Enterprise Suite</div>
-              <div className="plan-sub">For enterprise-level vendors</div>
-              <div className="plan-price">
-                ₦15,500<span>/month</span>
-              </div>
-              <p className="pricing-note">
-                ≈ <span className="price">12.22</span> /mo · incl. VAT
-              </p>
-              <p className="trial-note">+7.5% VAT</p>
-              <ul className="plan-list">
-                <li>Unlimited Businesses &amp; Stalls</li>
-                <li>Unlimited POS order items</li>
-                <li>Unlimited orders per store</li>
-                <li>Unlimited Staff per Store</li>
-                <li>Unlimited Shelf/Rack Compartments</li>
-                <li>AI-Powered Order Creation</li>
-                <li>Dispatch Rider Feature</li>
-                <li>Email, SMS &amp; WhatsApp Alerts</li>
-              </ul>
-              <Link className="plan-btn" href="/auth/signup?plan=premium">
-                Choose Premium
-              </Link>
-              <div className="t-badge">
-                <svg
-                  className="t-icon"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-                  <path d="M9 12l2 2 4-4" />
-                </svg>
-
-                <span>No credit card required · Cancel anytime</span>
-              </div>
-            </div>
-          </div>
           <div style={{ textAlign: "center", margin: "44px 0 18px" }}>
             <span className="tag-pill">✦ Compare Plans</span>
           </div>
