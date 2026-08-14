@@ -2,7 +2,9 @@
 
 import ChatWidget from "@/components/chatWidget";
 import { useAuthStore } from "@/store/authStore";
+import { registerPushNotifications } from "@/store/pushNotifications";
 import { useStaffAuthStore } from "@/store/staffAuthStore";
+import { Box, LayoutGrid, LogOut } from 'lucide-react';
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -34,33 +36,10 @@ const financeItems = [
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, JSX.Element> = {
     grid: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-        <rect x="14" y="14" width="7" height="7" rx="1.5" />
-      </svg>
+      <LayoutGrid/>
     ),
     box: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M21 8l-9-5-9 5 9 5 9-5z" />
-        <path d="M3 8v8l9 5 9-5V8" />
-        <path d="M12 13v8" />
-      </svg>
+      <Box/>
     ),
     receipt: (
       <svg
@@ -217,6 +196,22 @@ export default function DashboardLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showPushPrompt, setShowPushPrompt] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      "Notification" in window &&
+      Notification.permission === "default"
+    ) {
+      setShowPushPrompt(true);
+    }
+  }, []);
+
+  const handleEnablePush = async () => {
+    const success = await registerPushNotifications();
+    setShowPushPrompt(false);
+  };
 
   useEffect(() => {
     checkAuth();
@@ -265,97 +260,98 @@ export default function DashboardLayout({
 
   return (
     <>
-    <ChatWidget />
-    <div className={`dash-shell ${fraunces.variable}`}>
-      <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
-        <Link className="dash-brand" href="/">
-          <span>VendorVille</span>
-        </Link>
-        <nav className="dash-nav">
-          {effectiveNavItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
-              onClick={() => setSidebarOpen(false)}
+      <ChatWidget />
+      {showPushPrompt && (
+        <div className="push-prompt-banner">
+          <span>Get instant alerts for new orders enable notifications?</span>
+          <div>
+            <button onClick={handleEnablePush} className="push-prompt-enable">
+              Enable
+            </button>
+            <button
+              onClick={() => setShowPushPrompt(false)}
+              className="push-prompt-dismiss"
             >
-              <NavIcon name={item.icon} />
-              {item.label}
-            </Link>
-          ))}
-
-          {!isStaffSession && (
-            <>
-              <div className="dash-nav-section-label">Finance</div>
-
-              {financeItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
-                  onClick={() => setSidebarOpen(false)}
-                >
-                  <NavIcon name={item.icon} />
-                  {item.label}
-                </Link>
-              ))}
-            </>
-          )}
-        </nav>
-        <div className="dash-sidebar-footer">
-          <button className="dash-logout-btn" onClick={handleLogout}>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              width="18"
-              height="18"
-            >
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-            Logout
-          </button>
-        </div>
-      </aside>
-
-      <div className="dash-main">
-        <header className="dash-topbar">
-          <button
-            className="dash-mobile-toggle"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            aria-label="Toggle sidebar"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              width="22"
-              height="22"
-            >
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
-          <div />
-          <div className="dash-topbar-right">
-            <div className="dash-avatar">{initials}</div>
+              Not now
+            </button>
           </div>
-        </header>
+        </div>
+      )}
+      <div className={`dash-shell ${fraunces.variable}`}>
+        <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
+          <Link className="dash-brand" href="/">
+            <span>VendorVille</span>
+          </Link>
+          <nav className="dash-nav">
+            {effectiveNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <NavIcon name={item.icon} />
+                {item.label}
+              </Link>
+            ))}
 
-        <main className="dash-content">{children}</main>
+            {!isStaffSession && (
+              <>
+                <div className="dash-nav-section-label">Finance</div>
+
+                {financeItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`dash-nav-link ${pathname === item.href ? "active" : ""}`}
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <NavIcon name={item.icon} />
+                    {item.label}
+                  </Link>
+                ))}
+              </>
+            )}
+          </nav>
+          <div className="dash-sidebar-footer">
+            <button className="dash-logout-btn" onClick={handleLogout}>
+              <LogOut/>
+              Logout
+            </button>
+          </div>
+        </aside>
+
+        <div className="dash-main">
+          <header className="dash-topbar">
+            <button
+              className="dash-mobile-toggle"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              aria-label="Toggle sidebar"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                width="22"
+                height="22"
+              >
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+            <div />
+            <div className="dash-topbar-right">
+              <div className="dash-avatar">{initials}</div>
+            </div>
+          </header>
+
+          <main className="dash-content">{children}</main>
+        </div>
       </div>
-
-    </div>
-    
     </>
   );
 }

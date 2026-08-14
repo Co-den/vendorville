@@ -1,0 +1,174 @@
+:root {
+  --paper: #ffffff;
+  --ink: #14201a;
+  --accent: #3a844f;
+  --accent-light: #eaf4ec;
+  --gray: #667085;
+  --line: #e7eaee;
+  --offwhite: #f9fafc;
+  --green-900: #132e1b;
+  --green-800: #1f4935;
+}
+
+.track-page {
+  min-height: 100vh;
+  background: var(--offwhite);
+}
+
+.track-hero {
+  background: linear-gradient(150deg, var(--green-900), var(--green-800));
+  padding: 50px 24px 40px;
+  text-align: center;
+}
+.track-eyebrow {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: #7fd99a;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.track-hero h1 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  color: #fff;
+  margin-bottom: 8px;
+}
+.track-hero p {
+  color: #cfe0d4;
+  font-size: 0.9rem;
+}
+
+.track-content {
+  max-width: 500px;
+  padding: 40px 24px 80px;
+}
+
+.track-form {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.track-result {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+}
+.track-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.track-result-header h2 {
+  font-family: var(--font-fraunces), serif;
+  font-size: 1.2rem;
+}
+.track-result-header a {
+  color: var(--accent);
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+.track-cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.track-progress {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  position: relative;
+}
+.track-progress::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  height: 2px;
+  background: var(--line);
+  z-index: 0;
+}
+.track-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.track-step-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--line);
+  border: 2px solid #fff;
+}
+.track-step.complete .track-step-dot {
+  background: var(--accent);
+}
+.track-step span {
+  font-size: 0.7rem;
+  color: var(--gray);
+  text-align: center;
+}
+.track-step.complete span {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.track-dispatch {
+  background: var(--offwhite);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 0.86rem;
+  margin-bottom: 20px;
+}
+.track-dispatch-status {
+  text-transform: capitalize;
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.track-items {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+  margin-bottom: 14px;
+}
+.track-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  padding: 6px 0;
+}
+
+.track-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+.track-address {
+  font-size: 0.84rem;
+  color: var(--gray);
+}

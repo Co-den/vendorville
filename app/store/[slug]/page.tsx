@@ -5,9 +5,11 @@ import NavbarMobile from "@/components/NavbarMobile";
 import api from "@/store/axiosInstance";
 import { useReviewStore } from "@/store/reviewStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
+import { Mail, MapPin, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import Script from "next/script";
 import { useEffect, useMemo, useState } from "react";
 import "./storefront.css";
 
@@ -182,7 +184,9 @@ export default function StorefrontPage() {
 
       if (paymentMethod === "paystack") {
         if (!window.PaystackPop) {
-          setCheckoutError("Payment system still loading, please try again.");
+          setCheckoutError(
+            "Payment system is still loading. Please wait a moment and try again.",
+          );
           return;
         }
         const handler = window.PaystackPop.setup({
@@ -352,11 +356,25 @@ export default function StorefrontPage() {
               )}
             </div>
             <div>
-              <h1>{business.name}</h1>
+              <h1 className="business-name">{business.name}</h1>
               <div className="sf-rating">
-                {"★".repeat(Math.round(stats.avgRating))}
-                {"☆".repeat(5 - Math.round(stats.avgRating))}{" "}
-                <b>{stats.avgRating.toFixed(1)}</b> ({stats.total} reviews)
+                {Array.from({ length: 5 }).map((_, index) => {
+                  const rating = Math.round(stats.avgRating);
+
+                  return (
+                    <Star
+                      key={index}
+                      size={16}
+                      className={
+                        index < rating ? "sf-star-filled" : "sf-star-empty"
+                      }
+                      fill={index < rating ? "currentColor" : "none"}
+                    />
+                  );
+                })}
+
+                <b>{stats.avgRating.toFixed(1)}</b>
+                <span>({stats.total} reviews)</span>
               </div>
             </div>
           </div>
@@ -366,18 +384,7 @@ export default function StorefrontPage() {
             onClick={() => setShowCheckout(true)}
             disabled={cart.length === 0}
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="9" cy="21" r="1" />
-              <circle cx="20" cy="21" r="1" />
-              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
-            </svg>
+            <ShoppingCart/>
             Cart ({cart.reduce((s, i) => s + i.quantity, 0)}) · ₦
             {cartTotal.toLocaleString()}
           </button>
@@ -533,7 +540,6 @@ export default function StorefrontPage() {
                     Available: {business.availableDays.join(", ")}
                   </p>
                 </div>
-                // In the Locations tab slide, storefront page:
                 <div className="panel" style={{ marginTop: 16 }}>
                   <h2>Get Directions</h2>
                   <p
@@ -558,19 +564,7 @@ export default function StorefrontPage() {
                       textDecoration: "none",
                     }}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      width="16"
-                      height="16"
-                    >
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
+                    <MapPin/>
                     Open in Google Maps
                   </a>
 
@@ -615,9 +609,26 @@ export default function StorefrontPage() {
                       >
                         {stats.avgRating.toFixed(1)}
                       </div>
-                      <div style={{ color: "#f0a23a" }}>
-                        {"★".repeat(Math.round(stats.avgRating))}
-                        {"☆".repeat(5 - Math.round(stats.avgRating))}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          color: "#fbbf24",
+                        }}
+                      >
+                        {Array.from({ length: 5 }).map((_, index) => {
+                          const rating = Math.round(stats.avgRating);
+
+                          return (
+                            <Star
+                              key={index}
+                              size={16}
+                              strokeWidth={2}
+                              fill={index < rating ? "currentColor" : "none"}
+                            />
+                          );
+                        })}
                       </div>
                       <div style={{ fontSize: "0.8rem", color: "var(--gray)" }}>
                         {stats.total} review{stats.total === 1 ? "" : "s"}
@@ -659,9 +670,26 @@ export default function StorefrontPage() {
                           <div style={{ fontWeight: 700 }}>
                             {review.customerName}
                           </div>
-                          <div style={{ color: "#f0a23a", fontSize: "0.9rem" }}>
-                            {"★".repeat(review.rating)}
-                            {"☆".repeat(5 - review.rating)}
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 2,
+                              color: "#fbbf24",
+                            }}
+                          >
+                            {Array.from({ length: 5 }).map((_, index) => (
+                              <Star
+                                key={index}
+                                size={16}
+                                strokeWidth={2}
+                                fill={
+                                  index < review.rating
+                                    ? "currentColor"
+                                    : "none"
+                                }
+                              />
+                            ))}
                           </div>
                         </div>
                         <span
@@ -708,17 +736,7 @@ export default function StorefrontPage() {
 
               <div className="sf-contact-row">
                 <div className="sf-contact-icon">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
+                  <MapPin/>
                 </div>
                 <div>
                   <div className="sf-contact-label">Address</div>
@@ -729,17 +747,7 @@ export default function StorefrontPage() {
               {business.businessEmail && (
                 <div className="sf-contact-row">
                   <div className="sf-contact-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                      <polyline points="22,6 12,13 2,6" />
-                    </svg>
+                    <Mail/>
                   </div>
                   <div>
                     <div className="sf-contact-label">Email</div>
@@ -1026,7 +1034,7 @@ export default function StorefrontPage() {
                   >
                     {isSubmitting
                       ? "Placing Order..."
-                      : `Place Order — ₦${grandTotal.toLocaleString()}`}
+                      : `Place Order:  ₦${grandTotal.toLocaleString()}`}
                   </button>
                 </div>
               </form>
@@ -1095,7 +1103,7 @@ export default function StorefrontPage() {
           </div>
         )}
 
-        <script src="https://js.paystack.co/v1/inline.js" async></script>
+        <Script src="https://js.paystack.co/v1/inline.js" async />
 
         <footer>
           <div className="wrap">

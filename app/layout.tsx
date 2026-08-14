@@ -16,9 +16,9 @@ export const spaceGrotesk = Space_Grotesk({
 
 
 export const metadata: Metadata = {
-  title: "VendorHub Run Your Business the Smart Way",
-  description:
-    "The all-in-one POS & inventory platform for Nigerian market vendors. Track stock, manage sales, and send Email, SMS & WhatsApp alerts — all from your phone.",
+  title: 'VendorHub Run Your Business the Smart Way',
+  description: '...',
+  manifest: '/manifest.json',
   generator: "Next.js",
   icons: {
     icon: [
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
-  themeColor: [{ media: "(prefers-color-scheme: light)", color: "#ffffff" }],
-};
+  colorScheme: 'light',
+  themeColor: [{ media: '(prefers-color-scheme: light)', color: '#132e1b' }],
+}
 
 export default function RootLayout({
   children,

@@ -1,6 +1,7 @@
 import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
 import PricingSection from "@/components/PricingSection";
+import { Box, Check, CirclePlay, Motorbike, Search, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -53,29 +54,11 @@ export default async function Home() {
             </p>
             <div className="hero-ctas">
               <Link className="btn-white" href="/">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <polygon points="6,4 20,12 6,20" />
-                </svg>
+                <CirclePlay />
                 Watch Live Demo
               </Link>
               <Link className="discover-btn" href="/discover">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                >
-                  <circle cx="11" cy="11" r="7"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                <Search />
                 Find Nearby Vendors
               </Link>
             </div>
@@ -84,7 +67,21 @@ export default async function Home() {
                 <b>500+</b> Vendors
               </div>
               <div className="trust-item">
-                <b>4.9★</b> Rating
+                <b>
+                  4.9
+                  <Star
+                    size={14}
+                    fill="currentColor"
+                    strokeWidth={2}
+                    style={{
+                      display: "inline-block",
+                      verticalAlign: "middle",
+                      marginLeft: 2,
+                      color: "#fbbf24",
+                    }}
+                  />
+                </b>{" "}
+                Rating
               </div>
               <div className="trust-item">
                 <b>98%</b> Satisfaction
@@ -282,18 +279,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 8l-9-5-9 5 9 5 9-5z" />
-                  <path d="M3 8v8l9 5 9-5V8" />
-                  <path d="M12 13v8" />
-                </svg>
+                <Box />
               </div>
               <h3>Smart Inventory</h3>
               <p>
@@ -363,19 +349,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="1" y="6" width="14" height="11" rx="1" />
-                  <path d="M15 9h4l3 3v5h-7z" />
-                  <circle cx="6" cy="19" r="2" />
-                  <circle cx="18" cy="19" r="2" />
-                </svg>
+                <Motorbike />
               </div>
               <h3>Rider Dispatch</h3>
               <p>
@@ -454,33 +428,57 @@ export default async function Home() {
           <div style={{ textAlign: "center" }}>
             <span className="tag-pill">✦ Customer Stories</span>
           </div>
+
           <div className="sec-head reveal">
             <h2>
               Loved by <span className="hl">Vendors</span> across Nigeria
             </h2>
+
             <p>
               Real stories from real business owners who&apos;ve transformed
               their operations with VendorVille.
             </p>
           </div>
+
           <div className="stat-pill-row reveal-stagger">
             <span className="stat-pill">
               <b>500+</b> Verified Vendors
             </span>
+
             <span className="stat-pill">
-              <b>4.9★</b> Average Rating
+              <b>4.9</b>
+              <Star
+                size={14}
+                fill="currentColor"
+                strokeWidth={2}
+                style={{ marginLeft: 3 }}
+              />
+              Average Rating
             </span>
+
             <span className="stat-pill">
               <b>98%</b> Satisfaction Rate
             </span>
           </div>
+
           <div className="testi-grid reveal-stagger">
             <div className="testi-card">
-              <div className="stars">★★★★★</div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    fill="currentColor"
+                    strokeWidth={2}
+                  />
+                ))}
+              </div>
+
               <p>
                 &quot;I don&apos;t lose stock anymore — I get an alert before I
                 run out of anything.&quot;
               </p>
+
               <div className="testi-who">
                 <div className="avatar">NM</div>
                 <div>
@@ -489,12 +487,24 @@ export default async function Home() {
                 </div>
               </div>
             </div>
+
             <div className="testi-card">
-              <div className="stars">★★★★★</div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    fill="currentColor"
+                    strokeWidth={2}
+                  />
+                ))}
+              </div>
+
               <p>
                 &quot;Managing multiple stalls used to be chaos. Now it&apos;s
                 one dashboard for everything.&quot;
               </p>
+
               <div className="testi-who">
                 <div className="avatar">CJ</div>
                 <div>
@@ -503,12 +513,24 @@ export default async function Home() {
                 </div>
               </div>
             </div>
+
             <div className="testi-card">
-              <div className="stars">★★★★★</div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    fill="currentColor"
+                    strokeWidth={2}
+                  />
+                ))}
+              </div>
+
               <p>
                 &quot;Customers get an alert the moment their order is ready.
                 It&apos;s changed how they see my shop.&quot;
               </p>
+
               <div className="testi-who">
                 <div className="avatar">BK</div>
                 <div>
@@ -517,12 +539,24 @@ export default async function Home() {
                 </div>
               </div>
             </div>
+
             <div className="testi-card">
-              <div className="stars">★★★★★</div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    fill="currentColor"
+                    strokeWidth={2}
+                  />
+                ))}
+              </div>
+
               <p>
                 &quot;The most complex parts of running a vendor business just
                 became simple.&quot;
               </p>
+
               <div className="testi-who">
                 <div className="avatar">FA</div>
                 <div>
@@ -531,12 +565,24 @@ export default async function Home() {
                 </div>
               </div>
             </div>
+
             <div className="testi-card">
-              <div className="stars">★★★★★</div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    fill="currentColor"
+                    strokeWidth={2}
+                  />
+                ))}
+              </div>
+
               <p>
                 &quot;The payout is fast and I get paid on time for wholesale
                 orders now.&quot;
               </p>
+
               <div className="testi-who">
                 <div className="avatar">TU</div>
                 <div>
@@ -545,12 +591,24 @@ export default async function Home() {
                 </div>
               </div>
             </div>
+
             <div className="testi-card">
-              <div className="stars">★★★★★</div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star
+                    key={index}
+                    size={16}
+                    fill="currentColor"
+                    strokeWidth={2}
+                  />
+                ))}
+              </div>
+
               <p>
                 &quot;Affordable and set up was quick. The support team actually
                 understands vendors here.&quot;
               </p>
+
               <div className="testi-who">
                 <div className="avatar">GO</div>
                 <div>
@@ -627,28 +685,33 @@ export default async function Home() {
 
                       {vendor.isVerified && (
                         <span className="v3-badge verified">
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            width="12"
-                            height="12"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
+                          <Check />
                           Verified
                         </span>
                       )}
                     </div>
-
                     <div className="vendor-card-v3-body">
                       <div className="vendor-card-v3-rating">
-                        <span className="stars">
-                          {"★".repeat(Math.round(vendor.avgRating))}
-                          {"☆".repeat(5 - Math.round(vendor.avgRating))}
+                        <span
+                          className="stars"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 2,
+                          }}
+                        >
+                          {Array.from({ length: 5 }).map((_, index) => {
+                            const rating = Math.round(vendor.avgRating);
+
+                            return (
+                              <Star
+                                key={index}
+                                size={16}
+                                strokeWidth={2}
+                                fill={index < rating ? "currentColor" : "none"}
+                              />
+                            );
+                          })}
                         </span>
                         <span className="review-count">
                           ({vendor.reviewCount})

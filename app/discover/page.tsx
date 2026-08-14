@@ -3,6 +3,7 @@
 import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
 import { useDirectoryStore } from "@/store/directoryStore";
+import { Check, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -283,18 +284,7 @@ export default function DiscoverPage() {
 
                     {vendor.isVerified && (
                       <span className="v3-badge verified">
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          width="12"
-                          height="12"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <Check />
                         Verified
                       </span>
                     )}
@@ -302,9 +292,26 @@ export default function DiscoverPage() {
 
                   <div className="vendor-card-v3-body">
                     <div className="vendor-card-v3-rating">
-                      <span className="stars">
-                        {"★".repeat(Math.round(vendor.avgRating))}
-                        {"☆".repeat(5 - Math.round(vendor.avgRating))}
+                      <span
+                        className="stars"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 2,
+                        }}
+                      >
+                        {Array.from({ length: 5 }).map((_, index) => {
+                          const rating = Math.round(vendor.avgRating);
+
+                          return (
+                            <Star
+                              key={index}
+                              size={16}
+                              strokeWidth={2}
+                              fill={index < rating ? "currentColor" : "none"}
+                            />
+                          );
+                        })}
                       </span>
                       <span className="review-count">
                         ({vendor.reviewCount})

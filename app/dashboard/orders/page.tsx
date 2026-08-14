@@ -240,7 +240,7 @@ export default function OrdersPage() {
         ...prev,
         [orderId]: { ...prev[orderId], status },
       }));
-      // If delivered, the backend also marks the order "fulfilled" — refresh orders to reflect that
+      // If delivered, the backend also marks the order "fulfilled" refresh orders to reflect that
       if (status === "delivered") {
         fetchOrders(activeBusinessId);
       }

@@ -2,6 +2,7 @@
 
 import { useBusinessStore } from "@/store/businessStore";
 import { useReviewStore } from "@/store/reviewStore";
+import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ReviewsPage() {
@@ -107,10 +108,25 @@ export default function ReviewsPage() {
             {stats.avgRating.toFixed(1)}
           </div>
           <div
-            style={{ color: "#f0a23a", fontSize: "1.2rem", marginBottom: 6 }}
+            style={{
+              color: "#fbbf24",
+              fontSize: "1.2rem",
+              marginBottom: 6,
+              display: "flex",
+              justifyContent: "center",
+              gap: 4,
+            }}
           >
-            {"★".repeat(Math.round(stats.avgRating))}
-            {"☆".repeat(5 - Math.round(stats.avgRating))}
+            {Array.from({ length: 5 }).map((_, index) => (
+              <Star
+                key={index}
+                size={20}
+                fill={
+                  index < Math.round(stats.avgRating) ? "currentColor" : "none"
+                }
+                stroke="currentColor"
+              />
+            ))}
           </div>
           <div style={{ fontSize: "0.82rem", color: "var(--gray)" }}>
             {stats.total} reviews
@@ -128,11 +144,19 @@ export default function ReviewsPage() {
                 marginBottom: 8,
               }}
             >
-              <span
-                style={{ fontSize: "0.8rem", width: 40, color: "var(--gray)" }}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                  width: 40,
+                  color: "var(--gray)",
+                }}
               >
-                {star} star
-              </span>
+                <span style={{ fontSize: "0.8rem" }}>{star}</span>
+                <Star size={14} fill="currentColor" stroke="currentColor" />
+              </div>
+
               <div
                 style={{
                   flex: 1,
@@ -150,8 +174,13 @@ export default function ReviewsPage() {
                   }}
                 />
               </div>
+
               <span
-                style={{ fontSize: "0.78rem", color: "var(--gray)", width: 20 }}
+                style={{
+                  fontSize: "0.78rem",
+                  color: "var(--gray)",
+                  width: 20,
+                }}
               >
                 {stats.breakdown[i]}
               </span>
@@ -213,9 +242,23 @@ export default function ReviewsPage() {
                   >
                     {review.customerName}
                   </div>
-                  <div style={{ color: "#f0a23a", fontSize: "0.9rem" }}>
-                    {"★".repeat(review.rating)}
-                    {"☆".repeat(5 - review.rating)}
+                  <div
+                    style={{
+                      color: "#fbbf24",
+                      fontSize: "0.9rem",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 3,
+                    }}
+                  >
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star
+                        key={index}
+                        size={15}
+                        fill={index < review.rating ? "currentColor" : "none"}
+                        stroke="currentColor"
+                      />
+                    ))}
                   </div>
                 </div>
                 <span style={{ fontSize: "0.76rem", color: "var(--gray)" }}>

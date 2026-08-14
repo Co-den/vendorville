@@ -3,6 +3,7 @@
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
+import { Download } from 'lucide-react';
 import { useEffect, useMemo, useState } from "react";
 
 export default function AnalyticsPage() {
@@ -91,6 +92,19 @@ export default function AnalyticsPage() {
     0,
   );
 
+  const handleExport = () => {
+    if (!activeBusinessId) return;
+    const token = localStorage.getItem("token");
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/businesses/${activeBusinessId}/export/orders`;
+    fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const a = document.createElement("a");
+        a.href = window.URL.createObjectURL(blob);
+        a.download = "orders-export.csv";
+        a.click();
+      });
+  };
   if (businesses.length === 0) {
     return (
       <>
@@ -102,6 +116,7 @@ export default function AnalyticsPage() {
             Track your <span>growth</span>.
           </h1>
         </div>
+
         <div
           className="panel"
           style={{ textAlign: "center", padding: "48px 24px" }}
@@ -125,7 +140,14 @@ export default function AnalyticsPage() {
         </h1>
         <p>Sales trends, top products, and performance at a glance.</p>
       </div>
-
+      <button
+        className="biz-add-btn"
+        onClick={handleExport}
+        style={{ marginLeft: "auto" }}
+      >
+        <Download />
+        Export CSV
+      </button>
       {businesses.length > 1 && (
         <div
           className="field-group"
@@ -168,7 +190,7 @@ export default function AnalyticsPage() {
 
       <div className="panel" style={{ marginBottom: 20 }}>
         <div className="panel-head">
-          <h2>Revenue — Last 7 Days</h2>
+          <h2>Revenue Last 7 Days</h2>
         </div>
         <div className="revenue-chart">
           {last7Days.map((day) => (
