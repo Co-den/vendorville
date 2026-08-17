@@ -179,20 +179,26 @@ export default function StorefrontPage() {
       giftCardCode: giftCardCode || undefined,
     };
 
+    let order;
     try {
-      const order = await createOrder(slug, payload);
+      order = await createOrder(slug, payload);
+    } catch (err: any) {
+      setCheckoutError(err.response?.data?.message || "Could not place order.");
+      return;
+    }
 
-      if (paymentMethod === "paystack") {
-        if (!window.PaystackPop) {
-          setCheckoutError(
-            "Payment system is still loading. Please wait a moment and try again.",
-          );
-          return;
-        }
+    if (paymentMethod === "paystack") {
+      if (!window.PaystackPop) {
+        setCheckoutError(
+          "Payment system is still loading. Please refresh and try again — your order was saved.",
+        );
+        return;
+      }
+      try {
         const handler = window.PaystackPop.setup({
           key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
           email: customerEmail || `${customerPhone}@guest.vendorville.com`,
-          amount: Math.round(grandTotal * 100),
+          amount: Math.round(order.totalAmount * 100),
           currency: "NGN",
           ref: order.paystackReference,
           callback: async (response: any) => {
@@ -204,16 +210,17 @@ export default function StorefrontPage() {
           onClose: () => {},
         });
         handler.openIframe();
-      } else {
-        setOrderSuccess(order);
-        setCart([]);
-        setShowCheckout(false);
+      } catch (err) {
+        setCheckoutError(
+          "Your order was saved, but we could not start the payment popup. Please contact the vendor.",
+        );
       }
-    } catch (err: any) {
-      setCheckoutError(err.response?.data?.message || "Could not place order.");
+    } else {
+      setOrderSuccess(order);
+      setCart([]);
+      setShowCheckout(false);
     }
   };
-
   if (isLoading) {
     return (
       <div
@@ -258,6 +265,10 @@ export default function StorefrontPage() {
 
   return (
     <>
+      <Script
+        src="https://js.paystack.co/v1/inline.js"
+        strategy="afterInteractive"
+      />
       <NavbarMobile />
       <div className="storefront-page">
         <div className="sf-banner">
@@ -384,7 +395,7 @@ export default function StorefrontPage() {
             onClick={() => setShowCheckout(true)}
             disabled={cart.length === 0}
           >
-            <ShoppingCart/>
+            <ShoppingCart />
             Cart ({cart.reduce((s, i) => s + i.quantity, 0)}) · ₦
             {cartTotal.toLocaleString()}
           </button>
@@ -564,7 +575,7 @@ export default function StorefrontPage() {
                       textDecoration: "none",
                     }}
                   >
-                    <MapPin/>
+                    <MapPin />
                     Open in Google Maps
                   </a>
 
@@ -736,7 +747,7 @@ export default function StorefrontPage() {
 
               <div className="sf-contact-row">
                 <div className="sf-contact-icon">
-                  <MapPin/>
+                  <MapPin />
                 </div>
                 <div>
                   <div className="sf-contact-label">Address</div>
@@ -747,7 +758,7 @@ export default function StorefrontPage() {
               {business.businessEmail && (
                 <div className="sf-contact-row">
                   <div className="sf-contact-icon">
-                    <Mail/>
+                    <Mail />
                   </div>
                   <div>
                     <div className="sf-contact-label">Email</div>
@@ -1102,9 +1113,6 @@ export default function StorefrontPage() {
             </div>
           </div>
         )}
-
-        <Script src="https://js.paystack.co/v1/inline.js" async />
-
         <footer>
           <div className="wrap">
             <div className="footer-grid">
