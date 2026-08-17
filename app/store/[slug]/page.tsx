@@ -441,6 +441,7 @@ export default function StorefrontPage() {
                   >
                     {business.description || "No description provided yet."}
                   </p>
+
                   <hr className="section-divider" />
                   <h3
                     style={{
@@ -1010,6 +1011,25 @@ export default function StorefrontPage() {
                       <option value="paystack">Pay Now (Card/Transfer)</option>
                     </select>
                   </div>
+                  {myPoints > 0 && (
+                    <div className="field-group">
+                      <label className="field-label">
+                        Redeem Points (You have {myPoints})
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max={myPoints}
+                        value={redeemPoints}
+                        onChange={(e) =>
+                          setRedeemPoints(
+                            Math.min(myPoints, Number(e.target.value)),
+                          )
+                        }
+                        placeholder="0"
+                      />
+                    </div>
+                  )}
                   <div
                     className="wallet-balance-strip"
                     style={{ marginTop: 16 }}
@@ -1050,23 +1070,6 @@ export default function StorefrontPage() {
                 </div>
               </form>
             </div>
-          </div>
-        )}
-        {myPoints > 0 && (
-          <div className="field-group">
-            <label className="field-label">
-              Redeem Points (You have {myPoints})
-            </label>
-            <input
-              type="number"
-              min="0"
-              max={myPoints}
-              value={redeemPoints}
-              onChange={(e) =>
-                setRedeemPoints(Math.min(myPoints, Number(e.target.value)))
-              }
-              placeholder="0"
-            />
           </div>
         )}
 
