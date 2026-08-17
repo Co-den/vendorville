@@ -5,19 +5,13 @@ import NavbarMobile from "@/components/NavbarMobile";
 import api from "@/store/axiosInstance";
 import { useReviewStore } from "@/store/reviewStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
+import PaystackPop from "@paystack/inline-js";
 import { Mail, MapPin, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import Script from "next/script";
 import { useEffect, useMemo, useState } from "react";
 import "./storefront.css";
-
-declare global {
-  interface Window {
-    PaystackPop: any;
-  }
-}
 
 type CartItem = {
   productId: number;
@@ -59,24 +53,22 @@ export default function StorefrontPage() {
   const [reviewPhone, setReviewPhone] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
-
-  //
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [activeImage, setActiveImage] = useState(0);
-
-  //cart
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [checkoutTotal, setCheckoutTotal] = useState(0);
+  const [checkoutDiscount, setCheckoutDiscount] = useState(0);
   const [showCheckout, setShowCheckout] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [deliveryFee, setDeliveryFee] = useState("1500");
   const [paymentMethod, setPaymentMethod] = useState<
     "paystack" | "pay_on_delivery"
   >("pay_on_delivery");
   const [checkoutError, setCheckoutError] = useState("");
   const [orderSuccess, setOrderSuccess] = useState<any>(null);
+  const [deliveryZoneId, setDeliveryZoneId] = useState<number | null>(null);
 
   useEffect(() => {
     if (slug) fetchStorefront(slug);
@@ -103,7 +95,11 @@ export default function StorefrontPage() {
     () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [cart],
   );
-  const grandTotal = cartTotal + Number(deliveryFee || 0);
+  const selectedZone = business?.deliveryZones.find(
+    (z) => z.id === deliveryZoneId,
+  );
+  const deliveryFee = selectedZone?.fee || 0;
+  const grandTotal = cartTotal + deliveryFee;
 
   const addToCart = (product: (typeof products)[0]) => {
     if (product.stock === 0) return;
@@ -143,7 +139,7 @@ export default function StorefrontPage() {
       setReviewComment("");
       setShowReviewForm(false);
     } catch {
-      // error shown via reviewError
+      error;
     }
   };
   const updateQty = (productId: number, delta: number) => {
@@ -160,67 +156,164 @@ export default function StorefrontPage() {
     );
   };
 
+  const resetCheckout = () => {
+    setCustomerName("");
+    setCustomerPhone("");
+    setCustomerEmail("");
+    setDeliveryAddress("");
+    setRedeemPoints(0);
+    setGiftCardCode("");
+    setCheckoutError("");
+  };
+
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     setCheckoutError("");
-
-    const payload = {
-      customerName,
-      customerPhone,
-      customerEmail: customerEmail || undefined,
-      deliveryAddress,
-      deliveryFee: Number(deliveryFee),
+    if (cart.length === 0) {
+      setCheckoutError("Your cart is empty.");
+      return;
+    }
+    if (deliveryZoneId === null) {
+      setCheckoutError("Please select a delivery zone.");
+      return;
+    }
+    const CheckoutPayload = {
+      customerName: customerName.trim(),
+      customerPhone: customerPhone.trim(),
+      customerEmail: customerEmail.trim() || undefined,
+      deliveryAddress: deliveryAddress.trim(),
+      deliveryZoneId,
+      deliveryFee: Number(deliveryFee || 0),
       paymentMethod,
       items: cart.map((i) => ({
         productId: i.productId,
         quantity: i.quantity,
       })),
       redeemPoints: redeemPoints > 0 ? redeemPoints : undefined,
-      giftCardCode: giftCardCode || undefined,
+      giftCardCode: giftCardCode.trim() || undefined,
     };
 
     let order;
     try {
-      order = await createOrder(slug, payload);
+      order = await createOrder(slug, CheckoutPayload);
     } catch (err: any) {
-      setCheckoutError(err.response?.data?.message || "Could not place order.");
+      setCheckoutError(
+        err.response?.data?.message || err.message || "Could not place order.",
+      );
       return;
     }
 
+    const actualTotal = Number(order.totalAmount || 0);
+    setCheckoutTotal(actualTotal);
+    const discount = Number(order.discountAmount || 0);
+    setCheckoutDiscount(discount);
+
     if (paymentMethod === "paystack") {
-      if (!window.PaystackPop) {
+      console.log("=== PAYSTACK V2 DEBUG ===");
+      console.log("Public key:", process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY);
+      console.log("Order:", order);
+      console.log("Actual total:", actualTotal);
+      console.log("Paystack reference:", order.paystackReference);
+
+      const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+
+      if (!publicKey) {
+        console.error("NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY is missing");
+
         setCheckoutError(
-          "Payment system is still loading. Please refresh and try again — your order was saved.",
+          "Paystack public key is missing. Please check your environment configuration.",
         );
+
         return;
       }
+
+      if (actualTotal <= 0) {
+        console.log("Total is zero. Skipping Paystack.");
+
+        setOrderSuccess(order);
+        setCart([]);
+        setShowCheckout(false);
+        resetCheckout();
+
+        return;
+      }
+
       try {
-        const handler = window.PaystackPop.setup({
-          key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-          email: customerEmail || `${customerPhone}@guest.vendorville.com`,
-          amount: Math.round(order.totalAmount * 100),
+        console.log("Creating Paystack V2 instance...");
+        const paystack = new PaystackPop();
+        console.log("Paystack V2 instance:", paystack);
+        await paystack.newTransaction({
+          key: publicKey,
+          email:
+            customerEmail.trim() ||
+            `${customerPhone.trim()}@guest.vendorville.com`,
+          amount: Math.round(actualTotal * 100),
           currency: "NGN",
-          ref: order.paystackReference,
-          callback: async (response: any) => {
-            await verifyPayment(slug, response.reference);
-            setOrderSuccess(order);
-            setCart([]);
-            setShowCheckout(false);
+          reference: order.paystackReference,
+          onSuccess: async (transaction: any) => {
+            console.log("PAYSTACK SUCCESS:", transaction);
+
+            try {
+              console.log("Verifying payment...");
+
+              await verifyPayment(slug, transaction.reference);
+
+              console.log("Payment verified successfully");
+
+              setOrderSuccess(order);
+              setCart([]);
+              setShowCheckout(false);
+              resetCheckout();
+            } catch (err: any) {
+              console.error("PAYMENT VERIFICATION ERROR:", err);
+              console.error("RESPONSE:", err.response?.data);
+
+              setCheckoutError(
+                err.response?.data?.message ||
+                  "Payment was received but verification failed. Please contact the vendor.",
+              );
+            }
           },
-          onClose: () => {},
+
+          onCancel: () => {
+            console.log("PAYSTACK PAYMENT CANCELLED");
+
+            setCheckoutError(
+              "Payment was cancelled. Your order has been saved as pending.",
+            );
+          },
+
+          onError: (error: any) => {
+            console.error("PAYSTACK ERROR:", error);
+
+            setCheckoutError(
+              error?.message ||
+                "Paystack could not process the payment. Please try again.",
+            );
+          },
+
+          onLoad: (response: any) => {
+            console.log("PAYSTACK CHECKOUT LOADED:", response);
+          },
         });
-        handler.openIframe();
-      } catch (err) {
+
+        console.log("Paystack V2 transaction started");
+      } catch (err: any) {
+        console.error("PAYSTACK SETUP ERROR:", err);
+
         setCheckoutError(
-          "Your order was saved, but we could not start the payment popup. Please contact the vendor.",
+          err?.message ||
+            "Your order was saved, but we could not start the payment popup.",
         );
       }
     } else {
       setOrderSuccess(order);
       setCart([]);
       setShowCheckout(false);
+      resetCheckout();
     }
   };
+
   if (isLoading) {
     return (
       <div
@@ -265,10 +358,6 @@ export default function StorefrontPage() {
 
   return (
     <>
-      <Script
-        src="https://js.paystack.co/v1/inline.js"
-        strategy="afterInteractive"
-      />
       <NavbarMobile />
       <div className="storefront-page">
         <div className="sf-banner">
@@ -1011,6 +1100,25 @@ export default function StorefrontPage() {
                       <option value="paystack">Pay Now (Card/Transfer)</option>
                     </select>
                   </div>
+                  <div className="field-group">
+                    <label className="field-label">Delivery Zone *</label>
+                    <select
+                      required
+                      value={deliveryZoneId ?? ""}
+                      onChange={(e) =>
+                        setDeliveryZoneId(
+                          e.target.value === "" ? null : Number(e.target.value),
+                        )
+                      }
+                    >
+                      <option value="">Select your area</option>
+                      {business?.deliveryZones.map((zone) => (
+                        <option key={zone.id} value={zone.id}>
+                          {zone.name} — ₦{zone.fee.toLocaleString()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   {myPoints > 0 && (
                     <div className="field-group">
                       <label className="field-label">
@@ -1030,6 +1138,19 @@ export default function StorefrontPage() {
                       />
                     </div>
                   )}
+                  <div className="field-group">
+                    <label className="field-label">
+                      Gift Card Code (optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={giftCardCode}
+                      onChange={(e) =>
+                        setGiftCardCode(e.target.value.toUpperCase())
+                      }
+                      placeholder="e.g. A1B2C3D4E5F6"
+                    />
+                  </div>
                   <div
                     className="wallet-balance-strip"
                     style={{ marginTop: 16 }}
@@ -1037,8 +1158,19 @@ export default function StorefrontPage() {
                     <div>
                       <div style={{ fontSize: "0.8rem", color: "var(--gray)" }}>
                         Subtotal: ₦{cartTotal.toLocaleString()} + Delivery: ₦
-                        {Number(deliveryFee).toLocaleString()}
+                        {Number(deliveryFee || 0).toLocaleString()}
                       </div>
+                      {(redeemPoints > 0 || giftCardCode.trim()) && (
+                        <div
+                          style={{
+                            fontSize: "0.78rem",
+                            color: "var(--accent)",
+                            marginTop: 4,
+                          }}
+                        >
+                          Discounts/rewards will be verified at checkout.
+                        </div>
+                      )}
                       <div className="wallet-balance-strip-value">
                         ₦{grandTotal.toLocaleString()}
                       </div>
@@ -1073,15 +1205,6 @@ export default function StorefrontPage() {
           </div>
         )}
 
-        <div className="field-group">
-          <label className="field-label">Gift Card Code (optional)</label>
-          <input
-            type="text"
-            value={giftCardCode}
-            onChange={(e) => setGiftCardCode(e.target.value.toUpperCase())}
-            placeholder="e.g. A1B2C3D4E5F6"
-          />
-        </div>
         {orderSuccess && (
           <div className="modal-overlay" onClick={() => setOrderSuccess(null)}>
             <div className="modal-card" onClick={(e) => e.stopPropagation()}>

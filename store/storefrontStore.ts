@@ -11,20 +11,27 @@ export interface StorefrontProduct {
   stock: number;
 }
 
+export interface DeliveryZone {
+  id: number;
+  name: string;
+  fee: number;
+}
+
 export interface StorefrontBusiness {
-  availableDays: any;
-  businessEmail: import("react").JSX.Element;
-  instagram: any;
-  tiktok: any;
-  isOpenToday: any;
   id: number;
   name: string;
   shortName: string | null;
   logoUrl: string | null;
   description: string | null;
   whatsappNumber: string | null;
+  businessEmail: string | null;
+  instagram: string | null;
+  tiktok: string | null;
   address: string;
   premisesImages: string[];
+  availableDays: string[];
+  isOpenToday: boolean;
+  deliveryZones: DeliveryZone[];
 }
 
 export interface CheckoutPayload {
@@ -32,9 +39,10 @@ export interface CheckoutPayload {
   customerPhone: string;
   customerEmail?: string;
   deliveryAddress: string;
-  deliveryFee?: number;
+  deliveryZoneId: number;
   paymentMethod: "paystack" | "pay_on_delivery";
   items: { productId: number; quantity: number }[];
+  
 }
 
 interface StorefrontState {
@@ -61,7 +69,10 @@ export const useStorefrontStore = create<StorefrontState>((set) => ({
     try {
       const response = await api.get(`/store/${slug}`);
       set({
-        business: response.data.business,
+        business: {
+          ...response.data.business,
+          deliveryZones: response.data.deliveryZones || [],
+        },
         products: response.data.products,
         isLoading: false,
       });
@@ -76,11 +87,9 @@ export const useStorefrontStore = create<StorefrontState>((set) => ({
   createOrder: async (slug, payload) => {
     set({ isSubmitting: true, error: null });
     try {
-      const response = await api.post(
-        `store/${slug}/orders`,
-        payload,
-        { withCredentials: true },
-      );
+      const response = await api.post(`/store/${slug}/orders`, payload, {
+        withCredentials: true,
+      });
       set({ isSubmitting: false });
       return response.data.order;
     } catch (error: any) {

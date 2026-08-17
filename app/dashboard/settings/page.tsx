@@ -31,6 +31,15 @@ export default function SettingsPage() {
   const [riderName, setRiderName] = useState("");
   const [riderPhone, setRiderPhone] = useState("");
   const [riderError, setRiderError] = useState("");
+  const [zones, setZones] = useState<any[]>([]);
+  const [showAddZone, setShowAddZone] = useState(false);
+  const [zoneName, setZoneName] = useState("");
+  const [zoneFee, setZoneFee] = useState("");
+  const [zoneError, setZoneError] = useState("");
+  const [inviteSuccess, setInviteSuccess] = useState<{
+    email: string;
+    tempPassword: string;
+  } | null>(null);
 
   const addRider = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,11 +101,6 @@ export default function SettingsPage() {
     }
   }, [activeBusinessId]);
 
-  const [inviteSuccess, setInviteSuccess] = useState<{
-    email: string;
-    tempPassword: string;
-  } | null>(null);
-
   const inviteStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     setStaffError("");
@@ -143,9 +147,7 @@ export default function SettingsPage() {
 
     try {
       const response = await updatePassword(currentPassword, newPassword);
-
       setPasswordSuccess(response.message);
-
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -155,7 +157,38 @@ export default function SettingsPage() {
       );
     }
   };
+  useEffect(() => {
+    if (activeBusinessId) {
+      api
+        .get(`/businesses/${activeBusinessId}/delivery-zones`)
+        .then((res) => setZones(res.data.zones))
+        .catch(() => {});
+    }
+  }, [activeBusinessId]);
 
+  const addZone = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setZoneError("");
+    try {
+      const res = await api.post(
+        `/businesses/${activeBusinessId}/delivery-zones`,
+        { name: zoneName, fee: Number(zoneFee) },
+      );
+      setZones((prev) => [...prev, res.data.zone]);
+      setShowAddZone(false);
+      setZoneName("");
+      setZoneFee("");
+    } catch (err: any) {
+      setZoneError(err.response?.data?.message || "Could not add zone");
+    }
+  };
+
+  const removeZone = async (zoneId: number) => {
+    await api.delete(
+      `/businesses/${activeBusinessId}/delivery-zones/${zoneId}`,
+    );
+    setZones((prev) => prev.filter((z) => z.id !== zoneId));
+  };
   return (
     <>
       <div className="dash-welcome">
@@ -508,6 +541,92 @@ export default function SettingsPage() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      <div className="panel" style={{ marginTop: 20 }}>
+        <div className="panel-head">
+          <h2>Delivery Zones</h2>
+          <button className="biz-add-btn" onClick={() => setShowAddZone(true)}>
+            Add Zone
+          </button>
+        </div>
+        {zones.length === 0 ? (
+          <p
+            style={{
+              fontSize: "0.86rem",
+              color: "var(--gray)",
+              textAlign: "center",
+              padding: "24px 0",
+            }}
+          >
+            No delivery zones yet customers won't be able to select a delivery
+            area at checkout until you add one.
+          </p>
+        ) : (
+          zones.map((z) => (
+            <div className="stock-row" key={z.id}>
+              <div className="stock-name">{z.name}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <span
+                  className="stock-badge"
+                  style={{
+                    color: "var(--accent)",
+                    background: "var(--accent-light)",
+                  }}
+                >
+                  ₦{z.fee.toLocaleString()}
+                </span>
+                <button
+                  className="icon-btn-small warn"
+                  onClick={() => removeZone(z.id)}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {showAddZone && (
+        <div className="modal-overlay" onClick={() => setShowAddZone(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3>Add Delivery Zone</h3>
+            <form onSubmit={addZone}>
+              <div className="modal-field">
+                <label>Zone Name</label>
+                <input
+                  required
+                  value={zoneName}
+                  onChange={(e) => setZoneName(e.target.value)}
+                  placeholder="e.g. New Haven"
+                />
+              </div>
+              <div className="modal-field">
+                <label>Delivery Fee (₦)</label>
+                <input
+                  type="number"
+                  required
+                  min="0"
+                  value={zoneFee}
+                  onChange={(e) => setZoneFee(e.target.value)}
+                />
+              </div>
+              {zoneError && <div className="error-message">{zoneError}</div>}
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="btn-secondary-modal"
+                  onClick={() => setShowAddZone(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary-modal">
+                  Add Zone
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
