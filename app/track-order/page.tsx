@@ -1,37 +1,46 @@
-'use client'
+"use client";
 
-import NavbarMobile from '@/components/NavbarMobile'
-import api from '@/store/axiosInstance'
-import Link from 'next/link'
-import { useState } from 'react'
-import './track-order.css'
+import NavbarMobile from "@/components/NavbarMobile";
+import api from "@/store/axiosInstance";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useState } from "react";
+import "./track-order.css";
 
-const statusSteps = ['pending', 'paid', 'fulfilled']
-const statusLabels: Record<string, string> = { pending: 'Order Received', paid: 'Payment Confirmed', fulfilled: 'Delivered' }
+const OrderTrackingMap = dynamic(
+  () => import("@/components/OrderTrackingMap"),
+  { ssr: false },
+);
+const statusSteps = ["pending", "paid", "fulfilled"];
+const statusLabels: Record<string, string> = {
+  pending: "Order Received",
+  paid: "Payment Confirmed",
+  fulfilled: "Delivered",
+};
 
 export default function TrackOrderPage() {
-  const [orderNumber, setOrderNumber] = useState('')
-  const [phone, setPhone] = useState('')
-  const [order, setOrder] = useState<any>(null)
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [orderNumber, setOrderNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const [order, setOrder] = useState<any>(null);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTrack = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setOrder(null)
-    setIsLoading(true)
+    e.preventDefault();
+    setError("");
+    setOrder(null);
+    setIsLoading(true);
     try {
-      const res = await api.post('/store/track-order', { orderNumber, phone })
-      setOrder(res.data.order)
+      const res = await api.post("/store/track-order", { orderNumber, phone });
+      setOrder(res.data.order);
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Order not found')
+      setError(err.response?.data?.message || "Order not found");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
-  const currentStepIndex = order ? statusSteps.indexOf(order.status) : -1
+  const currentStepIndex = order ? statusSteps.indexOf(order.status) : -1;
 
   return (
     <>
@@ -50,15 +59,32 @@ export default function TrackOrderPage() {
             <form onSubmit={handleTrack} className="track-form">
               <div className="field-group">
                 <label className="field-label">Order Number</label>
-                <input type="text" required value={orderNumber} onChange={(e) => setOrderNumber(e.target.value)} placeholder="e.g. VH-123456" />
+                <input
+                  type="text"
+                  required
+                  value={orderNumber}
+                  onChange={(e) => setOrderNumber(e.target.value)}
+                  placeholder="e.g. VH-123456"
+                />
               </div>
               <div className="field-group">
                 <label className="field-label">Phone Number</label>
-                <input type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Used at checkout" />
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Used at checkout"
+                />
               </div>
               {error && <div className="error-message">{error}</div>}
-              <button type="submit" className="btn-create" disabled={isLoading} style={{ width: '100%' }}>
-                {isLoading ? 'Searching...' : 'Track Order'}
+              <button
+                type="submit"
+                className="btn-create"
+                disabled={isLoading}
+                style={{ width: "100%" }}
+              >
+                {isLoading ? "Searching..." : "Track Order"}
               </button>
             </form>
           ) : (
@@ -66,17 +92,27 @@ export default function TrackOrderPage() {
               <div className="track-result-header">
                 <div>
                   <h2>{order.orderNumber}</h2>
-                  <Link href={`/store/${order.businessSlug}`}>{order.businessName}</Link>
+                  <Link href={`/store/${order.businessSlug}`}>
+                    {order.businessName}
+                  </Link>
                 </div>
-                <button className="btn-secondary-modal" onClick={() => setOrder(null)}>Track Another</button>
+                <button
+                  className="btn-secondary-modal"
+                  onClick={() => setOrder(null)}
+                >
+                  Track Another
+                </button>
               </div>
 
-              {order.status === 'cancelled' ? (
+              {order.status === "cancelled" ? (
                 <div className="track-cancelled">This order was cancelled.</div>
               ) : (
                 <div className="track-progress">
                   {statusSteps.map((step, i) => (
-                    <div key={step} className={`track-step ${i <= currentStepIndex ? 'complete' : ''}`}>
+                    <div
+                      key={step}
+                      className={`track-step ${i <= currentStepIndex ? "complete" : ""}`}
+                    >
                       <div className="track-step-dot" />
                       <span>{statusLabels[step]}</span>
                     </div>
@@ -86,23 +122,57 @@ export default function TrackOrderPage() {
 
               {order.dispatch && (
                 <div className="track-dispatch">
-                  <strong>Rider:</strong> {order.dispatch.riderName} · {order.dispatch.riderPhone}
-                  <div className="track-dispatch-status">Status: {order.dispatch.status.replace('_', ' ')}</div>
+                  <strong>Rider:</strong> {order.dispatch.riderName} ·{" "}
+                  {order.dispatch.riderPhone}
+                  <div className="track-dispatch-status">
+                    Status: {order.dispatch.status.replace("_", " ")}
+                  </div>
                 </div>
               )}
-
+              {order.dispatch && order.dispatch.status !== "delivered" && (
+                <div className="track-live-section">
+                  <h3>Live Tracking</h3>
+                  <div className="track-rider-info">
+                    <div className="track-rider-avatar">
+                      {order.dispatch.riderName?.[0] || "R"}
+                    </div>
+                    <div>
+                      <div className="track-rider-name">
+                        {order.dispatch.riderName}
+                      </div>
+                      <a
+                        href={`tel:${order.dispatch.riderPhone}`}
+                        className="track-rider-phone"
+                      >
+                        {order.dispatch.riderPhone}
+                      </a>
+                    </div>
+                  </div>
+                  <OrderTrackingMap
+                    orderId={order.orderId}
+                    initialLat={order.dispatch.currentLat}
+                    initialLng={order.dispatch.currentLng}
+                  />
+                </div>
+              )}
               <div className="track-items">
                 {order.items.map((item: any) => (
                   <div className="track-item-row" key={item.id}>
-                    <span>{item.quantity}× {item.productName}</span>
-                    <span>₦{(item.unitPrice * item.quantity).toLocaleString()}</span>
+                    <span>
+                      {item.quantity}× {item.productName}
+                    </span>
+                    <span>
+                      ₦{(item.unitPrice * item.quantity).toLocaleString()}
+                    </span>
                   </div>
                 ))}
               </div>
 
               <div className="track-total">
                 <span>Total</span>
-                <span>₦{(order.totalAmount + order.deliveryFee).toLocaleString()}</span>
+                <span>
+                  ₦{(order.totalAmount + order.deliveryFee).toLocaleString()}
+                </span>
               </div>
 
               <div className="track-address">
@@ -113,5 +183,5 @@ export default function TrackOrderPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

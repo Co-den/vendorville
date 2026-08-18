@@ -172,3 +172,48 @@
   font-size: 0.84rem;
   color: var(--gray);
 }
+
+.track-live-section {
+  margin: 20px 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.track-live-section h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+.track-rider-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.track-rider-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+.track-rider-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.track-rider-phone {
+  color: var(--accent);
+  font-size: 0.84rem;
+  text-decoration: none;
+}
+.tracking-map-empty {
+  background: var(--offwhite);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.86rem;
+}
