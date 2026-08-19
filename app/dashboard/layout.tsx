@@ -2,9 +2,10 @@
 
 import ChatWidget from "@/components/chatWidget";
 import { useAuthStore } from "@/store/authStore";
+import api from "@/store/axiosInstance";
 import { registerPushNotifications } from "@/store/pushNotifications";
 import { useStaffAuthStore } from "@/store/staffAuthStore";
-import { Box, LayoutGrid, LogOut } from 'lucide-react';
+import { Bell, Box, LayoutGrid, LogOut } from "lucide-react";
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -35,12 +36,8 @@ const financeItems = [
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, JSX.Element> = {
-    grid: (
-      <LayoutGrid/>
-    ),
-    box: (
-      <Box/>
-    ),
+    grid: <LayoutGrid />,
+    box: <Box />,
     receipt: (
       <svg
         viewBox="0 0 24 24"
@@ -197,6 +194,9 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showPushPrompt, setShowPushPrompt] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null);
 
   useEffect(() => {
     if (
@@ -226,6 +226,22 @@ export default function DashboardLayout({
   useEffect(() => {
     setSidebarOpen(false);
   }, [pathname]);
+
+  
+  useEffect(() => {
+    if (activeBusinessId) {
+      const poll = () => {
+        api
+          .get(`/businesses/${activeBusinessId}/orders/notifications`)
+          .then((res) => setNotifications(res.data.notifications))
+          .catch(() => {});
+      };
+      poll();
+      const interval = setInterval(poll, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [activeBusinessId]);
+
 
   const handleLogout = async () => {
     if (isStaffSession) {
@@ -315,7 +331,7 @@ export default function DashboardLayout({
           </nav>
           <div className="dash-sidebar-footer">
             <button className="dash-logout-btn" onClick={handleLogout}>
-              <LogOut/>
+              <LogOut />
               Logout
             </button>
           </div>
@@ -345,6 +361,41 @@ export default function DashboardLayout({
             </button>
             <div />
             <div className="dash-topbar-right">
+              <div className="dash-notification-bell">
+                <button onClick={() => setShowNotifications((v) => !v)}>
+                  <Bell />
+                  {notifications.length > 0 && (
+                    <span className="dash-notification-badge">
+                      {notifications.length}
+                    </span>
+                  )}
+                </button>
+                {showNotifications && (
+                  <div className="dash-notification-dropdown">
+                    {notifications.length === 0 ? (
+                      <div className="dash-notification-empty">
+                        No new orders to confirm.
+                      </div>
+                    ) : (
+                      notifications.map((n) => (
+                        <Link
+                          key={n.id}
+                          href="/dashboard/orders"
+                          className="dash-notification-item"
+                          onClick={() => setShowNotifications(false)}
+                        >
+                          <div className="dash-notification-title">
+                            {n.title}
+                          </div>
+                          <div className="dash-notification-message">
+                            {n.message}
+                          </div>
+                        </Link>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
               <div className="dash-avatar">{initials}</div>
             </div>
           </header>

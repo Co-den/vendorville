@@ -45,15 +45,19 @@
 }
 
 .track-content {
+  width: 100%;
   max-width: 500px;
+  margin: 0 auto;
   padding: 40px 24px 80px;
+  box-sizing: border-box;
 }
 
 .track-form {
   background: #fff;
+  padding: 32px;
+  border-radius: 20px;
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 28px;
+  box-shadow: 0 8px 30px rgba(20, 32, 26, 0.06);
 }
 
 .track-result {
@@ -216,4 +220,68 @@
   text-align: center;
   color: var(--gray);
   font-size: 0.86rem;
+}
+
+.track-form .field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.track-form .field-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.track-form .field-group input {
+  width: 100%;
+  height: 50px;
+  padding: 0 15px;
+  box-sizing: border-box;
+
+  border: 1px solid #dfe4e1;
+  border-radius: 11px;
+
+  background: #fafcfb;
+  color: var(--ink);
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.track-form .field-group input::placeholder {
+  color: #98a29c;
+  font-weight: 400;
+}
+
+.track-form .field-group input:hover {
+  border-color: #c4cec7;
+  background: #fff;
+}
+
+.track-form .field-group input:focus {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(58, 132, 79, 0.1);
+}
+
+.track-form .field-group input:invalid:not(:placeholder-shown) {
+  border-color: #dc2626;
+}
+
+.track-form .field-group input:disabled {
+  background: #f3f5f4;
+  color: #98a29c;
+  cursor: not-allowed;
 }

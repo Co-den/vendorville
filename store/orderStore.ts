@@ -9,6 +9,7 @@ export interface OrderItem {
 }
 
 export interface Order {
+  [x: string]: any;
   id: number;
   businessId: number;
   orderNumber: string;

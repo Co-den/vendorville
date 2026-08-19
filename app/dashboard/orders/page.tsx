@@ -50,6 +50,35 @@ export default function OrdersPage() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
 
+  const [viewingOrder, setViewingOrder] = useState<Order | null>(null);
+  const [orderNote, setOrderNote] = useState("");
+  const [noteLog, setNoteLog] = useState<
+    { id: string; text: string; date: string }[]
+  >([]);
+
+  const openOrderDetail = (order: Order) => {
+    setViewingOrder(order);
+    setOrderNote("");
+  };
+
+  const addNote = () => {
+    if (!orderNote.trim()) return;
+    setNoteLog((prev) => [
+      ...prev,
+      {
+        id: Date.now().toString(),
+        text: orderNote,
+        date: new Date().toLocaleString("en-NG", {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      },
+    ]);
+    setOrderNote("");
+  };
+
   const handleAiParse = async () => {
     if (!activeBusinessId || !aiInput.trim()) return;
     setAiLoading(true);
@@ -201,6 +230,17 @@ export default function OrdersPage() {
     await updateOrderStatus(activeBusinessId, orderId, status);
     fetchProducts(activeBusinessId);
   };
+  const handleConfirmOrder = async (orderId: number) => {
+    if (!activeBusinessId) return;
+    try {
+      await api.post(
+        `/businesses/${activeBusinessId}/orders/${orderId}/confirm`,
+      );
+      fetchOrders(activeBusinessId);
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Could not confirm order");
+    }
+  };
 
   if (businesses.length === 0) {
     return (
@@ -248,9 +288,22 @@ export default function OrdersPage() {
       console.error("Could not update dispatch status", err);
     }
   };
-  function handleAssignRider(id: number, arg1: number): void {
-    throw new Error("Function not implemented.");
-  }
+
+  const handleAssignRider = async (orderId: number, riderId: number) => {
+    if (!activeBusinessId || !riderId) return;
+    try {
+      const res = await api.post(
+        `/businesses/${activeBusinessId}/orders/${orderId}/assign-rider`,
+        { riderId },
+      );
+      setOrderDispatch((prev) => ({
+        ...prev,
+        [orderId]: { riderId, status: res.data.dispatch.status },
+      }));
+    } catch (err) {
+      console.error("Could not assign rider", err);
+    }
+  };
 
   return (
     <>
@@ -537,7 +590,12 @@ export default function OrdersPage() {
         ) : (
           orders.map((order) => (
             <div className="order-row-dispatch" key={order.id}>
-              <div className="order-row">
+              <div
+                className="order-row"
+                key={order.id}
+                onClick={() => openOrderDetail(order)}
+                style={{ cursor: "pointer" }}
+              >
                 <div>
                   <div className="order-customer">{order.customerName}</div>
                   <div className="order-id">
@@ -559,7 +617,14 @@ export default function OrdersPage() {
                   <option value="cancelled">Cancelled</option>
                 </select>
               </div>
-
+              {!order.confirmedAt && order.status !== "cancelled" && (
+                <button
+                  className="confirm-order-btn"
+                  onClick={() => handleConfirmOrder(order.id)}
+                >
+                  Confirm Order
+                </button>
+              )}
               {riders.length > 0 && order.status !== "cancelled" && (
                 <div className="dispatch-row">
                   <select
@@ -597,7 +662,236 @@ export default function OrdersPage() {
           ))
         )}
       </div>
+      {viewingOrder && (
+        <div className="modal-overlay" onClick={() => setViewingOrder(null)}>
+          <div
+            className="order-detail-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="order-detail-header">
+              <div>
+                <div className="order-detail-title-row">
+                  <h2>{viewingOrder.orderNumber}</h2>
+                  <span className={`order-status ${viewingOrder.status}`}>
+                    {viewingOrder.status}
+                  </span>
+                  {!viewingOrder.confirmedAt &&
+                    viewingOrder.status !== "cancelled" && (
+                      <span className="order-status pending">Unconfirmed</span>
+                    )}
+                </div>
+                <p className="order-detail-subtitle">
+                  {new Date(viewingOrder.createdAt).toLocaleDateString(
+                    "en-NG",
+                    {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    },
+                  )}
+                  {" · "}
+                  {(viewingOrder as any).source === "storefront"
+                    ? "Online Storefront"
+                    : "POS"}
+                </p>
+              </div>
+              <button
+                className="modal-close-btn"
+                onClick={() => setViewingOrder(null)}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  width="22"
+                  height="22"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
 
+            <div className="order-detail-body">
+              <div className="order-detail-main">
+                {/* Order Items */}
+                <div className="od-card">
+                  <div className="od-card-head">
+                    <h3>Order Items</h3>
+                  </div>
+                  {viewingOrder.items.map((item, i) => (
+                    <div className="od-item-row" key={i}>
+                      <div className="od-item-thumb">
+                        {item.productName?.[0] || "?"}
+                      </div>
+                      <div className="od-item-info">
+                        <div className="od-item-name">
+                          {item.productName || "Unknown item"}
+                        </div>
+                        <div className="od-item-qty">
+                          {item.quantity} × ₦{item.unitPrice.toLocaleString()}
+                        </div>
+                      </div>
+                      <div className="od-item-total">
+                        ₦{(item.quantity * item.unitPrice).toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Order Summary */}
+                <div className="od-card">
+                  <div className="od-card-head">
+                    <h3>Order Summary</h3>
+                  </div>
+                  <div className="od-summary-row">
+                    <span>
+                      Subtotal ({viewingOrder.items.length} item
+                      {viewingOrder.items.length === 1 ? "" : "s"})
+                    </span>
+                    <span>
+                      ₦
+                      {viewingOrder.items
+                        .reduce((s, i) => s + i.quantity * i.unitPrice, 0)
+                        .toLocaleString()}
+                    </span>
+                  </div>
+                  {(viewingOrder as any).deliveryFee > 0 && (
+                    <div className="od-summary-row">
+                      <span>Delivery Fee</span>
+                      <span>
+                        ₦{(viewingOrder as any).deliveryFee.toLocaleString()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="od-summary-row total">
+                    <span>Total</span>
+                    <span>₦{viewingOrder.totalAmount.toLocaleString()}</span>
+                  </div>
+                  <div className="od-payment-note">
+                    {viewingOrder.paymentMethod === "pay_on_delivery" ? (
+                      <span>Payment due on delivery</span>
+                    ) : (
+                      <span>Paid via {viewingOrder.paymentMethod}</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Timeline / Notes log */}
+                <div className="od-card">
+                  <div className="od-card-head">
+                    <h3>Timeline</h3>
+                  </div>
+                  <div className="od-timeline-entry">
+                    <div className="od-timeline-dot"></div>
+                    <div>
+                      <div className="od-timeline-text">
+                        Order placed by {viewingOrder.customerName}
+                      </div>
+                      <div className="od-timeline-date">
+                        {new Date(viewingOrder.createdAt).toLocaleString(
+                          "en-NG",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          },
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {noteLog.map((note) => (
+                    <div className="od-timeline-entry" key={note.id}>
+                      <div className="od-timeline-dot note"></div>
+                      <div>
+                        <div className="od-timeline-text">{note.text}</div>
+                        <div className="od-timeline-date">{note.date}</div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="od-comment-box">
+                    <textarea
+                      value={orderNote}
+                      onChange={(e) => setOrderNote(e.target.value)}
+                      placeholder="Leave a note about this order..."
+                    />
+                    <button onClick={addNote} disabled={!orderNote.trim()}>
+                      Add Note
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="order-detail-sidebar">
+                <div className="od-card">
+                  <div className="od-card-head">
+                    <h3>Customer</h3>
+                  </div>
+                  <div className="od-customer-row">
+                    <div className="od-customer-avatar">
+                      {viewingOrder.customerName[0]}
+                    </div>
+                    <div>
+                      <div className="od-customer-name">
+                        {viewingOrder.customerName}
+                      </div>
+                      <div className="od-customer-meta">1 order</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="od-card">
+                  <div className="od-card-head">
+                    <h3>Contact Information</h3>
+                  </div>
+                  {viewingOrder.customerEmail && (
+                    <div className="od-detail-line">
+                      {viewingOrder.customerEmail}
+                    </div>
+                  )}
+                  <div className="od-detail-line">
+                    {viewingOrder.customerPhone || "No phone on record"}
+                  </div>
+                </div>
+
+                {(viewingOrder as any).deliveryAddress && (
+                  <div className="od-card">
+                    <div className="od-card-head">
+                      <h3>Delivery Address</h3>
+                    </div>
+                    <div className="od-detail-line">
+                      {(viewingOrder as any).deliveryAddress}
+                    </div>
+                  </div>
+                )}
+
+                {orderDispatch[viewingOrder.id] && (
+                  <div className="od-card">
+                    <div className="od-card-head">
+                      <h3>Dispatch</h3>
+                    </div>
+                    <div className="od-detail-line">
+                      Status:{" "}
+                      <span className="od-dispatch-status">
+                        {orderDispatch[viewingOrder.id].status.replace(
+                          "_",
+                          " ",
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {showSuccess && (
         <div className="modal-overlay" onClick={() => setShowSuccess(null)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>

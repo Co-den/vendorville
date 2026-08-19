@@ -102,9 +102,10 @@ export default function CustomerOrdersPage() {
             style={{
               background: "#fff",
               border: "1px solid var(--line)",
-              borderRadius: 14,
-              padding: 18,
+              borderRadius: 40,
+              padding:40,
               marginBottom: 14,
+              boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between" }}>
