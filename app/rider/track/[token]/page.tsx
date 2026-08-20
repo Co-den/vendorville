@@ -85,13 +85,13 @@ export default function RiderTrackPage() {
         <div className="rider-detail">
           <span className="label">Pick up from</span>
           <span className="value">
-            {dispatch.pickupBusinessName} — {dispatch.pickupAddress}
+            {dispatch.pickupBusinessName} {dispatch.pickupAddress}
           </span>
         </div>
         <div className="rider-detail">
           <span className="label">Deliver to</span>
           <span className="value">
-            {dispatch.customerName} — {dispatch.deliveryAddress}
+            {dispatch.customerName} {dispatch.deliveryAddress}
           </span>
         </div>
 

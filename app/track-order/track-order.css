@@ -53,11 +53,11 @@
 }
 
 .track-form {
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 1px solid #f1f5f9;
   background: #fff;
-  padding: 32px;
-  border-radius: 20px;
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 30px rgba(20, 32, 26, 0.06);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .track-result {
