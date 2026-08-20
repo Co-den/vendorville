@@ -33,7 +33,9 @@
   margin-bottom: 16px;
 }
 .track-hero h1 {
-  font-family: var(--font-fraunces), serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: clamp(1.8rem, 3.5vw, 2.4rem);
   color: #fff;
@@ -73,7 +75,9 @@
   margin-bottom: 24px;
 }
 .track-result-header h2 {
-  font-family: var(--font-fraunces), serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 1.2rem;
 }
 .track-result-header a {
@@ -248,7 +252,9 @@
   background: #fafcfb;
   color: var(--ink);
 
-  font-family: inherit;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
 
@@ -284,4 +290,24 @@
   background: #f3f5f4;
   color: #98a29c;
   cursor: not-allowed;
+}
+
+.btn-create{
+  width: 100%;
+  height: 64px;
+  background: var(--color-green-500);
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 20px;
 }
