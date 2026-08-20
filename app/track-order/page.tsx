@@ -4,7 +4,8 @@ import NavbarMobile from "@/components/NavbarMobile";
 import api from "@/store/axiosInstance";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import "./track-order.css";
 
 const OrderTrackingMap = dynamic(
@@ -19,11 +20,38 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function TrackOrderPage() {
+  const searchParams = useSearchParams();
   const [orderNumber, setOrderNumber] = useState("");
   const [phone, setPhone] = useState("");
   const [order, setOrder] = useState<any>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const prefillOrderNumber = searchParams.get("orderNumber");
+    const prefillPhone = searchParams.get("phone");
+    if (prefillOrderNumber && prefillPhone) {
+      setOrderNumber(prefillOrderNumber);
+      setPhone(prefillPhone);
+      handleTrackAuto(prefillOrderNumber, prefillPhone);
+    }
+  }, []);
+
+  const handleTrackAuto = async (orderNum: string, ph: string) => {
+    setError("");
+    setIsLoading(true);
+    try {
+      const res = await api.post("/store/track-order", {
+        orderNumber: orderNum,
+        phone: ph,
+      });
+      setOrder(res.data.order);
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Order not found");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();

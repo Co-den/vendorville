@@ -102,8 +102,8 @@ export default function CustomerOrdersPage() {
             style={{
               background: "#fff",
               border: "1px solid var(--line)",
-              borderRadius: 40,
-              padding:40,
+              borderRadius: 16,
+              padding: 20,
               marginBottom: 14,
               boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
             }}
@@ -126,6 +126,30 @@ export default function CustomerOrdersPage() {
                 </span>
               </div>
             </div>
+
+            {order.status !== "cancelled" && (
+              <div
+                style={{
+                  marginTop: 14,
+                  paddingTop: 14,
+                  borderTop: "1px solid var(--line)",
+                }}
+              >
+                <Link
+                  href={`/track-order?orderNumber=${encodeURIComponent(order.orderNumber)}&phone=${encodeURIComponent(customer?.phone || "")}`}
+                  className="ca-submit-btn"
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    display: "block",
+                    textDecoration: "none",
+                    padding: "10px",
+                  }}
+                >
+                  Track My Order
+                </Link>
+              </div>
+            )}
           </div>
         ))
       )}

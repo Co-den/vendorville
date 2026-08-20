@@ -299,7 +299,7 @@
   padding: 12px;
   border: none;
   border-radius: 9px;
-  background: linear-gradient(135deg, var(--green-900), var(--green-800));
+  background: var(--color-green-500);
   color: #fff;
   font-weight: 700;
   font-size: 0.88rem;
