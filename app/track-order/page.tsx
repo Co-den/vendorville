@@ -5,7 +5,7 @@ import api from "@/store/axiosInstance";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import "./track-order.css";
 
 const OrderTrackingMap = dynamic(
@@ -19,7 +19,7 @@ const statusLabels: Record<string, string> = {
   fulfilled: "Delivered",
 };
 
-export default function TrackOrderPage() {
+function TrackOrderContent() {
   const searchParams = useSearchParams();
   const [orderNumber, setOrderNumber] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,7 +35,7 @@ export default function TrackOrderPage() {
       setPhone(prefillPhone);
       handleTrackAuto(prefillOrderNumber, prefillPhone);
     }
-  }, []);
+  }, [searchParams]);
 
   const handleTrackAuto = async (orderNum: string, ph: string) => {
     setError("");
@@ -211,5 +211,25 @@ export default function TrackOrderPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function TrackOrderPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="track-page">
+          <div className="track-hero">
+            <div className="wrap">
+              <span className="track-eyebrow">✦ Track Order</span>
+              <h1>Where's My Order?</h1>
+              <p>Loading...</p>
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <TrackOrderContent />
+    </Suspense>
   );
 }
