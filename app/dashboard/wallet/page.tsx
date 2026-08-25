@@ -1,7 +1,18 @@
 "use client";
 
 import { useWalletStore } from "@/store/walletStore";
+import { BanknoteArrowDown } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+
+type Transaction = {
+  id: number | string;
+  description: string;
+  date: string;
+  amount: number;
+  type: "credit" | "debit" | string;
+  status: string;
+};
 
 export default function WalletPage() {
   const {
@@ -14,36 +25,51 @@ export default function WalletPage() {
     error,
     fetchWallet,
     fetchTransactions,
+    fetchBankAccounts,
     regenerateAccount,
   } = useWalletStore();
 
   const [copied, setCopied] = useState(false);
-  const [showTransfer, setShowTransfer] = useState(false);
-  const [showWithdraw, setShowWithdraw] = useState(false);
 
   useEffect(() => {
-    fetchWallet();
-    fetchTransactions();
-  }, []);
+    const loadWalletData = async () => {
+      await Promise.all([
+        fetchWallet(),
+        fetchTransactions(),
+        fetchBankAccounts(),
+      ]);
+    };
 
-  const formattedBalance = balance.toLocaleString("en-NG", {
+    loadWalletData();
+  }, [fetchWallet, fetchTransactions, fetchBankAccounts]);
+
+  const formattedBalance = Number(balance || 0).toLocaleString("en-NG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
   const [naira, kobo] = formattedBalance.split(".");
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (!accountNumber) return;
-    navigator.clipboard.writeText(accountNumber);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+
+    try {
+      await navigator.clipboard.writeText(accountNumber);
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch {
+      // Ignore clipboard errors
+    }
   };
 
   const handleRegenerate = async () => {
     try {
       await regenerateAccount();
     } catch {
-      // error already set in store
+      // Error is already handled by the store
     }
   };
 
@@ -64,32 +90,35 @@ export default function WalletPage() {
             <path d="M18 12a2 2 0 000 4h4v-4h-4z" />
           </svg>
         </div>
+
         <span className="wallet-page-eyebrow">E-Wallet</span>
       </div>
 
       <h1 className="wallet-page-title">
         Your <span>Wallet</span>.
       </h1>
+
       <p className="wallet-page-sub">
         View your balance and transaction history.
       </p>
 
+      {/* Wallet Balance */}
       <div className="wallet-hero">
         <div className="wallet-hero-label">Available Balance</div>
+
         <div className="wallet-hero-balance">
           ₦{isLoading ? "···" : naira}
           {!isLoading && <span className="kobo">.{kobo}</span>}
         </div>
+
         <div className="wallet-hero-usd">
-          ≈ ${(balance / 1500).toFixed(2)} USD
+          ≈ ${(Number(balance || 0) / 1500).toFixed(2)} USD
         </div>
+
         <div className="wallet-hero-owner">{accountName || "Your Account"}</div>
 
         <div className="wallet-hero-actions">
-          <button
-            className="wallet-hero-btn"
-            onClick={() => setShowTransfer(true)}
-          >
+          <Link href="/dashboard/payout" className="wallet-hero-btn">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -102,25 +131,19 @@ export default function WalletPage() {
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
             Transfer
-          </button>
-          <button
-            className="wallet-hero-btn"
-            onClick={() => setShowWithdraw(true)}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="19" x2="12" y2="5" />
-              <polyline points="5 12 12 5 19 12" />
-            </svg>
+          </Link>
+
+          <Link href="/dashboard/payout" className="wallet-hero-btn">
+            <BanknoteArrowDown />
             Withdraw
-          </button>
-          <button className="wallet-hero-btn">
+          </Link>
+
+          <button
+            type="button"
+            className="wallet-hero-btn"
+            disabled
+            title="Card payments coming soon"
+          >
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -137,6 +160,14 @@ export default function WalletPage() {
         </div>
       </div>
 
+      {/* Error */}
+      {error && (
+        <div className="error-message" style={{ marginTop: 16 }}>
+          {error}
+        </div>
+      )}
+
+      {/* Deposit Account */}
       <div className="panel">
         <div className="panel-head">
           <div className="deposit-account-title">
@@ -153,13 +184,16 @@ export default function WalletPage() {
                 <line x1="1" y1="10" x2="23" y2="10" />
               </svg>
             </div>
+
             <div>
               <h2>Deposit Account</h2>
+
               <p className="deposit-account-sub">
                 Send money here to top up your wallet
               </p>
             </div>
           </div>
+
           <span className="paystack-badge">Paystack</span>
         </div>
 
@@ -169,18 +203,23 @@ export default function WalletPage() {
               <span className="deposit-label">Bank</span>
               <span className="deposit-value">{bankName}</span>
             </div>
+
             <div className="deposit-row">
               <span className="deposit-label">Name</span>
               <span className="deposit-value">{accountName}</span>
             </div>
+
             <div className="deposit-row">
               <span className="deposit-label">Account No.</span>
+
               <span className="deposit-value with-actions">
                 {accountNumber}
+
                 <button
+                  type="button"
                   className="icon-btn-small"
                   onClick={handleCopy}
-                  title="Copy"
+                  title="Copy account number"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -196,7 +235,9 @@ export default function WalletPage() {
                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
                   </svg>
                 </button>
+
                 <button
+                  type="button"
                   className="icon-btn-small warn"
                   onClick={handleRegenerate}
                   title="Generate new account number"
@@ -218,13 +259,20 @@ export default function WalletPage() {
                 </button>
               </span>
             </div>
+
             {copied && <div className="copy-toast">Copied to clipboard</div>}
+
             <p className="deposit-note">
               Payments sent here are automatically credited to your wallet.
             </p>
+
             <p className="deposit-issue-note">
               Having issues?{" "}
-              <button className="link-btn" onClick={handleRegenerate}>
+              <button
+                type="button"
+                className="link-btn"
+                onClick={handleRegenerate}
+              >
                 Tap to generate a new account number.
               </button>
             </p>
@@ -232,6 +280,7 @@ export default function WalletPage() {
         ) : (
           <div className="deposit-empty">
             <button
+              type="button"
               className="btn-create"
               onClick={handleRegenerate}
               disabled={isLoading}
@@ -242,10 +291,12 @@ export default function WalletPage() {
         )}
       </div>
 
+      {/* Transaction History */}
       <div className="panel" style={{ marginTop: 20 }}>
         <div className="panel-head">
           <h2>Transaction History</h2>
         </div>
+
         {transactions.length === 0 ? (
           <div className="empty-transactions">
             <div className="empty-transactions-icon">
@@ -262,22 +313,29 @@ export default function WalletPage() {
                 <path d="M18 12a2 2 0 000 4h4v-4h-4z" />
               </svg>
             </div>
+
             <p className="empty-transactions-title">No transactions yet</p>
+
             <p className="empty-transactions-sub">
               Fund your wallet to get started
             </p>
           </div>
         ) : (
-          transactions.map((tx: any) => (
+          transactions.map((tx: Transaction) => (
             <div className="order-row" key={tx.id}>
               <div>
                 <div className="order-customer">{tx.description}</div>
+
                 <div className="order-id">{tx.date}</div>
               </div>
+
               <div />
+
               <div className="order-amount">
-                {tx.type === "credit" ? "+" : "-"}₦{tx.amount.toLocaleString()}
+                {tx.type === "credit" ? "+" : "-"}₦
+                {Number(tx.amount).toLocaleString("en-NG")}
               </div>
+
               <div className={`order-status ${tx.status}`}>{tx.status}</div>
             </div>
           ))
