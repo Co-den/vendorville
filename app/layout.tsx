@@ -13,28 +13,39 @@ export const spaceGrotesk = Space_Grotesk({
   variable: "--font-space",
 });
 
-
-
 export const metadata: Metadata = {
-  title: 'VendorHub Run Your Business the Smart Way',
-  description: '...',
-  manifest: '/manifest.json',
+  title: "VendorVille Run Your Business the Smart Way",
+  description:
+    "VendorVille helps Nigerian vendors manage inventory, orders, payments, customers, and their business in one place.",
+  manifest: "/manifest.json",
   generator: "Next.js",
   icons: {
     icon: [
       {
-        url: "",
-        media: "(prefers-color-scheme: light)",
+        url: "/icons/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/icons/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
       },
     ],
-    apple: "",
+    apple: [
+      {
+        url: "/icons/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
 };
 
 export const viewport: Viewport = {
-  colorScheme: 'light',
-  themeColor: [{ media: '(prefers-color-scheme: light)', color: '#132e1b' }],
-}
+  themeColor: "#132e1b",
+  colorScheme: "light",
+};
 
 export default function RootLayout({
   children,
