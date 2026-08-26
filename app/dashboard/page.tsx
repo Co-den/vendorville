@@ -110,7 +110,7 @@ export default function DashboardOverview() {
     }
   }, [activeBusinessId]);
 
-  // ===== Real stats derived from live data =====
+  
   const todayStr = new Date().toDateString();
 
   const ordersToday = useMemo(
@@ -133,7 +133,6 @@ export default function DashboardOverview() {
   );
 
   const recentOrders = useMemo(() => orders.slice(0, 5), [orders]);
-  // Derive sales-by-category from orders + products
   const salesByCategory = useMemo(() => {
     const tally: Record<string, number> = {};
     orders
@@ -162,7 +161,7 @@ export default function DashboardOverview() {
           Vendor Dashboard
         </div>
         <h1>
-          Welcome back, <span>{user?.firstName}</span>.
+          Hello, <span>{user?.firstName}</span>.
         </h1>
         <p>Here's what's happening with your business today.</p>
       </div>
