@@ -2,6 +2,7 @@
 
 import { useBusinessStore } from "@/store/businessStore";
 import { useProductStore, type Product } from "@/store/productStore";
+import { Box, CircleX, TrendingUp, TriangleAlert } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 const categories = [
@@ -240,18 +241,8 @@ export default function InventoryPage() {
       <div className="stat-grid">
         <div className="stat-card">
           <div className="stat-card-top">
-            <div className="stat-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 8l-9-5-9 5 9 5 9-5z" />
-                <path d="M3 8v8l9 5 9-5V8" />
-              </svg>
+            <div className="stat-icon3">
+              <Box size={25}/>
             </div>
           </div>
           <div className="stat-value">{products.length}</div>
@@ -259,18 +250,8 @@ export default function InventoryPage() {
         </div>
         <div className="stat-card">
           <div className="stat-card-top">
-            <div className="stat-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                <polyline points="17 6 23 6 23 12" />
-              </svg>
+            <div className="stat-icon1">
+              <TrendingUp size={25}/>
             </div>
           </div>
           <div className="stat-value">₦{totalValue.toLocaleString()}</div>
@@ -278,19 +259,8 @@ export default function InventoryPage() {
         </div>
         <div className="stat-card">
           <div className="stat-card-top">
-            <div className="stat-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
+            <div className="stat-icon4">
+              <TriangleAlert size={25}/>
             </div>
           </div>
           <div className="stat-value">{lowStockCount}</div>
@@ -298,19 +268,8 @@ export default function InventoryPage() {
         </div>
         <div className="stat-card">
           <div className="stat-card-top">
-            <div className="stat-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="15" y1="9" x2="9" y2="15" />
-                <line x1="9" y1="9" x2="15" y2="15" />
-              </svg>
+            <div className="stat-icon5">
+              <CircleX size={25}/>
             </div>
           </div>
           <div className="stat-value">{outOfStockCount}</div>

@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
+import { Box, LayoutGrid, ShoppingCart, TrendingUp, TriangleAlert } from "lucide-react";
 import Script from "next/script";
 import { JSX, useEffect, useMemo, useState } from "react";
 import {
@@ -110,7 +111,6 @@ export default function DashboardOverview() {
     }
   }, [activeBusinessId]);
 
-  
   const todayStr = new Date().toDateString();
 
   const ordersToday = useMemo(
@@ -157,8 +157,10 @@ export default function DashboardOverview() {
 
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>
-          Vendor Dashboard
+          <span className="dash-welcome-icon">
+            <LayoutGrid size={19} strokeWidth={2.5} />
+          </span>
+          <span>OPERATION CENTER</span>
         </div>
         <h1>
           Hello, <span>{user?.firstName}</span>.
@@ -192,39 +194,39 @@ export default function DashboardOverview() {
           <div className="stat-grid">
             <div className="stat-card">
               <div className="stat-card-top">
-                <div className="stat-icon">
-                  <StatIcon name="trend" />
+                <div className="stat-icon1">
+                   <TrendingUp size={25} />
                 </div>
               </div>
               <div className="stat-value">₦{totalRevenue.toLocaleString()}</div>
-              <div className="stat-label">Total Revenue</div>
+              <div className="stat-label">TOTAL REVENUE</div>
             </div>
             <div className="stat-card">
               <div className="stat-card-top">
-                <div className="stat-icon">
-                  <StatIcon name="cart" />
+                <div className="stat-icon2">
+                   <ShoppingCart size={25} />
                 </div>
               </div>
               <div className="stat-value">{ordersToday.length}</div>
-              <div className="stat-label">Orders Today</div>
+              <div className="stat-label">ORDERS TODAY</div>
             </div>
             <div className="stat-card">
               <div className="stat-card-top">
-                <div className="stat-icon">
-                  <StatIcon name="box" />
+                <div className="stat-icon3">
+                   <Box size={29}/>
                 </div>
               </div>
               <div className="stat-value">{products.length}</div>
-              <div className="stat-label">Products in Stock</div>
+              <div className="stat-label">PRODUCTS IN STOCK</div>
             </div>
             <div className="stat-card">
               <div className="stat-card-top">
-                <div className="stat-icon">
-                  <StatIcon name="alert" />
+                <div className="stat-icon4">
+                  <TriangleAlert size={25} />
                 </div>
               </div>
               <div className="stat-value">{lowStockItems.length}</div>
-              <div className="stat-label">Low Stock Alerts</div>
+              <div className="stat-label">LOW STOCK ALERTS</div>
             </div>
           </div>
 
@@ -232,7 +234,7 @@ export default function DashboardOverview() {
             <div className="panel">
               <div className="panel-head">
                 <h2>Recent Orders</h2>
-                <a href="/dashboard/orders" className="panel-link">
+                <a href="/dashboard/orders" className="panel-link1">
                   View all
                 </a>
               </div>
@@ -319,7 +321,7 @@ export default function DashboardOverview() {
             <div className="panel">
               <div className="panel-head">
                 <h2>Low Stock Alerts</h2>
-                <a href="/dashboard/inventory" className="panel-link">
+                <a href="/dashboard/inventory" className="panel-link1">
                   Manage inventory
                 </a>
               </div>
