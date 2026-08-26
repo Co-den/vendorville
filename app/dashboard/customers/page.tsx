@@ -2,6 +2,7 @@
 
 import { useBusinessStore } from "@/store/businessStore";
 import { useCustomerStore, type Customer } from "@/store/customerStore";
+import { UsersRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 export default function CustomersPage() {
@@ -73,8 +74,10 @@ export default function CustomersPage() {
       <>
         <div className="dash-welcome">
           <div className="dash-welcome-eyebrow">
-            <span className="dot"></span>
-            Customers
+            <span className="dash-welcome-icon">
+              <UsersRound size={25} strokeWidth={2.5} />
+            </span>
+            <span>CUSTOMERS</span>
           </div>
           <h1>
             Know your <span>customers</span>.
@@ -96,8 +99,10 @@ export default function CustomersPage() {
     <>
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>
-          Customers
+          <span className="dash-welcome-icon">
+            <UsersRound size={25} strokeWidth={2.5} />
+          </span>
+          <span>CUSTOMERS</span>
         </div>
         <h1>
           Know your <span>customers</span>.
@@ -239,7 +244,10 @@ export default function CustomersPage() {
               <span></span>
             </div>
             {filteredCustomers.map((customer) => (
-              <div className="customer-row" key={customer.phone || customer.name}>
+              <div
+                className="customer-row"
+                key={customer.phone || customer.name}
+              >
                 <div className="inventory-product-cell">
                   <div className="inventory-thumb">{customer.name[0]}</div>
                   <div>
@@ -249,7 +257,9 @@ export default function CustomersPage() {
                     </div>
                   </div>
                 </div>
-                <span className="customer-cell" data-label="Orders">{customer.orderCount}</span>
+                <span className="customer-cell" data-label="Orders">
+                  {customer.orderCount}
+                </span>
                 <span className="customer-cell" data-label="Total Spent">
                   ₦{customer.totalSpent.toLocaleString()}
                 </span>

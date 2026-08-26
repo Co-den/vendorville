@@ -2,6 +2,8 @@
 
 import { useAuthStore } from "@/store/authStore";
 import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
+import { Repeat } from 'lucide-react';
+
 
 declare global {
   interface Window {
@@ -66,8 +68,10 @@ export default function SubscribePage() {
     <>
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>
-          Billing & Plans
+          <span className="dash-welcome-icon">
+            <Repeat size={25} strokeWidth={2.5} />
+          </span>
+          <span>BILLING & PLANS</span>
         </div>
         <h1>
           Manage your <span>subscription</span>.

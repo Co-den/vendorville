@@ -1,7 +1,7 @@
 "use client";
 
 import { useWalletStore } from "@/store/walletStore";
-import { BanknoteArrowDown } from "lucide-react";
+import { BanknoteArrowDown, Receipt } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -75,33 +75,18 @@ export default function WalletPage() {
 
   return (
     <>
-      <div className="wallet-page-head">
-        <div className="wallet-page-icon">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 12V7H5a2 2 0 010-4h14v4" />
-            <path d="M3 5v14a2 2 0 002 2h16v-5" />
-            <path d="M18 12a2 2 0 000 4h4v-4h-4z" />
-          </svg>
+      <div className="dash-welcome">
+        <div className="dash-welcome-eyebrow">
+          <span className="dash-welcome-icon">
+            <Receipt size={25} strokeWidth={2.5} />
+          </span>
+          <span>E-WALLET</span>
         </div>
-
-        <span className="wallet-page-eyebrow">E-Wallet</span>
+        <h1>
+          Your <span>Wallet</span>.
+        </h1>
+        <p>View your balance and transaction history.</p>
       </div>
-
-      <h1 className="wallet-page-title">
-        Your <span>Wallet</span>.
-      </h1>
-
-      <p className="wallet-page-sub">
-        View your balance and transaction history.
-      </p>
-
       {/* Wallet Balance */}
       <div className="wallet-hero">
         <div className="wallet-hero-label">Available Balance</div>

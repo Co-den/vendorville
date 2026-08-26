@@ -1,7 +1,7 @@
 "use client";
 
 import { useWalletStore } from "@/store/walletStore";
-import { BanknoteArrowDown } from 'lucide-react';
+import { BanknoteArrowDown, RefreshCw, Wallet } from 'lucide-react';
 import { useEffect, useState } from "react";
 
 type BankAccount = {
@@ -239,30 +239,18 @@ export default function PayoutPage() {
 
   return (
     <>
-      <div className="wallet-page-head">
-        <div className="wallet-page-icon">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="1" y="4" width="22" height="16" rx="2" />
-            <line x1="1" y1="10" x2="23" y2="10" />
-          </svg>
+      <div className="dash-welcome">
+        <div className="dash-welcome-eyebrow">
+          <span className="dash-welcome-icon">
+            <Wallet size={25} strokeWidth={2.5} />
+          </span>
+          <span>FINANCE</span>
         </div>
-
-        <span className="wallet-page-eyebrow">Finance</span>
+        <h1>
+          Payout &<span>Transfer</span>.
+        </h1>
+        <p>Manage bank accounts and move money.</p>
       </div>
-
-      <h1 className="wallet-page-title">
-        Payout & <span>Transfer</span>.
-      </h1>
-
-      <p className="wallet-page-sub">Manage bank accounts and move money.</p>
-
       <div className="payout-action-grid">
         <div
           className="payout-action-card"
@@ -284,7 +272,7 @@ export default function PayoutPage() {
           </div>
 
           <div className="payout-action-title">Send Money</div>
-          <div className="payout-action-sub">Wallet to wallet</div>
+          <div className="payout-action-sub">Send funds to another wallet instantly</div>
         </div>
 
         <div
@@ -309,20 +297,7 @@ export default function PayoutPage() {
         </div>
 
         <button className="icon-btn-small" onClick={fetchWallet}>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            width="16"
-            height="16"
-          >
-            <polyline points="23 4 23 10 17 10" />
-            <polyline points="1 20 1 14 7 14" />
-            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
-          </svg>
+          <RefreshCw size={25}/>
         </button>
       </div>
 

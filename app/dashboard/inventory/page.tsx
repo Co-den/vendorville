@@ -186,10 +186,12 @@ export default function InventoryPage() {
     return (
       <>
         <div className="dash-welcome">
-          <div className="dash-welcome-eyebrow">
-            <span className="dot"></span>
-            Inventory
-          </div>
+        <div className="dash-welcome-eyebrow">
+          <span className="dash-welcome-icon">
+            <Box size={25} strokeWidth={2.5} />
+          </span>
+          <span>INVENTORY</span>
+        </div>
           <h1>
             Manage your <span>stock</span>.
           </h1>
@@ -210,8 +212,10 @@ export default function InventoryPage() {
     <>
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>
-          Inventory
+          <span className="dash-welcome-icon">
+            <Box size={25} strokeWidth={2.5} />
+          </span>
+          <span>INVENTORY</span>
         </div>
         <h1>
           Manage your <span>stock</span>.

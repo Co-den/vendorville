@@ -3,6 +3,7 @@
 import { useAuthStore } from "@/store/authStore";
 import api from "@/store/axiosInstance";
 import { useBusinessStore } from "@/store/businessStore";
+import { Bolt } from 'lucide-react';
 import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
@@ -193,7 +194,10 @@ export default function SettingsPage() {
     <>
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>Settings
+          <span className="dash-welcome-icon">
+            <Bolt size={25} strokeWidth={2.5} />
+          </span>
+          <span>SETTINGS</span>
         </div>
         <h1>
           Manage your <span>account</span>.

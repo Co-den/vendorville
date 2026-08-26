@@ -72,7 +72,7 @@ export default function ReviewsPage() {
        <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
           <span className="dash-welcome-icon">
-            <StarHalf size={19} strokeWidth={2.5} />
+            <StarHalf size={25} strokeWidth={2.5} />
           </span>
           <span>REVIEWS</span>
         </div>

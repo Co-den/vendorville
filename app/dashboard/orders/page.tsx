@@ -4,6 +4,7 @@ import api from "@/store/axiosInstance";
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore, type Order } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
+import { ClipboardList } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 type CartItem = {
@@ -246,10 +247,12 @@ export default function OrdersPage() {
     return (
       <>
         <div className="dash-welcome">
-          <div className="dash-welcome-eyebrow">
-            <span className="dot"></span>
-            Orders
-          </div>
+        <div className="dash-welcome-eyebrow">
+          <span className="dash-welcome-icon">
+            <ClipboardList size={25} strokeWidth={2.5} />
+          </span>
+          <span>ORDERS</span>
+        </div>
           <h1>
             Process <span>sales</span>.
           </h1>
@@ -309,8 +312,10 @@ export default function OrdersPage() {
     <>
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>
-          Orders
+          <span className="dash-welcome-icon">
+            <ClipboardList size={25} strokeWidth={2.5} />
+          </span>
+          <span>ORDERS</span>
         </div>
         <h1>
           Process <span>sales</span>.

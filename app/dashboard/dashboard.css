@@ -249,7 +249,7 @@
   color: var(--color-gray-500);
   font-size: 0.7rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 14px;
   font-family: sans-serif;
@@ -288,7 +288,7 @@
 
 .dash-welcome p {
   margin-top: 8px;
-  color: var(--gray);
+  color: var(--color-gray-400);
   font-size: 0.95rem;
   font-family:sans-serif;
   font-weight:800;
@@ -2084,16 +2084,16 @@
 }
 
 .icon-btn-small {
-  background: #fff;
+  background:var(--color-gray-100);
   border: 1px solid var(--line);
   border-radius: 6px;
-  width: 26px;
-  height: 26px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--ink);
+  color: var(--color-gray-500);
   padding: 0;
 }
 
@@ -2235,13 +2235,16 @@
 }
 
 .payout-action-title {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.98rem;
   color: var(--ink);
+  font-family:sans-serif;
 }
 
 .payout-action-sub {
   font-size: 0.8rem;
+   font-weight: 700;
+  font-family:sans-serif;
   color: var(--gray);
   margin-top: 2px;
 }
@@ -2261,9 +2264,10 @@
 .wallet-balance-strip-label {
   font-size: 0.7rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  font-family:sans-serif;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gray);
+  color: var(--color-gray-400);
 }
 
 .wallet-balance-strip-value {

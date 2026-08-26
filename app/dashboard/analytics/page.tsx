@@ -3,7 +3,7 @@
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
-import { Download } from 'lucide-react';
+import { Activity, Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 export default function AnalyticsPage() {
@@ -110,7 +110,10 @@ export default function AnalyticsPage() {
       <>
         <div className="dash-welcome">
           <div className="dash-welcome-eyebrow">
-            <span className="dot"></span>Analytics
+            <span className="dash-welcome-icon">
+              <Activity size={25} strokeWidth={2.5} />
+            </span>
+            <span>ANALYSIS</span>
           </div>
           <h1>
             Track your <span>growth</span>.
@@ -133,7 +136,10 @@ export default function AnalyticsPage() {
     <>
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
-          <span className="dot"></span>Analytics
+          <span className="dash-welcome-icon">
+            <Activity size={25} strokeWidth={2.5} />
+          </span>
+          <span>ANALYSIS</span>
         </div>
         <h1>
           Track your <span>growth</span>.
