@@ -2,7 +2,7 @@
 
 import { useBusinessStore } from "@/store/businessStore";
 import { useReviewStore } from "@/store/reviewStore";
-import { Star } from "lucide-react";
+import { Star, StarHalf } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ReviewsPage() {
@@ -46,7 +46,10 @@ export default function ReviewsPage() {
       <>
         <div className="dash-welcome">
           <div className="dash-welcome-eyebrow">
-            <span className="dot"></span>Reviews
+          <span className="dash-welcome-icon">
+            <StarHalf size={25} strokeWidth={2.5}  />
+            </span>
+            <span>Reviews</span>
           </div>
           <h1>
             What customers are <span>saying</span>.
