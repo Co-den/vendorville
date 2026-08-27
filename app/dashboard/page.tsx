@@ -160,7 +160,7 @@ export default function DashboardOverview() {
           <span className="dash-welcome-icon">
             <LayoutGrid size={25} strokeWidth={2.5} />
           </span>
-          <span>OPERATION CENTER</span>
+          <span>OPERATIONS CENTER</span>
         </div>
         <h1>
           Hello, <span>{user?.firstName}</span>.

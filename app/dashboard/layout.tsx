@@ -5,7 +5,20 @@ import { useAuthStore } from "@/store/authStore";
 import api from "@/store/axiosInstance";
 import { registerPushNotifications } from "@/store/pushNotifications";
 import { useStaffAuthStore } from "@/store/staffAuthStore";
-import { Bell, Box, LayoutGrid, LogOut } from "lucide-react";
+import {
+  Activity,
+  Bell,
+  Bolt,
+  Box,
+  House,
+  LayoutGrid,
+  LogOut,
+  Receipt,
+  ShoppingCart,
+  StarHalf,
+  Users,
+  Wallet
+} from "lucide-react";
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -19,9 +32,9 @@ const fraunces = Fraunces({
 });
 
 const navItems = [
-  { href: "/dashboard", label: "Overview", icon: "grid" },
+  { href: "/dashboard", label: "Business", icon: "home" },
   { href: "/dashboard/inventory", label: "Inventory", icon: "box" },
-  { href: "/dashboard/orders", label: "Orders", icon: "receipt" },
+  { href: "/dashboard/orders", label: "Orders", icon: "cart" },
   { href: "/dashboard/customers", label: "Customers", icon: "users" },
   { href: "/dashboard/analytics", label: "Analytics", icon: "trend" },
   { href: "/dashboard/reviews", label: "Reviews", icon: "star" },
@@ -30,106 +43,21 @@ const navItems = [
 
 const financeItems = [
   { href: "/dashboard/subscribe", label: "Subscribe", icon: "refresh" },
-  { href: "/dashboard/wallet", label: "e-Wallet", icon: "wallet" },
-  { href: "/dashboard/payout", label: "Payout", icon: "card" },
+  { href: "/dashboard/wallet", label: "e-Wallet", icon: "receipt" },
+  { href: "/dashboard/payout", label: "Payout", icon: "wallet" },
 ];
 
 function NavIcon({ name }: { name: string }) {
   const icons: Record<string, JSX.Element> = {
     grid: <LayoutGrid />,
     box: <Box />,
-    receipt: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M4 3h16v18l-3-2-2 2-2-2-2 2-2-2-2 2-3-2V3z" />
-        <path d="M8 8h8M8 12h8M8 16h5" />
-      </svg>
-    ),
-    users: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 00-3-3.87" />
-        <path d="M16 3.13a4 4 0 010 7.75" />
-      </svg>
-    ),
-    wallet: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M21 12V7H5a2 2 0 010-4h14v4" />
-        <path d="M3 5v14a2 2 0 002 2h16v-5" />
-        <path d="M18 12a2 2 0 000 4h4v-4h-4z" />
-      </svg>
-    ),
-    settings: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="12" cy="12" r="3" />
-        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
-      </svg>
-    ),
-    home: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    ),
-    trend: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-      </svg>
-    ),
-    star: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-      </svg>
-    ),
+    cart: <ShoppingCart />,
+    users: <Users />,
+    receipt: <Receipt/>,
+    settings: <Bolt />,
+    home: <House/>,
+    trend: <Activity />,
+    star:<StarHalf/>,
     refresh: (
       <svg
         viewBox="0 0 24 24"
@@ -144,19 +72,7 @@ function NavIcon({ name }: { name: string }) {
         <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
       </svg>
     ),
-    card: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="1" y="4" width="22" height="16" rx="2" />
-        <line x1="1" y1="10" x2="23" y2="10" />
-      </svg>
-    ),
+    wallet: <Wallet/>,
   };
   return icons[name] || null;
 }
@@ -227,7 +143,6 @@ export default function DashboardLayout({
     setSidebarOpen(false);
   }, [pathname]);
 
-  
   useEffect(() => {
     if (activeBusinessId) {
       const poll = () => {
@@ -241,7 +156,6 @@ export default function DashboardLayout({
       return () => clearInterval(interval);
     }
   }, [activeBusinessId]);
-
 
   const handleLogout = async () => {
     if (isStaffSession) {
@@ -296,7 +210,9 @@ export default function DashboardLayout({
       <div className={`dash-shell ${fraunces.variable}`}>
         <aside className={`dash-sidebar ${sidebarOpen ? "open" : ""}`}>
           <Link className="dash-brand" href="/">
-            <span>VendorVille</span>
+            <h1>
+              Vendor<span>Ville</span>
+            </h1>
           </Link>
           <nav className="dash-nav">
             {effectiveNavItems.map((item) => (
@@ -332,7 +248,7 @@ export default function DashboardLayout({
           <div className="dash-sidebar-footer">
             <button className="dash-logout-btn" onClick={handleLogout}>
               <LogOut />
-              Logout
+              SIGN OUT
             </button>
           </div>
         </aside>

@@ -13,13 +13,13 @@ const monthlyPlans = [
     vatNote: "after your free trial ends",
     trial: "14 days free trial",
     features: [
-      "1 Business, 1 Stall/Front",
-      "Up to 200 POS order items/month",
+      "1 Business, 1 Store",
+      "Up to 100 POS order items/month",
       "Up to 50 orders per customer",
       "Standard POS & Inventory",
-      "Up to 50 Customers per store",
+      "Up to 50 Customers per store/month",
       "5 Shelf/Rack Compartments",
-      "1 Staff per Store",
+      "3 Staff per Store",
       "Email & WhatsApp Sharing",
     ],
     cta: "Start Starter",
@@ -33,14 +33,15 @@ const monthlyPlans = [
     dollarPrice: "8.28",
     vatNote: "+7.5% VAT",
     features: [
-      "2 Businesses, 2 Stores per Brand",
-      "Up to 400 POS order items/month",
+      "2 Businesses, 2 Stores each",
+      "Up to 200 POS order items/month",
       "Up to 100 orders per customer",
       "Gift Card & Loyalty Points",
       "Up to 120 Customers per store",
       "15 Shelf/Rack Compartments",
-      "3 Staff per Store",
-      "Email, SMS & WhatsApp Alerts",
+      "5 Staff per Store",
+      "Dispatch Rider Feature",
+      "Email, SMS & WhatsApp Sharing",
     ],
     cta: "Start Professional",
     href: "/auth/signup?plan=professional",
@@ -53,14 +54,13 @@ const monthlyPlans = [
     dollarPrice: "12.22",
     vatNote: "+7.5% VAT",
     features: [
-      "Unlimited Businesses & Stalls",
+      "Unlimited Businesses & Stores",
       "Unlimited POS order items",
       "Unlimited orders per store",
       "Unlimited Staff per Store",
       "Unlimited Shelf/Rack Compartments",
       "AI-Powered Order Creation",
-      "Dispatch Rider Feature",
-      "Email, SMS & WhatsApp Alerts",
+      "Email, SMS & WhatsApp Inbox",
     ],
     cta: "Choose Enterprise",
     href: "/auth/signup?plan=enterprise",
@@ -84,10 +84,6 @@ export default function PricingSection() {
   return (
     <section id="pricing">
       <div className="wrap">
-        <div style={{ textAlign: "center" }}>
-          <span className="tag-pill">✦ Pricing</span>
-        </div>
-
         <div className="sec-head reveal">
           <h2>Simple, Transparent Pricing</h2>
           <p>
@@ -156,13 +152,13 @@ export default function PricingSection() {
                 <ul className="plan-list">
                   {plan.features.map((feature) => (
                     <li key={feature}>
-                      <Check size={16} />
+                      <Check size={16} color="green" />
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <Link
-                  className={`plan-btn ${plan.trial ? "starter-btn" : ""}`}
+                  className={`plan-btn ${plan.trial ? "starter-btn" : "premium-btn"}`}
                   href={plan.href}
                 >
                   {plan.cta}

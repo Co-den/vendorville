@@ -1,7 +1,7 @@
 import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
 import PricingSection from "@/components/PricingSection";
-import { Box, Check, CirclePlay, Motorbike, Search, Star } from "lucide-react";
+import { Box,Bell, Check, CirclePlay,MapPin, Motorbike, Search, Star, ShelvingUnit, ChevronRight,ChartNoAxesColumn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -45,7 +45,7 @@ export default async function Home() {
         <div className="wrap hero-grid">
           <div className="hero-text">
             <h1>
-              Run Your Vendor Business the <span className="hl">Smart Way</span>
+              Run Your Vendor Business the <span className="love">Smart Way</span>
             </h1>
             <p className="lead">
               The all-in-one POS &amp; inventory platform for Nigerian market
@@ -239,9 +239,6 @@ export default async function Home() {
 
       <section id="features">
         <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="tag-pill">✦ Features</span>
-          </div>
           <div className="sec-head reveal">
             <h2>
               Everything You Need to <span className="hl">Grow</span>
@@ -289,17 +286,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 01-3.46 0" />
-                </svg>
+                <Bell/>
               </div>
               <h3>Email, SMS &amp; WhatsApp Alerts</h3>
               <p>
@@ -309,18 +296,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="20" x2="18" y2="10" />
-                  <line x1="12" y1="20" x2="12" y2="4" />
-                  <line x1="6" y1="20" x2="6" y2="14" />
-                </svg>
+                <ChartNoAxesColumn/>
               </div>
               <h3>Real Analytics</h3>
               <p>
@@ -330,19 +306,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="7" height="7" rx="1" />
-                  <rect x="14" y="3" width="7" height="7" rx="1" />
-                  <rect x="3" y="14" width="7" height="7" rx="1" />
-                  <rect x="14" y="14" width="7" height="7" rx="1" />
-                </svg>
+                <ShelvingUnit/>
               </div>
               <h3>Shelf Management</h3>
               <p>Organize, track, and monitor items on shelves in real time.</p>
@@ -425,13 +389,9 @@ export default async function Home() {
 
       <section className="testi-band" id="testimonials">
         <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="tag-pill">✦ Customer Stories</span>
-          </div>
-
           <div className="sec-head reveal">
             <h2>
-              Loved by <span className="hl">Vendors</span> across Nigeria
+              Loved by <span className="love">Vendors</span> across Nigeria
             </h2>
 
             <p>
@@ -475,7 +435,7 @@ export default async function Home() {
               </div>
 
               <p>
-                &quot;I don&apos;t lose stock anymore — I get an alert before I
+                &quot;I don&apos;t lose stock anymore I get an alert before I
                 run out of anything.&quot;
               </p>
 
@@ -623,9 +583,6 @@ export default async function Home() {
 
       <section className="featured-band" id="discover">
         <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="tag-pill">✦ Featured Vendors</span>
-          </div>
           <div className="sec-head reveal">
             <h2>Discover Amazing Vendors</h2>
             <p>Real vendors selling right now on VendorVille.</p>
@@ -685,7 +642,7 @@ export default async function Home() {
 
                       {vendor.isVerified && (
                         <span className="v3-badge verified">
-                          <Check />
+                          <Check size={15} />
                           Verified
                         </span>
                       )}
@@ -719,11 +676,12 @@ export default async function Home() {
                       </div>
 
                       <div className="vname">
-                        {vendor.shortName || vendor.name}
+                        {vendor.name}
                       </div>
                       <div className="vendor-card-v3-address">
-                        {vendor.address}
-                      </div>
+                      <MapPin size={14} strokeWidth={2} />
+                      <span>{vendor.address}</span>
+                    </div>
 
                       {vendor.branchCount > 1 && (
                         <div className="vendor-card-v3-branches">
@@ -738,8 +696,8 @@ export default async function Home() {
           )}
 
           <div style={{ textAlign: "center", marginTop: 28 }}>
-            <Link href="/discover" className="btn-outline1">
-              See All Vendors
+            <Link href="/discover" className="btn-outline">
+              Explore All Vendors <ChevronRight/>
             </Link>
           </div>
         </div>
@@ -747,9 +705,6 @@ export default async function Home() {
       <PricingSection />
       <section id="pricing">
         <div className="wrap">
-          <div style={{ textAlign: "center", margin: "44px 0 18px" }}>
-            <span className="tag-pill">✦ Compare Plans</span>
-          </div>
           <div className="sec-head reveal">
             <h2>Full Feature Comparison</h2>
             <p>A detailed look at what each plan includes.</p>
@@ -845,9 +800,6 @@ export default async function Home() {
 
       <section id="faq">
         <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="tag-pill">✦ FAQ</span>
-          </div>
           <div className="sec-head reveal">
             <h2>
               Frequently Asked <span className="hl">Questions</span>
@@ -982,9 +934,6 @@ export default async function Home() {
 
       <section>
         <div className="wrap">
-          <div style={{ textAlign: "center" }}>
-            <span className="tag-pill">✦ Official Partnerships</span>
-          </div>
           <div className="sec-head reveal">
             <h2>
               Trusted by <span className="hl">Leading Organizations</span>

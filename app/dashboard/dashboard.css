@@ -3,6 +3,7 @@
   grid-template-columns: 260px 1fr;
   min-height: 100vh;
   background: var(--offwhite);
+  
 }
 
 @media (max-width: 900px) {
@@ -86,12 +87,22 @@
   margin-bottom: 16px;
 }
 
+.dash-brand h1{
+   font-family:
+    Space Grotesk,
+    sans-serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #000;
+}
+
 .dash-brand span {
   font-family:
     Space Grotesk,
     sans-serif;
-  font-weight: 800;
-  font-size: 1.1rem;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: var(--color-green-800);
 }
 
 .dash-nav {
@@ -110,8 +121,8 @@
   border: none;
   color: var(--color-gray-500);
   font-size: 0.77rem;
-  font-weight: 800;
-  font-family:sans-serif;
+  font-weight: 900;
+  font-family: "Inter", sans-serif;
   text-decoration: none;
   transition:
     background 0.18s ease,
@@ -161,8 +172,9 @@
   background: none;
   border: none;
   color: red;
+  font-family:sans-serif;
   font-size: 0.86rem;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
   transition:
     background 0.18s ease,
@@ -227,7 +239,7 @@
 }
 
 .dash-content {
-  padding: 62px;
+  padding: 40px 95px;
   flex: 1;
 }
 
@@ -246,7 +258,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-gray-500);
+  color: var(--color-gray-400);
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.2em;
@@ -273,14 +285,14 @@
   font-family:
     Space Grotesk,
     sans-serif;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 3.0rem;
   color: var(--ink);
   line-height: 1.15;
 }
 
 .dash-welcome h1 span {
-  color: var(--accent);
+  color: var(--color-green-800);
   font-family:
     Space Grotesk,
     sans-serif;
@@ -290,8 +302,8 @@
   margin-top: 8px;
   color: var(--color-gray-400);
   font-size: 0.95rem;
-  font-family:sans-serif;
-  font-weight:800;
+  font-family: sans-serif;
+  font-weight:900;
 }
 
 /* ===== STAT GRID ===== */
@@ -318,7 +330,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-
   padding: 24px;
   background: #ffffff;
   border: 1px solid #f1f5f9;
