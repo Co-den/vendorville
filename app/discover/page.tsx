@@ -160,7 +160,7 @@
           <div className="discover-location-name">
             {locationFilterActive && userLocation
               ? userLocation
-              : "Near Me"}, NG
+              : "Near Me"}
           </div>
 
           <div className="discover-location-hint">

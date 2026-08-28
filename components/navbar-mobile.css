@@ -127,10 +127,11 @@ nav .wrap {
   display: flex;
   align-items: center;
   gap: 30px;
-  font-size: 0.93rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #3b4553;
   white-space: nowrap;
+  font-family: inter;
 }
 
 .nav-links a:not(.nav-login):hover {
@@ -189,7 +190,8 @@ nav .wrap {
   padding: 11px 22px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 1rem;
+  font-family:inter;
 }
 
 .nav-cta:hover {

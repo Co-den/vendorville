@@ -29,7 +29,7 @@ export default function NavbarMobile() {
           <Image
             src="/images/vv.png"
             alt="VendorVille"
-            width={280}
+            width={290}
             height={55}
             priority
             className="h-12 w-auto"
