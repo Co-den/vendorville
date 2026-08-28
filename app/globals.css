@@ -1052,7 +1052,7 @@ section {
 }
 
 .sec-head h2 {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 900;
   color: #000;
 }
@@ -1141,6 +1141,11 @@ section {
   .feat-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .sec-head h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #000;
+}
 }
 
 @media (max-width: 600px) {

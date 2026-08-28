@@ -18,8 +18,8 @@
 .discover-hero {
   position: relative;
   overflow: hidden;
-  padding: 60px 24px 50px;
-  text-align: center;
+  padding: 20px 24px 50px;
+  text-align: left;
 }
 
 .discover-hero .hero-bg {
@@ -71,18 +71,7 @@
   z-index: 2;
 }
 
-.discover-eyebrow {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
-  color: #7fd99a;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 18px;
-}
+
 
 .discover-hero h1 {
   font-family: var(--font-fraunces), "Fraunces", serif;
@@ -100,13 +89,15 @@
 
 .discover-search-bar {
   max-width: 480px;
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   align-items: center;
   gap: 10px;
   background: #fff;
-  border-radius: 30px;
-  padding: 12px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+border-radius: 2rem;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 14px 20px;
 }
 
 .discover-search-bar svg {
@@ -114,6 +105,7 @@
   height: 18px;
   color: var(--gray);
   flex-shrink: 0;
+  
 }
 
 .discover-search-bar input {
@@ -184,18 +176,25 @@
 }
 
 .discover-eyebrow {
+  font-weight: 900;
+  letter-spacing: 4px;
   opacity: 0;
   animation: fadeInUp 0.7s ease 0.1s forwards;
+  color: rgb(45 107 65 / var(--tw-text-opacity, 1));
+
 }
 
 .discover-hero-content h1 {
   opacity: 0;
   animation: fadeInUp 0.7s ease 0.22s forwards;
+  color:#000;
+  font-size:3.5rem;
 }
 
 .discover-hero-content p {
-  opacity: 0;
+  font-weight: 700;
   animation: fadeInUp 0.7s ease 0.34s forwards;
+  color: rgb(148 163 184 / var(--tw-text-opacity, 1));
 }
 
 .discover-search-bar {
@@ -240,184 +239,173 @@
   gap: 1.5rem;
 }
 
-.vendor-card-v2 {
-  display: block;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 16px;
-  overflow: hidden;
-  text-decoration: none;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.vendor-card-v2:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
-}
-
-.vendor-card-banner {
-  position: relative;
-  height: 140px;
-  background: linear-gradient(150deg, #132e1b, #1f4935);
-}
-
-.vendor-card-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.vendor-card-banner-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 800;
-}
-
-.vendor-availability-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.68rem;
-  font-weight: 800;
-  z-index: 2;
-}
-
-.vendor-availability-badge .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-.vendor-availability-badge.open {
-  background: rgba(58, 132, 79, 0.92);
-  color: #fff;
-}
-.vendor-availability-badge.open .dot {
-  background: #7fd99a;
-}
-
-.vendor-availability-badge.closed {
-  background: rgba(220, 38, 38, 0.92);
-  color: #fff;
-}
-.vendor-availability-badge.closed .dot {
-  background: #fecaca;
-}
-
-.vendor-plan-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.66rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  z-index: 2;
-}
-
-.vendor-plan-badge.plan-starter {
-  background: rgba(255, 255, 255, 0.85);
-  color: #3d4a45;
-}
-
-.vendor-plan-badge.plan-professional {
-  background: rgba(58, 132, 79, 0.92);
-  color: #fff;
-}
-
-.vendor-plan-badge.plan-enterprise {
-  background: linear-gradient(135deg, #f0a23a, #d4841f);
-  color: #fff;
-}
-
-.vendor-card-body {
-  padding: 16px;
-}
-
-.vname {
-  font-weight: 700;
-  font-size: 0.98rem;
-  color: black;
-  margin-bottom: 4px;
-}
-
-.vendor-card-meta {
-  font-size: 0.8rem;
-  color: #667085;
-  margin-bottom: 12px;
-}
-
-.vendor-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.vendor-card-rating {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.vendor-card-rating .stars {
-  color: #f0a23a;
-  font-size: 0.85rem;
-}
-
-.vendor-card-rating .rating-value {
-  font-weight: 700;
-  font-size: 0.82rem;
-  color: #14201a;
-}
-
-.vendor-card-rating .review-count {
-  font-size: 0.76rem;
-  color: #667085;
-}
 
 .discover-location-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 3;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 9px 16px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 700;
+  gap: 12px;
+  width: fit-content;
+  max-width: calc(100% - 48px);
+  padding: 12px 16px;
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
+  visibility: visible;
+  opacity: 1;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .discover-location-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(58, 132, 79, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
 }
+
 .discover-location-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  cursor: default;
+  opacity: 0.7;
 }
-.discover-location-btn svg {
-  width: 15px;
-  height: 15px;
+
+.discover-location-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 132, 79, 0.1);
+  border-radius: 12px;
+}
+
+.discover-location-icon svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-green-900);
+}
+
+.discover-location-content {
+  min-width: 0;
+  text-align: left;
+}
+
+.discover-location-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+  color: #3a844f;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.discover-location-label span {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #3a844f;
+  animation: location-pulse 1.5s ease-in-out infinite;
+}
+
+
+
+.discover-location-name {
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+.discover-location-hint {
+  margin-top: 3px;
+  color: #cbd5e1;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+
+
+.discover-location-chevron {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  color: #cbd5e1;
+}
+
+.discover-location-btn:hover .discover-location-chevron {
+  color: #3a844f;
+}
+
+
+
+@keyframes location-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+
+
+@media (max-width: 639px) {
+  .discover-location-btn {
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20%;
+  }
+
+ 
+  .discover-location-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 50%;
+  }
+
+  .discover-location-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .discover-location-content,
+  .discover-location-chevron {
+    display: none;
+  }
 }
 
 .discover-clear-location {
@@ -434,8 +422,9 @@
 .vendor-card-v3 {
   display: block;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+border-radius: 2rem;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   text-decoration: none;
   transition:
@@ -515,8 +504,9 @@
   text-transform: uppercase;
 }
 .v3-badge.plan-starter {
-  background: rgba(255, 255, 255, 0.85);
-  color: #3d4a45;
+  background: var(--color-orange-400);
+  font-family: Space Grotesk, sans-serif;
+  color: #fff;
 }
 .v3-badge.plan-professional {
   background: rgba(58, 132, 79, 0.92);
@@ -556,8 +546,18 @@
 }
 
 .vendor-card-v3-address {
-  font-size: 0.8rem;
+   width: 100%;
+  max-width: 300px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
   color: #667085;
+  font-size: 0.8rem;
+  font-family: Space Grotesk, sans-serif;
+  font-weight:900;
+   line-height: 1.45;
+  text-align: left;
   margin-top: 4px;
 }
 .vendor-card-v3-branches {
@@ -565,4 +565,7 @@
   color: #3a844f;
   font-weight: 700;
   margin-top: 8px;
+}
+footer{
+  margin-top: 36px;
 }
