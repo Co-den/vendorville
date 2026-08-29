@@ -90,7 +90,7 @@ body {
   }
 }
 
-/* LEFT — vendor photo mosaic + green overlay */
+
 .brand-panel {
   position: relative;
   overflow: hidden;
@@ -208,6 +208,7 @@ body {
   margin-top: 20px;
   color: #cfe0d4;
   font-size: 1.02rem;
+  font-family:inter;
   line-height: 1.6;
   max-width: 38ch;
   opacity: 0;
@@ -246,6 +247,7 @@ body {
 
 .bf-label {
   margin-top: 10px;
+  font-family:inter;
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -293,7 +295,7 @@ body {
 .auth-card p.tagline {
   text-align: center;
   color: var(--gray);
-  font-style: italic;
+  font-family:inter;
   font-size: 0.82rem;
   margin-top: 12px;
 }
@@ -403,15 +405,74 @@ body {
 
 .select-wrap {
   position: relative;
-  margin-top: 10px;
+  width: 100%;
+}
+.select-wrap select {
+  width: 100%;
+  height: 52px;
+
+  padding: 0 46px 0 16px;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe4e8;
+  border-radius: 12px;
+
+  color: #14201a;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  outline: none;
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-.select-wrap select {
-  appearance: none;
-  font-weight: 600;
-  padding-right: 32px;
-  cursor: pointer;
-  width: 100%;
+.select-wrap select:invalid {
+  color: #98a2b3;
+}
+.select-wrap select:focus {
+  border-color: #3a844f;
+
+  box-shadow:
+    0 0 0 3px rgba(58, 132, 79, 0.10);
+}
+.select-wrap select:hover {
+  border-color: #b9c7bd;
+}
+.select-arrow {
+  position: absolute;
+
+  top: 50%;
+  right: 16px;
+
+  transform: translateY(-50%);
+
+  color: #667085;
+
+  pointer-events: none;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+.select-wrap:focus-within .select-arrow {
+  color: #3a844f;
+}
+.select-wrap select option {
+  background: #ffffff;
+  color: #14201a;
+
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
 .select-wrap svg {
@@ -502,32 +563,45 @@ body {
   padding: 16px;
 }
 
+.timezone-box {
+  padding: 16px;
+
+  background: #f8faf9;
+
+  border: 1px solid #e7eaee;
+  border-radius: 16px;
+}
+
 .timezone-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  margin-bottom: 12px;
 }
 
 .timezone-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.74rem;
+  color: var(--color-orange-600);
+  font-size: 0.72rem;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--amber-text);
+  letter-spacing: 1.5px;
 }
 
 .timezone-badge {
-  background: var(--amber);
+  padding: 5px 9px;
+  background: var(--color-orange-400);
   color: #fff;
+  border-radius: 20px;
   font-size: 0.62rem;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 4px 10px;
-  border-radius: 999px;
+  letter-spacing: 0.8px;
+}
+
+.timezone-note {
+  margin: 10px 2px 0;
+  color: #667085;
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .timezone-box .select-wrap {
@@ -1227,4 +1301,194 @@ body {
   .checkbox-label {
     font-size: 0.78rem;
   }
+}
+
+
+
+.custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #d9dee5;
+  border-radius: 10px;
+
+  color: #14201a;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  text-align: left;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.custom-select-trigger:hover {
+  border-color: #3a844f;
+}
+
+.custom-select-trigger:focus {
+  outline: none;
+  border-color: #3a844f;
+  box-shadow: 0 0 0 3px rgba(58, 132, 79, 0.1);
+}
+
+.custom-select-trigger.select-error {
+  border-color: #dc2626;
+}
+
+.custom-select-trigger .placeholder {
+  color: #98a2b3;
+}
+
+.select-chevron {
+  color: #667085;
+  transition: transform 0.2s ease;
+}
+
+.select-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #fff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  box-shadow:
+    0 10px 25px rgba(16, 24, 40, 0.12),
+    0 2px 6px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+  animation: selectDropdownIn 0.16s ease;
+}
+
+@keyframes selectDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.select-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 10px;
+  padding: 10px 12px;
+  background: #f8faf9;
+  border: 1px solid #e4e7ec;
+  border-radius: 8px;
+  color: #667085;
+}
+
+.select-search:focus-within {
+  border-color: #3a844f;
+  background: #fff;
+}
+
+.select-search svg {
+  flex-shrink: 0;
+  color: #98a2b3;
+}
+
+.select-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #14201a;
+}
+
+.select-search input::placeholder {
+  color: #98a2b3;
+}
+
+
+.select-options {
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 4px 6px 8px;
+}
+
+.select-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  color: #344054;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.select-option:hover {
+  background: #f2f8f3;
+  color: #3a844f;
+}
+
+.select-option.selected {
+  background: #eaf4ec;
+  color: #3a844f;
+  font-weight: 700;
+}
+
+.select-option.selected svg {
+  color: #3a844f;
+}
+
+
+
+.no-options {
+  padding: 18px 12px;
+
+  text-align: center;
+
+  color: #98a2b3;
+  font-size: 0.85rem;
+}
+
+.select-options::-webkit-scrollbar {
+  width: 5px;
+}
+
+.select-options::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.select-options::-webkit-scrollbar-thumb {
+  background: #d0d5dd;
+  border-radius: 10px;
 }

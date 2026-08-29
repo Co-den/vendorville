@@ -1,0 +1,191 @@
+.searchable-select {
+  position: relative;
+  width: 100%;
+}
+
+/* Trigger */
+
+.searchable-select-trigger {
+  width: 100%;
+  height: 52px;
+
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #fff;
+
+  border: 1px solid #dfe4e8;
+  border-radius: 12px;
+
+  color: #14201a;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  text-align: left;
+
+  transition: 0.2s ease;
+}
+
+.searchable-select-trigger:hover {
+  border-color: #b8c5bc;
+}
+
+.searchable-select-trigger.active {
+  border-color: #3a844f;
+  box-shadow: 0 0 0 3px rgba(58, 132, 79, 0.1);
+}
+
+.searchable-select-trigger .placeholder {
+  color: #98a2b3;
+}
+
+.select-chevron {
+  color: #667085;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.select-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+
+.searchable-select-dropdown {
+  position: absolute;
+
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+
+  z-index: 100;
+
+  background: #fff;
+
+  border: 1px solid #e7eaee;
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 30px rgba(15, 23, 42, 0.12),
+    0 4px 10px rgba(15, 23, 42, 0.06);
+
+  overflow: hidden;
+
+  animation: dropdownIn 0.16s ease;
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search */
+
+.select-search {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 12px 14px;
+
+  border-bottom: 1px solid #edf0f2;
+
+  color: #98a2b3;
+}
+
+.select-search svg {
+  flex-shrink: 0;
+}
+
+.select-search input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #14201a;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.select-search input::placeholder {
+  color: #98a2b3;
+}
+
+/* Options */
+
+.select-options {
+  max-height: 240px;
+  overflow-y: auto;
+
+  padding: 6px;
+}
+
+.select-option {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 11px 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #344054;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+}
+
+.select-option:hover {
+  background: #f3f8f4;
+  color: #2d6a3b;
+}
+
+.select-option.selected {
+  background: #eaf4ec;
+  color: #2d6a3b;
+  font-weight: 700;
+}
+
+.option-check {
+  color: #3a844f;
+}
+
+.no-options {
+  padding: 20px;
+
+  text-align: center;
+
+  color: #98a2b3;
+
+  font-size: 0.85rem;
+}

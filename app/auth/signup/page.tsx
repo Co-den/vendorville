@@ -7,7 +7,6 @@ export default function SignupPage() {
 
   return (
     <div className="signup-container">
-      {/* LEFT PANEL — Brand + Background */}
       <div className="brand-panel">
         <div className="brand-bg" aria-hidden="true">
           <span></span>
@@ -80,7 +79,6 @@ export default function SignupPage() {
         </div>
       </div>
 
-      {/* RIGHT PANEL — Form */}
       <div className="form-panel">
         <div className="auth-card">
           <SignupWizard />

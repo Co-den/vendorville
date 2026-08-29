@@ -26,7 +26,6 @@ export function CustomerLoginWizard() {
 
   const handleStep1Submit = async () => {
     const isValid = await handleSubmit(async () => {
-      // Validate step 1 only
       const values = getValues();
       if (values.phone && values.countryCode) {
         setPhoneNumber(`${values.countryCode} ${values.phone}`);
@@ -39,11 +38,7 @@ export function CustomerLoginWizard() {
     setIsLoading(true);
     try {
       await handleSubmit(async (data) => {
-        // Here you would normally send the login request to your backend
-        console.log("Login data:", data);
-        // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        // Redirect to orders page or show success
         window.location.href = "/customer-orders";
       })();
     } finally {

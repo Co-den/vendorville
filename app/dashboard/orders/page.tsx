@@ -442,8 +442,9 @@ export default function OrdersPage() {
         <div className="panel pos-cart-panel">
           <h2
             style={{
-              fontFamily: "var(--font-fraunces), serif",
+              fontFamily: "inter",
               fontSize: "1.05rem",
+              fontWeight:700,
               marginBottom: 16,
             }}
           >

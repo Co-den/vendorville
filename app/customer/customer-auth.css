@@ -191,8 +191,7 @@
   margin-top: 20px;
   color: #cfe0d4;
   font-size: 1.02rem;
-  font-family:Space Grotesk,
-    sans-serif;
+  font-family:inter;
   line-height: 1.6;
   max-width: 38ch;
   opacity: 0;
@@ -241,8 +240,7 @@
 .ca-tagline {
   text-align: center;
   color: var(--gray);
-  font-family:Space Grotesk,
-    sans-serif;
+  font-family:inter;
   font-size: 0.82rem;
   margin-top: 12px;
   margin-bottom: 24px;
