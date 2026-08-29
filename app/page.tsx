@@ -4,6 +4,7 @@ import PricingSection from "@/components/PricingSection";
 import { Box, Bell, Check,WifiOff,Zap, CirclePlay,MapPin, Motorbike, Search, Star, ShelvingUnit, ChevronRight,ChartNoAxesColumn,Download, Smartphone, ShoppingBag, Monitor } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import IntegrationsSection from "@/components/IntegrationsSection";
 
 const planLabels: Record<string, string> = {
   starter: "Starter",
@@ -131,17 +132,7 @@ export default async function Home() {
           <div className="float-card fc-received">
             <div className="fc-body">
               <span className="fc-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 01-3.46 0" />
-                </svg>
+                <Bell size={25} color="blue"/>
               </span>
               <span className="fc-text">
                 <span className="fc-label">Notification</span>
@@ -167,18 +158,7 @@ export default async function Home() {
           <div className="float-card fc-inventory">
             <div className="fc-body">
               <span className="fc-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 8l-9-5-9 5 9 5 9-5z" />
-                  <path d="M3 8v8l9 5 9-5V8" />
-                  <path d="M12 13v8" />
-                </svg>
+                <Box size={25} color="red"/>
               </span>
               <span className="fc-text">
                 <span className="fc-label">Notification</span>
@@ -1024,7 +1004,7 @@ export default async function Home() {
             <div className="state-chip">Abia</div>
             <div className="state-chip">Cross River</div>
           </div>
-          <div className="more-soon">✦ More states coming soon!</div>
+          <div className="more-soon">More states coming soon!</div>
         </div>
       </section>
 
@@ -1109,7 +1089,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
+     <IntegrationsSection/>
       <footer>
         <div className="wrap">
           <div className="footer-grid">
@@ -1127,7 +1107,7 @@ export default async function Home() {
                 </Link>
               </div>
               <p className="tagline">
-                The all-in-one platform for Nigerian market vendors — track
+                The all-in-one platform for Nigerian market vendors - track
                 orders, manage stock, and send Email, SMS &amp; WhatsApp alerts,
                 all from your phone.
               </p>

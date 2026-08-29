@@ -835,8 +835,8 @@ header.hero .wrap {
 }
 
 .float-card .fc-icon svg {
-  width: 14px;
-  height: 14px;
+  width: 25px;
+  height: 25px;
 }
 
 .float-card .fc-text {
@@ -848,6 +848,7 @@ header.hero .wrap {
 .float-card .fc-label {
   font-size: 0.6rem;
   font-weight: 700;
+  font-family:inter;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--gray);
@@ -856,6 +857,7 @@ header.hero .wrap {
 .float-card .fc-title {
   font-size: 0.78rem;
   font-weight: 800;
+  font-family:inter;
   color: var(--ink);
 }
 
@@ -1070,6 +1072,7 @@ section {
   color: var(--gray);
   font-size: 1.125rem;
   line-height: 1.75;
+  font-family:inter;
 }
 
 /* FEATURES */
@@ -1138,7 +1141,8 @@ section {
   margin-top: 8px;
   color: var(--gray);
   font-size: 0.9rem;
-      line-height: 1.625;
+  line-height: 1.625;
+  font-family:inter;
 }
 
 @media (max-width: 900px) {
@@ -1804,10 +1808,12 @@ table.compare td.dash {
 .state-chip {
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
-  padding: 16px 10px;
+  padding: 17px 11px;
   font-weight: 700;
-  font-size: 0.86rem;
+  font-size: 1rem;
+  font-family:inter;
   background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition:
     transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
     background 0.25s ease,
@@ -1825,6 +1831,7 @@ table.compare td.dash {
   color: #7fd99a;
   font-size: 0.86rem;
   font-weight: 700;
+  font-family:inter;
 }
 
 @media (max-width: 700px) {
@@ -1904,13 +1911,15 @@ footer p.tagline {
   font-size: 0.86rem;
   max-width: 32ch;
   color: #8b96a8;
+  font-family:inter;
 }
 
 .footer-col h4 {
   color: #fff;
-  font-size: 0.86rem;
+  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 16px;
+  font-family:inter;
 }
 
 .footer-col a {
@@ -1918,6 +1927,7 @@ footer p.tagline {
   font-size: 0.86rem;
   margin-bottom: 11px;
   color: #94a3b8;
+  font-family:inter;
 }
 
 .footer-col a:hover {
