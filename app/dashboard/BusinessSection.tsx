@@ -43,6 +43,7 @@ export default function BusinessSection() {
   const [showRegister, setShowRegister] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [formError, setFormError] = useState("");
+  const [visibilityOpen, setVisibilityOpen] = useState(false);
 
   // form state
   const [name, setName] = useState("");
@@ -751,17 +752,74 @@ export default function BusinessSection() {
                 </div>
 
                 <div className="field-group">
-                  <label className="field-label">Public Visibility</label>
-                  <select
-                    value={visibility}
-                    onChange={(e) => setVisibility(e.target.value)}
-                  >
-                    <option value="public">Public — Visible to everyone</option>
-                    <option value="private">
-                      Private — Only visible to you
-                    </option>
-                  </select>
-                </div>
+  <label className="field-label">Public Visibility</label>
+
+  <div className="custom-dropdown">
+    <button
+      type="button"
+      className="custom-dropdown-trigger"
+      onClick={() => setVisibilityOpen(!visibilityOpen)}
+    >
+      <span>
+        {visibility === "public"
+          ? "Public - Visible to everyone"
+          : "Private - Only visible to you"}
+      </span>
+
+      <span className={`dropdown-chevron ${visibilityOpen ? "open" : ""}`}>
+        ↓
+      </span>
+    </button>
+
+    {visibilityOpen && (
+      <div className="custom-dropdown-menu">
+        <button
+          type="button"
+          className={`custom-dropdown-option ${
+            visibility === "public" ? "selected" : ""
+          }`}
+          onClick={() => {
+            setVisibility("public");
+            setVisibilityOpen(false);
+          }}
+        >
+          <div>
+            <div className="dropdown-option-title">Public</div>
+            <div className="dropdown-option-description">
+              Visible to everyone
+            </div>
+          </div>
+
+          {visibility === "public" && (
+            <span className="dropdown-check">✓</span>
+          )}
+        </button>
+
+        <button
+          type="button"
+          className={`custom-dropdown-option ${
+            visibility === "private" ? "selected" : ""
+          }`}
+          onClick={() => {
+            setVisibility("private");
+            setVisibilityOpen(false);
+          }}
+        >
+          <div>
+            <div className="dropdown-option-title">Private</div>
+            <div className="dropdown-option-description">
+              Only visible to you
+            </div>
+          </div>
+
+          {visibility === "private" && (
+            <span className="dropdown-check">✓</span>
+          )}
+        </button>
+      </div>
+    )}
+  </div>
+</div>
 
                 <div className="field-group">
                   <label className="field-label">Headquarters Address</label>

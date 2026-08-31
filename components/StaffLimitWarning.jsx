@@ -7,8 +7,8 @@ export default function StaffLimitWarning({ subscription, staffCount }) {
   if (!subscription) return null;
 
   const limits = {
-    starter: 1,
-    professional: 3,
+    starter: 3,
+    professional: 5,
     enterprise: Infinity,
   };
 
@@ -37,7 +37,7 @@ export default function StaffLimitWarning({ subscription, staffCount }) {
           <ul className="staff-limit-plans-list">
             {subscription.plan !== "professional" && (
               <li>
-                <strong>Professional Plan</strong> - 3 staff members
+                <strong>Professional Plan</strong> - 5 staff members
               </li>
             )}
             {subscription.plan !== "enterprise" && (
@@ -47,7 +47,7 @@ export default function StaffLimitWarning({ subscription, staffCount }) {
             )}
           </ul>
         </div>
-        <Link href="/pricing" className="staff-limit-upgrade-btn">
+        <Link href="/#pricing" className="staff-limit-upgrade-btn">
           View Plans
         </Link>
       </div>

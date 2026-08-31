@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { create } from "zustand";
+import api from "./axiosInstance";
 
-interface Subscription {
+export interface Subscription {
   id: number;
   userId: number;
   plan: "starter" | "professional" | "enterprise";
@@ -102,41 +102,10 @@ interface VendorState {
   ) => Promise<{ message: string }>;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const vendorApi: AxiosInstance = axios.create({
-  baseURL: API_URL,
-});
 
-vendorApi.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
 
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-vendorApi.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-      }
-    }
-
-    return Promise.reject(error);
-  },
-);
-
-export const useVendorStore = create<VendorState>((set) => ({
+export const useVendorStore = create<VendorState>((set, get) => ({
   subscription: null,
   staff: [],
   giftCards: [],
@@ -145,9 +114,7 @@ export const useVendorStore = create<VendorState>((set) => ({
 
   // Subscription
   getSubscription: async (): Promise<Subscription> => {
-    const response = await vendorApi.get<{
-      subscription: Subscription;
-    }>("/subscription");
+    const response = await api.get(`/subscriptions`);
     const subscription = response.data.subscription;
     set({ subscription });
     return subscription;
@@ -155,7 +122,7 @@ export const useVendorStore = create<VendorState>((set) => ({
 
   // Staff
   getStaff: async (businessId: number | string): Promise<Staff[]> => {
-    const response = await vendorApi.get<{
+    const response = await api.get<{
       staff: Staff[];
     }>(`/businesses/${businessId}/staff`);
     const staff = response.data.staff;
@@ -173,7 +140,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     },
   ): Promise<Staff> => {
     try {
-      const response = await vendorApi.post<{
+      const response = await api.post<{
         staff: Staff;
       }>(`/businesses/${businessId}/staff`, data);
 
@@ -192,7 +159,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     staffId: number,
   ): Promise<void> => {
     try {
-      await vendorApi.delete(`/businesses/${businessId}/staff/${staffId}`);
+      await api.delete(`/businesses/${businessId}/staff/${staffId}`);
 
       set((state) => ({
         staff: state.staff.filter((s) => s.id !== staffId),
@@ -204,7 +171,7 @@ export const useVendorStore = create<VendorState>((set) => ({
 
   // Gift Cards
   getGiftCards: async (businessId: number | string): Promise<GiftCard[]> => {
-    const response = await vendorApi.get<{
+    const response = await api.get<{
       cards: GiftCard[];
     }>(`/businesses/${businessId}/gift-cards`);
     const giftCards = response.data.cards;
@@ -217,7 +184,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     value: number,
   ): Promise<GiftCard> => {
     try {
-      const response = await vendorApi.post<{
+      const response = await api.post<{
         card: GiftCard;
       }>(`/businesses/${businessId}/gift-cards`, { value });
 
@@ -233,7 +200,7 @@ export const useVendorStore = create<VendorState>((set) => ({
 
   // Riders
   getRiders: async (businessId: number | string): Promise<Rider[]> => {
-    const response = await vendorApi.get<{
+    const response = await api.get<{
       riders: Rider[];
     }>(`/businesses/${businessId}/riders`);
     const riders = response.data.riders;
@@ -246,7 +213,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     data: { name: string; phone: string },
   ): Promise<Rider> => {
     try {
-      const response = await vendorApi.post<{
+      const response = await api.post<{
         rider: Rider;
       }>(`/businesses/${businessId}/riders`, data);
 
@@ -262,7 +229,7 @@ export const useVendorStore = create<VendorState>((set) => ({
 
   // Zones
   getZones: async (businessId: number | string): Promise<Zone[]> => {
-    const response = await vendorApi.get<{
+    const response = await api.get<{
       zones: Zone[];
     }>(`/businesses/${businessId}/delivery-zones`);
     const zones = response.data.zones;
@@ -275,7 +242,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     data: { name: string; fee: number },
   ): Promise<Zone> => {
     try {
-      const response = await vendorApi.post<{
+      const response = await api.post<{
         zone: Zone;
       }>(`/businesses/${businessId}/delivery-zones`, data);
 
@@ -294,7 +261,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     zoneId: number,
   ): Promise<void> => {
     try {
-      await vendorApi.delete(
+      await api.delete(
         `/businesses/${businessId}/delivery-zones/${zoneId}`,
       );
 
@@ -312,7 +279,7 @@ export const useVendorStore = create<VendorState>((set) => ({
     newPassword: string,
   ): Promise<{ message: string }> => {
     try {
-      const response = await vendorApi.post<{
+      const response = await api.post<{
         message: string;
       }>("/auth/update-password", {
         currentPassword,
@@ -326,4 +293,4 @@ export const useVendorStore = create<VendorState>((set) => ({
   },
 }));
 
-export { vendorApi };
+

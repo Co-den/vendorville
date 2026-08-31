@@ -4,6 +4,8 @@ import { useAuthStore } from "@/store/authStore";
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
+import { Subscription } from "@/store/vendorStore";
+import { useVendorStore } from "@/store/vendorStore";
 import TrialBanner from "@/components/TrialBanner.jsx";
 import StaffLimitWarning from "@/components/StaffLimitWarning.jsx";
 import UpgradePromptModal from "@/components/UpgradePromptModal.jsx";
@@ -102,6 +104,46 @@ export default function DashboardOverview() {
   const { orders, fetchOrders } = useOrderStore();
   const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null);
 
+  const { getSubscription, getStaff } = useVendorStore();
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [staffCount, setStaffCount] = useState(0);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+  useEffect(() => {
+  if (!user?.id) return;
+
+  const fetchSubscription = async () => {
+    try {
+      const sub = await getSubscription(user.id);
+
+      setSubscription(sub);
+
+      if (sub.status === "expired") {
+        setShowUpgradeModal(true);
+      }
+    } catch (error) {
+      console.error("Error fetching subscription:", error);
+    }
+  };
+
+  fetchSubscription();
+}, [user?.id, getSubscription]);
+
+useEffect(() => {
+  if (!activeBusinessId) return;
+
+  const fetchStaff = async () => {
+    try {
+      const staff = await getStaff(activeBusinessId);
+      setStaffCount(staff.length);
+    } catch (error) {
+      console.error("Error fetching staff:", error);
+    }
+  };
+
+  fetchStaff();
+}, [activeBusinessId, getStaff]);
+  
   useEffect(() => {
     fetchBusinesses();
   }, []);
@@ -161,6 +203,18 @@ export default function DashboardOverview() {
       <Script
         src="https://js.paystack.co/v1/inline.js"
         strategy="afterInteractive"
+      />
+      {subscription && <TrialBanner subscription={subscription} />}
+      {subscription && (
+        <StaffLimitWarning
+          subscription={subscription}
+          staffCount={staffCount}
+        />
+      )}
+      <UpgradePromptModal
+        subscription={subscription}
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
       />
 
       <div className="dash-welcome">

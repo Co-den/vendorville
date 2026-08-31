@@ -43,6 +43,7 @@
 }
 
 .trial-banner-title {
+  font-family:inter;
   font-size: 0.95rem;
   font-weight: 800;
   color: #132e1b;
@@ -54,6 +55,7 @@
 }
 
 .trial-banner-subtitle {
+  font-family:inter;
   font-size: 0.85rem;
   color: #667085;
   margin: 0 0 12px;
@@ -81,6 +83,7 @@
 }
 
 .trial-progress-text {
+  font-family:inter;
   font-size: 0.75rem;
   color: #667085;
   font-weight: 600;

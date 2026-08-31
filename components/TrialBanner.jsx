@@ -1,4 +1,3 @@
-// components/TrialBanner.jsx
 import { AlertCircle, Clock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,7 +9,6 @@ export default function TrialBanner({ subscription }) {
 
   useEffect(() => {
     if (!subscription || !subscription.trialEndsAt) return;
-
     const now = new Date();
     const trialEnd = new Date(subscription.trialEndsAt);
     const daysLeft = Math.ceil(
@@ -22,7 +20,7 @@ export default function TrialBanner({ subscription }) {
     setPercentageRemaining(Math.max(0, percentage));
   }, [subscription]);
 
-  // Don't show if not in trial or no trial info
+
   if (!subscription || subscription.status !== "trial" || daysRemaining <= 0) {
     return null;
   }
@@ -62,7 +60,7 @@ export default function TrialBanner({ subscription }) {
         </div>
 
         <div className="trial-banner-actions">
-          <Link href="/pricing" className="trial-upgrade-btn">
+          <Link href="/#pricing" className="trial-upgrade-btn">
             Upgrade Now
             <ArrowRight size={16} />
           </Link>
