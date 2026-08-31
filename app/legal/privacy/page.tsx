@@ -51,9 +51,8 @@ export default function PrivacyPolicyPage() {
           <p>
             Payments are processed by Paystack, a licensed payment processor.
             VendorVille does not store your card details, bank account numbers,
-            or other sensitive payment credentials these are handled directly
-            by Paystack under their own security standards and privacy
-            practices.
+            or other sensitive payment credentials these are handled directly by
+            Paystack under their own security standards and privacy practices.
           </p>
 
           <h3>1.4 Usage Data</h3>
@@ -99,10 +98,10 @@ export default function PrivacyPolicyPage() {
               uploaded images (logos, product photos, premises photos)
             </li>
             <li>
-              <strong>Neon</strong>:  our database infrastructure provider
+              <strong>Neon</strong>: our database infrastructure provider
             </li>
             <li>
-              <strong>Termii</strong>:  SMS and WhatsApp delivery for order and
+              <strong>Termii</strong>: SMS and WhatsApp delivery for order and
               account notifications
             </li>
             <li>

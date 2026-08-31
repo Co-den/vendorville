@@ -1,4 +1,3 @@
-
 import { create } from "zustand";
 import api from "./axiosInstance";
 
@@ -76,7 +75,9 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
         error: errData?.message || "Error creating business",
         isSubmitting: false,
       });
-      const err: CreateBusinessError = new Error(errData?.message || "Error creating business");
+      const err: CreateBusinessError = new Error(
+        errData?.message || "Error creating business",
+      );
       err.code = errData?.code;
       throw err;
     }
@@ -87,7 +88,9 @@ export const useBusinessStore = create<BusinessState>((set, get) => ({
       await api.delete(`/businesses/${businessId}`);
       set({ businesses: get().businesses.filter((b) => b.id !== businessId) });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Error deleting business" });
+      set({
+        error: error.response?.data?.message || "Error deleting business",
+      });
       throw error;
     }
   },

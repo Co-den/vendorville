@@ -1,14 +1,13 @@
-'use client'
+"use client";
 
-import { CompleteFormData } from '@/app/auth/signup/schema'
-import  SearchableSelect  from "@/components/SearchSelect"
+import { CompleteFormData } from "@/app/auth/signup/schema";
+import SearchableSelect from "@/components/SearchSelect";
 import {
   Control,
   FieldErrors,
   UseFormRegister,
-   Controller
+  Controller,
 } from "react-hook-form";
-
 
 interface Step2BusinessProps {
   register: UseFormRegister<CompleteFormData>;
@@ -35,32 +34,32 @@ const countries = [
 ];
 
 const timezones = [
-  { value: 'Africa/Lagos', label: 'Africa/Lagos (GMT+1)' },
-  { value: 'Africa/Accra', label: 'Africa/Accra (GMT+0)' },
-  { value: 'Africa/Nairobi', label: 'Africa/Nairobi (GMT+3)' },
-  { value: 'Africa/Johannesburg', label: 'Africa/Johannesburg (GMT+2)' },
-  { value: 'Africa/Cairo', label: 'Africa/Cairo (GMT+2)' },
-  { value: 'Africa/Kampala', label: 'Africa/Kampala (GMT+3)' },
-  { value: 'Africa/Dar_es_Salaam', label: 'Africa/Dar es Salaam (GMT+3)' },
-  { value: 'Africa/Douala', label: 'Africa/Douala (GMT+1)' },
-  { value: 'Africa/Dakar', label: 'Africa/Dakar (GMT+0)' },
-  { value: 'Africa/Casablanca', label: 'Africa/Casablanca (GMT+0)' },
-  { value: 'Africa/Addis_Ababa', label: 'Africa/Addis Ababa (GMT+3)' },
-  { value: 'Africa/Kigali', label: 'Africa/Kigali (GMT+2)' },
-]
+  { value: "Africa/Lagos", label: "Africa/Lagos (GMT+1)" },
+  { value: "Africa/Accra", label: "Africa/Accra (GMT+0)" },
+  { value: "Africa/Nairobi", label: "Africa/Nairobi (GMT+3)" },
+  { value: "Africa/Johannesburg", label: "Africa/Johannesburg (GMT+2)" },
+  { value: "Africa/Cairo", label: "Africa/Cairo (GMT+2)" },
+  { value: "Africa/Kampala", label: "Africa/Kampala (GMT+3)" },
+  { value: "Africa/Dar_es_Salaam", label: "Africa/Dar es Salaam (GMT+3)" },
+  { value: "Africa/Douala", label: "Africa/Douala (GMT+1)" },
+  { value: "Africa/Dakar", label: "Africa/Dakar (GMT+0)" },
+  { value: "Africa/Casablanca", label: "Africa/Casablanca (GMT+0)" },
+  { value: "Africa/Addis_Ababa", label: "Africa/Addis Ababa (GMT+3)" },
+  { value: "Africa/Kigali", label: "Africa/Kigali (GMT+2)" },
+];
 
 const businessTypes = [
-  'Retail Store',
-  'Market Vendor',
-  'Wholesale',
-  'Restaurant/Food',
-  'Electronics',
-  'Clothing/Fashion',
-  'Groceries',
-  'Pharmacy',
-  'Hardware',
-  'Other',
-]
+  "Retail Store",
+  "Market Vendor",
+  "Wholesale",
+  "Restaurant/Food",
+  "Electronics",
+  "Clothing/Fashion",
+  "Groceries",
+  "Pharmacy",
+  "Hardware",
+  "Other",
+];
 const businessTypeOptions = businessTypes.map((type) => ({
   value: type,
   label: type,
@@ -82,10 +81,12 @@ export function Step2Business({
           id="phoneNumber"
           type="tel"
           placeholder="+234 XXX XXX XXXX"
-          {...register('phoneNumber')}
-          aria-invalid={errors.phoneNumber ? 'true' : 'false'}
+          {...register("phoneNumber")}
+          aria-invalid={errors.phoneNumber ? "true" : "false"}
         />
-        {errors.phoneNumber && <span className="error-text">{errors.phoneNumber.message}</span>}
+        {errors.phoneNumber && (
+          <span className="error-text">{errors.phoneNumber.message}</span>
+        )}
       </div>
 
       <div className="field">
@@ -94,95 +95,87 @@ export function Step2Business({
           id="businessName"
           type="text"
           placeholder="Your Business Name"
-          {...register('businessName')}
-          aria-invalid={errors.businessName ? 'true' : 'false'}
+          {...register("businessName")}
+          aria-invalid={errors.businessName ? "true" : "false"}
         />
-        {errors.businessName && <span className="error-text">{errors.businessName.message}</span>}
+        {errors.businessName && (
+          <span className="error-text">{errors.businessName.message}</span>
+        )}
       </div>
 
       <div className="field">
-  <label htmlFor="businessType">Business Type *</label>
+        <label htmlFor="businessType">Business Type *</label>
 
-  <Controller
-    name="businessType"
-    control={control}
-    render={({ field }) => (
-      <SearchableSelect
-        value={field.value}
-        onChange={field.onChange}
-        options={businessTypeOptions}
-        placeholder="Select business type"
-      />
-    )}
-  />
+        <Controller
+          name="businessType"
+          control={control}
+          render={({ field }) => (
+            <SearchableSelect
+              value={field.value}
+              onChange={field.onChange}
+              options={businessTypeOptions}
+              placeholder="Select business type"
+            />
+          )}
+        />
 
-  {errors.businessType && (
-    <span className="error-text">
-      {errors.businessType.message}
-    </span>
-  )}
-</div>
+        {errors.businessType && (
+          <span className="error-text">{errors.businessType.message}</span>
+        )}
+      </div>
       <div className="field">
-  <label htmlFor="country">Country *</label>
+        <label htmlFor="country">Country *</label>
 
-  <Controller
-  name="country"
-  control={control}
-  render={({ field }) => (
-    <SearchableSelect
-      value={field.value}
-      onChange={field.onChange}
-      options={countries}
-      placeholder="Select country"
-    />
-  )}
-/>
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <SearchableSelect
+              value={field.value}
+              onChange={field.onChange}
+              options={countries}
+              placeholder="Select country"
+            />
+          )}
+        />
 
-  {errors.country && (
-    <span className="error-text">
-      {errors.country.message}
-    </span>
-  )}
-</div>
+        {errors.country && (
+          <span className="error-text">{errors.country.message}</span>
+        )}
+      </div>
 
       <div className="field">
-  <label htmlFor="timeZone">Timezone *</label>
+        <label htmlFor="timeZone">Timezone *</label>
 
-  <div className="timezone-box">
-    <div className="timezone-head">
-      <span className="timezone-title">
-        🌍 TIMEZONE
-      </span>
+        <div className="timezone-box">
+          <div className="timezone-head">
+            <span className="timezone-title">🌍 TIMEZONE</span>
 
-      <span className="timezone-badge">
-        IMPORTANT
-      </span>
+            <span className="timezone-badge">IMPORTANT</span>
+          </div>
+
+          <Controller
+            name="timeZone"
+            control={control}
+            render={({ field }) => (
+              <SearchableSelect
+                value={field.value}
+                onChange={field.onChange}
+                options={timezones}
+                placeholder="Select timezone"
+              />
+            )}
+          />
+
+          {errors.timeZone && (
+            <span className="error-text">{errors.timeZone.message}</span>
+          )}
+
+          <p className="timezone-note">
+            Your timezone helps us schedule reports and alerts correctly.
+          </p>
+        </div>
+      </div>
     </div>
-
-    <Controller
-      name="timeZone"
-      control={control}
-      render={({ field }) => (
-        <SearchableSelect
-          value={field.value}
-          onChange={field.onChange}
-          options={timezones}
-          placeholder="Select timezone"
-        />
-      )}
-    />
-
-    {errors.timeZone && (
-      <span className="error-text">
-        {errors.timeZone.message}
-      </span>
-    )}
-
-    <p className="timezone-note">
-      Your timezone helps us schedule reports and alerts correctly.
-    </p>
-  </div>
-      </div>
-      </div>
-  )
+  );
 }

@@ -1,124 +1,128 @@
-'use client'
+"use client";
 
 import NavbarMobile from "@/components/NavbarMobile";
-import Link from 'next/link';
-import { useState } from 'react';
-import '../share-story.css';
+import Link from "next/link";
+import { useState } from "react";
+import "../share-story.css";
 
 const categories = [
-  'Growth',
-  'Tools & Tips',
-  'Customer Retention',
-  'Pricing',
-  'Operations',
-  'Marketing',
-  'Finance',
-  'Other'
-]
+  "Growth",
+  "Tools & Tips",
+  "Customer Retention",
+  "Pricing",
+  "Operations",
+  "Marketing",
+  "Finance",
+  "Other",
+];
 
 export default function ShareStoryPage() {
   const [formData, setFormData] = useState({
-    title: '',
-    category: 'Growth',
-    excerpt: '',
-    content: '',
-    authorName: '',
-    authorRole: '',
-    authorBio: '',
-    imageUrl: ''
-  })
+    title: "",
+    category: "Growth",
+    excerpt: "",
+    content: "",
+    authorName: "",
+    authorRole: "",
+    authorBio: "",
+    imageUrl: "",
+  });
 
-  const [submitted, setSubmitted] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
+      [name]: value,
+    }));
     // Clear error for this field when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
-      }))
+        [name]: "",
+      }));
     }
-  }
+  };
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     if (!formData.title.trim()) {
-      newErrors.title = 'Article title is required'
+      newErrors.title = "Article title is required";
     }
     if (formData.title.trim().length < 10) {
-      newErrors.title = 'Title must be at least 10 characters'
+      newErrors.title = "Title must be at least 10 characters";
     }
 
     if (!formData.excerpt.trim()) {
-      newErrors.excerpt = 'Summary/excerpt is required'
+      newErrors.excerpt = "Summary/excerpt is required";
     }
     if (formData.excerpt.trim().length < 20) {
-      newErrors.excerpt = 'Excerpt must be at least 20 characters'
+      newErrors.excerpt = "Excerpt must be at least 20 characters";
     }
 
     if (!formData.content.trim()) {
-      newErrors.content = 'Article content is required'
+      newErrors.content = "Article content is required";
     }
     if (formData.content.trim().length < 200) {
-      newErrors.content = 'Content must be at least 200 characters'
+      newErrors.content = "Content must be at least 200 characters";
     }
 
     if (!formData.authorName.trim()) {
-      newErrors.authorName = 'Your name is required'
+      newErrors.authorName = "Your name is required";
     }
 
     if (!formData.authorRole.trim()) {
-      newErrors.authorRole = 'Your role/title is required'
+      newErrors.authorRole = "Your role/title is required";
     }
 
     if (!formData.authorBio.trim()) {
-      newErrors.authorBio = 'Author bio is required'
+      newErrors.authorBio = "Author bio is required";
     }
     if (formData.authorBio.trim().length < 20) {
-      newErrors.authorBio = 'Bio must be at least 20 characters'
+      newErrors.authorBio = "Bio must be at least 20 characters";
     }
 
     if (!formData.imageUrl.trim()) {
-      newErrors.imageUrl = 'Featured image URL is required'
+      newErrors.imageUrl = "Featured image URL is required";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      return
+      return;
     }
 
     // Submit form data
-    console.log('[v0] Submitting story:', formData)
-    setSubmitted(true)
+    console.log("[v0] Submitting story:", formData);
+    setSubmitted(true);
 
     // Reset form after 2 seconds
     setTimeout(() => {
       setFormData({
-        title: '',
-        category: 'Growth',
-        excerpt: '',
-        content: '',
-        authorName: '',
-        authorRole: '',
-        authorBio: '',
-        imageUrl: ''
-      })
-      setSubmitted(false)
-    }, 3000)
-  }
+        title: "",
+        category: "Growth",
+        excerpt: "",
+        content: "",
+        authorName: "",
+        authorRole: "",
+        authorBio: "",
+        imageUrl: "",
+      });
+      setSubmitted(false);
+    }, 3000);
+  };
 
   return (
     <>
@@ -133,7 +137,11 @@ export default function ShareStoryPage() {
         <div className="hero-overlay" aria-hidden="true"></div>
         <div className="wrap hero-content">
           <h1 className="hero-title">Share Your Story</h1>
-          <p className="hero-subtitle">Inspire other Nigerian vendors with your success story, challenges overcome, and lessons learned. Help build a thriving vendor community.</p>
+          <p className="hero-subtitle">
+            Inspire other Nigerian vendors with your success story, challenges
+            overcome, and lessons learned. Help build a thriving vendor
+            community.
+          </p>
         </div>
       </section>
 
@@ -143,8 +151,15 @@ export default function ShareStoryPage() {
             <div className="success-message">
               <div className="success-icon">✓</div>
               <h2>Thank You for Your Submission!</h2>
-              <p>Your story has been received. Our editorial team will review it and get back to you within 3-5 business days. If approved, your article will be featured on VendorVille Blog to inspire thousands of vendors.</p>
-              <Link href="/blog" className="back-btn">← Back to Blog</Link>
+              <p>
+                Your story has been received. Our editorial team will review it
+                and get back to you within 3-5 business days. If approved, your
+                article will be featured on VendorVille Blog to inspire
+                thousands of vendors.
+              </p>
+              <Link href="/blog" className="back-btn">
+                ← Back to Blog
+              </Link>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="story-form">
@@ -160,9 +175,11 @@ export default function ShareStoryPage() {
                     value={formData.title}
                     onChange={handleChange}
                     placeholder="e.g., How I Scaled My Laundry Business to ₦5M Monthly Revenue"
-                    className={errors.title ? 'error' : ''}
+                    className={errors.title ? "error" : ""}
                   />
-                  {errors.title && <span className="error-text">{errors.title}</span>}
+                  {errors.title && (
+                    <span className="error-text">{errors.title}</span>
+                  )}
                 </div>
 
                 <div className="form-row">
@@ -174,8 +191,10 @@ export default function ShareStoryPage() {
                       value={formData.category}
                       onChange={handleChange}
                     >
-                      {categories.map(cat => (
-                        <option key={cat} value={cat}>{cat}</option>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -189,9 +208,11 @@ export default function ShareStoryPage() {
                       value={formData.imageUrl}
                       onChange={handleChange}
                       placeholder="https://example.com/image.jpg"
-                      className={errors.imageUrl ? 'error' : ''}
+                      className={errors.imageUrl ? "error" : ""}
                     />
-                    {errors.imageUrl && <span className="error-text">{errors.imageUrl}</span>}
+                    {errors.imageUrl && (
+                      <span className="error-text">{errors.imageUrl}</span>
+                    )}
                   </div>
                 </div>
 
@@ -204,9 +225,11 @@ export default function ShareStoryPage() {
                     onChange={handleChange}
                     placeholder="Brief summary of your article (will appear on blog listing)"
                     rows={3}
-                    className={errors.excerpt ? 'error' : ''}
+                    className={errors.excerpt ? "error" : ""}
                   />
-                  {errors.excerpt && <span className="error-text">{errors.excerpt}</span>}
+                  {errors.excerpt && (
+                    <span className="error-text">{errors.excerpt}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -218,10 +241,14 @@ export default function ShareStoryPage() {
                     onChange={handleChange}
                     placeholder="Write your complete article here. You can use markdown formatting. Minimum 200 characters."
                     rows={12}
-                    className={errors.content ? 'error' : ''}
+                    className={errors.content ? "error" : ""}
                   />
-                  {errors.content && <span className="error-text">{errors.content}</span>}
-                  <div className="char-count">{formData.content.length} characters</div>
+                  {errors.content && (
+                    <span className="error-text">{errors.content}</span>
+                  )}
+                  <div className="char-count">
+                    {formData.content.length} characters
+                  </div>
                 </div>
               </div>
 
@@ -237,9 +264,11 @@ export default function ShareStoryPage() {
                     value={formData.authorName}
                     onChange={handleChange}
                     placeholder="e.g., Chioma Adeyemi"
-                    className={errors.authorName ? 'error' : ''}
+                    className={errors.authorName ? "error" : ""}
                   />
-                  {errors.authorName && <span className="error-text">{errors.authorName}</span>}
+                  {errors.authorName && (
+                    <span className="error-text">{errors.authorName}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -251,9 +280,11 @@ export default function ShareStoryPage() {
                     value={formData.authorRole}
                     onChange={handleChange}
                     placeholder="e.g., Laundry Business Owner, 5+ years experience"
-                    className={errors.authorRole ? 'error' : ''}
+                    className={errors.authorRole ? "error" : ""}
                   />
-                  {errors.authorRole && <span className="error-text">{errors.authorRole}</span>}
+                  {errors.authorRole && (
+                    <span className="error-text">{errors.authorRole}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -265,27 +296,41 @@ export default function ShareStoryPage() {
                     onChange={handleChange}
                     placeholder="Tell readers about yourself. What's your background? What have you achieved? (50-150 characters)"
                     rows={4}
-                    className={errors.authorBio ? 'error' : ''}
+                    className={errors.authorBio ? "error" : ""}
                   />
-                  {errors.authorBio && <span className="error-text">{errors.authorBio}</span>}
+                  {errors.authorBio && (
+                    <span className="error-text">{errors.authorBio}</span>
+                  )}
                 </div>
               </div>
 
               <div className="form-info">
                 <h3>Publishing Guidelines</h3>
                 <ul>
-                  <li>Articles should be original and authentic to your experience</li>
+                  <li>
+                    Articles should be original and authentic to your experience
+                  </li>
                   <li>No self-promotion or excessive brand mentions</li>
                   <li>Minimum 200 characters, recommended 500+ words</li>
-                  <li>Our editorial team reviews all submissions (3-5 business days)</li>
+                  <li>
+                    Our editorial team reviews all submissions (3-5 business
+                    days)
+                  </li>
                   <li>We reserve the right to edit for clarity and grammar</li>
-                  <li>Approved articles appear on VendorVille Blog with author credit</li>
+                  <li>
+                    Approved articles appear on VendorVille Blog with author
+                    credit
+                  </li>
                 </ul>
               </div>
 
               <div className="form-actions">
-                <Link href="/blog" className="cancel-btn">Cancel</Link>
-                <button type="submit" className="submit-btn">Submit Your Story</button>
+                <Link href="/blog" className="cancel-btn">
+                  Cancel
+                </Link>
+                <button type="submit" className="submit-btn">
+                  Submit Your Story
+                </button>
               </div>
             </form>
           )}
@@ -298,7 +343,9 @@ export default function ShareStoryPage() {
             <div className="brand">
               <span className="mark"></span>VendorVille
             </div>
-            <p className="tagline">The all-in-one platform for Nigerian vendors.</p>
+            <p className="tagline">
+              The all-in-one platform for Nigerian vendors.
+            </p>
             <span className="footer-phone">+234 707 647 3776</span>
           </div>
           <div className="footer-col">
@@ -329,5 +376,5 @@ export default function ShareStoryPage() {
         </div>
       </footer>
     </>
-  )
+  );
 }

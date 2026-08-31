@@ -27,7 +27,12 @@ interface CustomerAuthState {
   isLoading: boolean;
   error: string | null;
 
-  signup: (data: { name: string; email: string; phone: string; password: string }) => Promise<void>;
+  signup: (data: {
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+  }) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
@@ -45,9 +50,16 @@ export const useCustomerAuthStore = create<CustomerAuthState>((set) => ({
     try {
       const response = await customerApi.post("/store/customer/register", data);
       localStorage.setItem("customer_token", response.data.token);
-      set({ customer: response.data.customer, isAuthenticated: true, isLoading: false });
+      set({
+        customer: response.data.customer,
+        isAuthenticated: true,
+        isLoading: false,
+      });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Signup failed", isLoading: false });
+      set({
+        error: error.response?.data?.message || "Signup failed",
+        isLoading: false,
+      });
       throw error;
     }
   },
@@ -55,11 +67,21 @@ export const useCustomerAuthStore = create<CustomerAuthState>((set) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await customerApi.post("/store/customer/login", { email, password });
+      const response = await customerApi.post("/store/customer/login", {
+        email,
+        password,
+      });
       localStorage.setItem("customer_token", response.data.token);
-      set({ customer: response.data.customer, isAuthenticated: true, isLoading: false });
+      set({
+        customer: response.data.customer,
+        isAuthenticated: true,
+        isLoading: false,
+      });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Login failed", isLoading: false });
+      set({
+        error: error.response?.data?.message || "Login failed",
+        isLoading: false,
+      });
       throw error;
     }
   },
@@ -76,7 +98,11 @@ export const useCustomerAuthStore = create<CustomerAuthState>((set) => ({
     set({ isCheckingAuth: true });
     try {
       const response = await customerApi.get("/store/customer/check-auth");
-      set({ customer: response.data.customer, isAuthenticated: true, isCheckingAuth: false });
+      set({
+        customer: response.data.customer,
+        isAuthenticated: true,
+        isCheckingAuth: false,
+      });
     } catch {
       localStorage.removeItem("customer_token");
       set({ customer: null, isAuthenticated: false, isCheckingAuth: false });
@@ -85,4 +111,3 @@ export const useCustomerAuthStore = create<CustomerAuthState>((set) => ({
 }));
 
 export { customerApi };
-

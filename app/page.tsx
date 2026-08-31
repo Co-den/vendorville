@@ -1,7 +1,25 @@
 import { ClientScripts } from "@/components/client-scripts";
 import NavbarMobile from "@/components/NavbarMobile";
 import PricingSection from "@/components/PricingSection";
-import { Box, Bell, Check,WifiOff,Zap, CirclePlay,MapPin, Motorbike, Search, Star, ShelvingUnit, ChevronRight,ChartNoAxesColumn,Download, Smartphone, ShoppingBag, Monitor } from "lucide-react";
+import {
+  Box,
+  Bell,
+  Check,
+  WifiOff,
+  Zap,
+  CirclePlay,
+  MapPin,
+  Motorbike,
+  Search,
+  Star,
+  ShelvingUnit,
+  ChevronRight,
+  ChartNoAxesColumn,
+  Download,
+  Smartphone,
+  ShoppingBag,
+  Monitor,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import IntegrationsSection from "@/components/IntegrationsSection";
@@ -46,7 +64,8 @@ export default async function Home() {
         <div className="wrap hero-grid">
           <div className="hero-text">
             <h1>
-              Run Your Vendor Business the <span className="love">Smart Way</span>
+              Run Your Vendor Business the{" "}
+              <span className="love">Smart Way</span>
             </h1>
             <p className="lead">
               The all-in-one POS &amp; inventory platform for Nigerian market
@@ -132,7 +151,7 @@ export default async function Home() {
           <div className="float-card fc-received">
             <div className="fc-body">
               <span className="fc-icon">
-                <Bell size={25} color="blue"/>
+                <Bell size={25} color="blue" />
               </span>
               <span className="fc-text">
                 <span className="fc-label">Notification</span>
@@ -158,7 +177,7 @@ export default async function Home() {
           <div className="float-card fc-inventory">
             <div className="fc-body">
               <span className="fc-icon">
-                <Box size={25} color="red"/>
+                <Box size={25} color="red" />
               </span>
               <span className="fc-text">
                 <span className="fc-label">Notification</span>
@@ -216,103 +235,118 @@ export default async function Home() {
           </div>
         </div>
       </header>
-       <section className="pwa-install-section">
-      <div className="pwa-container">
-        <div className="pwa-header">
-          <h2 className="pwa-title">
-            Take VendorVille <span className="pwa-highlight">Everywhere</span>
-          </h2>
-          <p className="pwa-subtitle">
-            Install it like a native app instant access, no browser bars, works even when your connection drops.
-          </p>
-        </div>    
+      <section className="pwa-install-section">
+        <div className="pwa-container">
+          <div className="pwa-header">
+            <h2 className="pwa-title">
+              Take VendorVille <span className="pwa-highlight">Everywhere</span>
+            </h2>
+            <p className="pwa-subtitle">
+              Install it like a native app instant access, no browser bars,
+              works even when your connection drops.
+            </p>
+          </div>
 
-        <div className="pwa-features">
-          <div className="pwa-feature-badge">
-            <Zap size={16} />
-            Instant launch
-          </div>
-          <div className="pwa-feature-badge">
-            <WifiOff size={16} />
-            No browser bars
-          </div>
-          <div className="pwa-feature-badge">
-            <Download size={16} />
-            No app store
-          </div>
-        </div>
-      
-        <div className="pwa-cards-grid">
-          <div className="pwa-card light">
-              <div className="pwa-card-header">                 
-              <Smartphone size={25} />             
-              <div>
-                <h3>On Your Phone</h3>
-                <p>iOS & Android</p>
-              </div>
+          <div className="pwa-features">
+            <div className="pwa-feature-badge">
+              <Zap size={16} />
+              Instant launch
             </div>
+            <div className="pwa-feature-badge">
+              <WifiOff size={16} />
+              No browser bars
+            </div>
+            <div className="pwa-feature-badge">
+              <Download size={16} />
+              No app store
+            </div>
+          </div>
 
-            <div className="pwa-steps">
-              <div className="pwa-step">
-                <span className="step-number">1</span>
-                <span>Tap the ⋮ <strong>menu</strong> at the top-right of Chrome</span>
+          <div className="pwa-cards-grid">
+            <div className="pwa-card light">
+              <div className="pwa-card-header">
+                <Smartphone size={25} />
+                <div>
+                  <h3>On Your Phone</h3>
+                  <p>iOS & Android</p>
+                </div>
               </div>
-              <div className="pwa-step">
-                <span className="step-number">2</span>
-                <span>Select <strong>"Add to Home Screen"</strong> or <strong>"Install App</strong>"</span>
-              </div>
-              <div className="pwa-step">
-                <span className="step-number">3</span>
-                <span>Tap Install - done!</span>
+
+              <div className="pwa-steps">
+                <div className="pwa-step">
+                  <span className="step-number">1</span>
+                  <span>
+                    Tap the ⋮ <strong>menu</strong> at the top-right of Chrome
+                  </span>
+                </div>
+                <div className="pwa-step">
+                  <span className="step-number">2</span>
+                  <span>
+                    Select <strong>"Add to Home Screen"</strong> or{" "}
+                    <strong>"Install App</strong>"
+                  </span>
+                </div>
+                <div className="pwa-step">
+                  <span className="step-number">3</span>
+                  <span>Tap Install - done!</span>
                 </div>
                 <div className="pwa-browser-tip1">
                   <div className="pwa-browser-icon1">
-                    <ShoppingBag size={25}/>
-                    </div>    
-              vendorville.vercel.app.
-            </div>
-            </div>
-          </div>
-
-          {/* Desktop Card */}
-          <div className="pwa-card dark">
-            <div className="pwa-card-header">
-              <div className="pwa-browser-icon">
-          <Monitor size={25} />
-          </div>
-              <div>
-                <h3>On Desktop</h3>
-                <p>Chrome, Edge, Brave</p>
+                    <ShoppingBag size={25} />
+                  </div>
+                  vendorville.vercel.app.
+                </div>
               </div>
             </div>
 
-            <div className="pwa-steps">
-              <div className="pwa-step1">
-                <span className="step-number">1</span>
-                <span>Click the <strong>install icon</strong> in your browser's address bar</span>
+            {/* Desktop Card */}
+            <div className="pwa-card dark">
+              <div className="pwa-card-header">
+                <div className="pwa-browser-icon">
+                  <Monitor size={25} />
+                </div>
+                <div>
+                  <h3>On Desktop</h3>
+                  <p>Chrome, Edge, Brave</p>
+                </div>
               </div>
-              <div className="pwa-step1">
-                <span className="step-number">2</span>
-                <span>Or open the ⋮ <strong>menu</strong> → <strong>"Install VendorVille"</strong></span>
-              </div>
-              <div className="pwa-step1">
-                <span className="step-number">3</span>
-                <span>Click <strong>Install</strong> - opens as its own app window</span>
-              </div>
-            </div>
-            <div className="pwa-browser-tip">
-       <div className="pwa-browser-icon">
-          <Monitor size={25} />
-          </div>
 
-        <span>
-        Look for the <strong>install icon</strong> in your browser's address bar to install instantly.
-          </span>
+              <div className="pwa-steps">
+                <div className="pwa-step1">
+                  <span className="step-number">1</span>
+                  <span>
+                    Click the <strong>install icon</strong> in your browser's
+                    address bar
+                  </span>
+                </div>
+                <div className="pwa-step1">
+                  <span className="step-number">2</span>
+                  <span>
+                    Or open the ⋮ <strong>menu</strong> →{" "}
+                    <strong>"Install VendorVille"</strong>
+                  </span>
+                </div>
+                <div className="pwa-step1">
+                  <span className="step-number">3</span>
+                  <span>
+                    Click <strong>Install</strong> - opens as its own app window
+                  </span>
+                </div>
+              </div>
+              <div className="pwa-browser-tip">
+                <div className="pwa-browser-icon">
+                  <Monitor size={25} />
+                </div>
+
+                <span>
+                  Look for the <strong>install icon</strong> in your browser's
+                  address bar to install instantly.
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
       <section id="features">
         <div className="wrap">
           <div className="sec-head reveal">
@@ -362,7 +396,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <Bell/>
+                <Bell />
               </div>
               <h3>Email, SMS &amp; WhatsApp Alerts</h3>
               <p>
@@ -372,7 +406,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <ChartNoAxesColumn/>
+                <ChartNoAxesColumn />
               </div>
               <h3>Real Analytics</h3>
               <p>
@@ -382,7 +416,7 @@ export default async function Home() {
             </div>
             <div className="feat-card">
               <div className="feat-icon">
-                <ShelvingUnit/>
+                <ShelvingUnit />
               </div>
               <h3>Shelf Management</h3>
               <p>Organize, track, and monitor items on shelves in real time.</p>
@@ -751,13 +785,11 @@ export default async function Home() {
                         </span>
                       </div>
 
-                      <div className="vname">
-                        {vendor.name}
-                      </div>
+                      <div className="vname">{vendor.name}</div>
                       <div className="vendor-card-v3-address">
-                      <MapPin size={14} strokeWidth={2} />
-                      <span>{vendor.address}</span>
-                    </div>
+                        <MapPin size={14} strokeWidth={2} />
+                        <span>{vendor.address}</span>
+                      </div>
 
                       {vendor.branchCount > 1 && (
                         <div className="vendor-card-v3-branches">
@@ -773,7 +805,7 @@ export default async function Home() {
 
           <div style={{ textAlign: "center", marginTop: 28 }}>
             <Link href="/discover" className="btn-outline">
-              Explore All Vendors <ChevronRight/>
+              Explore All Vendors <ChevronRight />
             </Link>
           </div>
         </div>
@@ -1089,7 +1121,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-     <IntegrationsSection/>
+      <IntegrationsSection />
       <footer>
         <div className="wrap">
           <div className="footer-grid">

@@ -25,7 +25,6 @@ svg {
   max-width: 100%;
 }
 
-
 nav {
   background: var(--paper);
   border-bottom: 1px solid var(--line);
@@ -191,7 +190,7 @@ nav .wrap {
   border-radius: 999px;
   font-weight: 700;
   font-size: 1rem;
-  font-family:inter;
+  font-family: inter;
 }
 
 .nav-cta:hover {
@@ -209,7 +208,6 @@ nav .wrap {
     display: none;
   }
 }
-
 
 .navbar-mobile {
   background: var(--paper);
@@ -231,7 +229,6 @@ nav .wrap {
   height: 70px;
   position: relative;
 }
-
 
 .navbar-toggle {
   display: none;
@@ -263,7 +260,6 @@ nav .wrap {
 .navbar-toggle.active .hamburger-line:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -7px);
 }
-
 
 .navbar-menu {
   display: none;
@@ -338,12 +334,11 @@ nav .wrap {
 .navbar-menu .nav-signup {
   padding: 10px 16px;
   text-align: center;
-   border: 1.5px solid var(--line);
-    border-radius: 999px;
-    background: var(--color-green-600);
-    color:#fff;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--color-green-600);
+  color: #fff;
 }
-
 
 .navbar-overlay {
   position: fixed;
@@ -361,7 +356,6 @@ nav .wrap {
     opacity: 1;
   }
 }
-
 
 @media (max-width: 768px) {
   .nav-links {

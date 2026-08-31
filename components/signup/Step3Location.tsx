@@ -85,7 +85,7 @@ export function Step3Location({
   }, []);
 
   const filteredStates = nigerianStates.filter((state) =>
-    state.toLowerCase().includes(stateSearch.toLowerCase())
+    state.toLowerCase().includes(stateSearch.toLowerCase()),
   );
 
   return (
@@ -123,9 +123,7 @@ export function Step3Location({
 
                 <ChevronDown
                   size={18}
-                  className={`select-chevron ${
-                    stateOpen ? "rotate" : ""
-                  }`}
+                  className={`select-chevron ${stateOpen ? "rotate" : ""}`}
                 />
               </button>
 
@@ -163,15 +161,11 @@ export function Step3Location({
                         >
                           <span>{state}</span>
 
-                          {field.value === state && (
-                            <Check size={16} />
-                          )}
+                          {field.value === state && <Check size={16} />}
                         </button>
                       ))
                     ) : (
-                      <div className="no-options">
-                        No state found
-                      </div>
+                      <div className="no-options">No state found</div>
                     )}
                   </div>
                 </div>
@@ -181,9 +175,7 @@ export function Step3Location({
         />
 
         {errors.state && (
-          <span className="error-text">
-            {errors.state.message}
-          </span>
+          <span className="error-text">{errors.state.message}</span>
         )}
       </div>
 
@@ -200,17 +192,13 @@ export function Step3Location({
         />
 
         {errors.city && (
-          <span className="error-text">
-            {errors.city.message}
-          </span>
+          <span className="error-text">{errors.city.message}</span>
         )}
       </div>
 
       {/* BUSINESS ADDRESS */}
       <div className="field">
-        <label htmlFor="businessAddress">
-          Business Address *
-        </label>
+        <label htmlFor="businessAddress">Business Address *</label>
 
         <input
           id="businessAddress"
@@ -221,9 +209,7 @@ export function Step3Location({
         />
 
         {errors.businessAddress && (
-          <span className="error-text">
-            {errors.businessAddress.message}
-          </span>
+          <span className="error-text">{errors.businessAddress.message}</span>
         )}
       </div>
 
@@ -240,9 +226,7 @@ export function Step3Location({
         />
 
         {errors.postalCode && (
-          <span className="error-text">
-            {errors.postalCode.message}
-          </span>
+          <span className="error-text">{errors.postalCode.message}</span>
         )}
       </div>
     </div>

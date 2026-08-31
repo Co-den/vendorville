@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import { CompleteLoginData } from '@/app/auth/login/schema'
-import { useFormContext } from 'react-hook-form'
+import { CompleteLoginData } from "@/app/auth/login/schema";
+import { useFormContext } from "react-hook-form";
 
 export function Step1Email() {
   const {
     register,
     formState: { errors },
-  } = useFormContext<CompleteLoginData>()
+  } = useFormContext<CompleteLoginData>();
 
   return (
     <div className="step-content">
@@ -20,15 +20,18 @@ export function Step1Email() {
         <input
           type="email"
           placeholder="name@business.com"
-          {...register('email')}
+          {...register("email")}
           aria-invalid={!!errors.email}
         />
-        {errors.email && <span className="error-text">{errors.email.message}</span>}
+        {errors.email && (
+          <span className="error-text">{errors.email.message}</span>
+        )}
       </div>
 
       <p className="helper-text">
-        Enter the email address associated with your VendorVille business account.
+        Enter the email address associated with your VendorVille business
+        account.
       </p>
     </div>
-  )
+  );
 }

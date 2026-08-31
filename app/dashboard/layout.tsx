@@ -17,7 +17,7 @@ import {
   ShoppingCart,
   StarHalf,
   Users,
-  Wallet
+  Wallet,
 } from "lucide-react";
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
@@ -53,11 +53,11 @@ function NavIcon({ name }: { name: string }) {
     box: <Box />,
     cart: <ShoppingCart />,
     users: <Users />,
-    receipt: <Receipt/>,
+    receipt: <Receipt />,
     settings: <Bolt />,
-    home: <House/>,
+    home: <House />,
     trend: <Activity />,
-    star:<StarHalf/>,
+    star: <StarHalf />,
     refresh: (
       <svg
         viewBox="0 0 24 24"
@@ -72,7 +72,7 @@ function NavIcon({ name }: { name: string }) {
         <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
       </svg>
     ),
-    wallet: <Wallet/>,
+    wallet: <Wallet />,
   };
   return icons[name] || null;
 }

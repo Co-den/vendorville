@@ -1,20 +1,20 @@
-'use client'
+"use client";
 
-import { CompleteFormData } from '@/app/auth/signup/schema'
-import { useEffect, useRef } from 'react'
+import { CompleteFormData } from "@/app/auth/signup/schema";
+import { useEffect, useRef } from "react";
 import {
   Control,
   Controller,
   FieldErrors,
   UseFormRegister,
   UseFormWatch,
-} from 'react-hook-form'
+} from "react-hook-form";
 
 interface Step4SecurityProps {
-  control: Control<CompleteFormData>
-  register: UseFormRegister<CompleteFormData>
-  errors: FieldErrors<CompleteFormData>
-  watch: UseFormWatch<CompleteFormData>
+  control: Control<CompleteFormData>;
+  register: UseFormRegister<CompleteFormData>;
+  errors: FieldErrors<CompleteFormData>;
+  watch: UseFormWatch<CompleteFormData>;
 }
 
 export function Step4Security({
@@ -23,23 +23,23 @@ export function Step4Security({
   errors,
   watch,
 }: Step4SecurityProps) {
-  const pinInputs = useRef<(HTMLInputElement | null)[]>([])
-  const confirmInputs = useRef<(HTMLInputElement | null)[]>([])
+  const pinInputs = useRef<(HTMLInputElement | null)[]>([]);
+  const confirmInputs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const pin = watch('pin')
-  const confirmPin = watch('confirmPin')
+  const pin = watch("pin");
+  const confirmPin = watch("confirmPin");
 
   useEffect(() => {
     if (pin?.length && pin.length < 4) {
-      pinInputs.current[pin.length]?.focus()
+      pinInputs.current[pin.length]?.focus();
     }
-  }, [pin])
+  }, [pin]);
 
   useEffect(() => {
     if (confirmPin?.length && confirmPin.length < 4) {
-      confirmInputs.current[confirmPin.length]?.focus()
+      confirmInputs.current[confirmPin.length]?.focus();
     }
-  }, [confirmPin])
+  }, [confirmPin]);
 
   return (
     <div className="step-content">
@@ -60,35 +60,33 @@ export function Step4Security({
                 <input
                   key={index}
                   ref={(el) => {
-                    pinInputs.current[index] = el
+                    pinInputs.current[index] = el;
                   }}
                   type="password"
                   inputMode="numeric"
                   maxLength={1}
                   placeholder="•"
-                  value={field.value?.[index] ?? ''}
+                  value={field.value?.[index] ?? ""}
                   onChange={(e) => {
-                    const digit = e.target.value.replace(/\D/g, '').slice(-1)
+                    const digit = e.target.value.replace(/\D/g, "").slice(-1);
 
-                    const values = (field.value || '')
-                      .padEnd(4, ' ')
-                      .split('')
+                    const values = (field.value || "").padEnd(4, " ").split("");
 
-                    values[index] = digit
+                    values[index] = digit;
 
-                    field.onChange(values.join('').trim())
+                    field.onChange(values.join("").trim());
 
                     if (digit && index < 3) {
-                      pinInputs.current[index + 1]?.focus()
+                      pinInputs.current[index + 1]?.focus();
                     }
                   }}
                   onKeyDown={(e) => {
                     if (
-                      e.key === 'Backspace' &&
+                      e.key === "Backspace" &&
                       !field.value?.[index] &&
                       index > 0
                     ) {
-                      pinInputs.current[index - 1]?.focus()
+                      pinInputs.current[index - 1]?.focus();
                     }
                   }}
                   aria-label={`PIN digit ${index + 1}`}
@@ -98,9 +96,7 @@ export function Step4Security({
           )}
         />
 
-        {errors.pin && (
-          <span className="error-text">{errors.pin.message}</span>
-        )}
+        {errors.pin && <span className="error-text">{errors.pin.message}</span>}
       </div>
 
       {/* Confirm PIN */}
@@ -116,35 +112,33 @@ export function Step4Security({
                 <input
                   key={index}
                   ref={(el) => {
-                    confirmInputs.current[index] = el
+                    confirmInputs.current[index] = el;
                   }}
                   type="password"
                   inputMode="numeric"
                   maxLength={1}
                   placeholder="•"
-                  value={field.value?.[index] ?? ''}
+                  value={field.value?.[index] ?? ""}
                   onChange={(e) => {
-                    const digit = e.target.value.replace(/\D/g, '').slice(-1)
+                    const digit = e.target.value.replace(/\D/g, "").slice(-1);
 
-                    const values = (field.value || '')
-                      .padEnd(4, ' ')
-                      .split('')
+                    const values = (field.value || "").padEnd(4, " ").split("");
 
-                    values[index] = digit
+                    values[index] = digit;
 
-                    field.onChange(values.join('').trim())
+                    field.onChange(values.join("").trim());
 
                     if (digit && index < 3) {
-                      confirmInputs.current[index + 1]?.focus()
+                      confirmInputs.current[index + 1]?.focus();
                     }
                   }}
                   onKeyDown={(e) => {
                     if (
-                      e.key === 'Backspace' &&
+                      e.key === "Backspace" &&
                       !field.value?.[index] &&
                       index > 0
                     ) {
-                      confirmInputs.current[index - 1]?.focus()
+                      confirmInputs.current[index - 1]?.focus();
                     }
                   }}
                   aria-label={`Confirm PIN digit ${index + 1}`}
@@ -155,26 +149,20 @@ export function Step4Security({
         />
 
         {errors.confirmPin && (
-          <span className="error-text">
-            {errors.confirmPin.message}
-          </span>
+          <span className="error-text">{errors.confirmPin.message}</span>
         )}
       </div>
 
       {/* Terms */}
       <div className="field checkbox-field">
-        <input
-          id="agreeTerms"
-          type="checkbox"
-          {...register('agreeTerms')}
-        />
+        <input id="agreeTerms" type="checkbox" {...register("agreeTerms")} />
 
         <label htmlFor="agreeTerms" className="checkbox-label">
-          I agree to the{' '}
+          I agree to the{" "}
           <a href="/legal/terms" className="terms-link">
             Terms of Service
-          </a>{' '}
-          and{' '}
+          </a>{" "}
+          and{" "}
           <a href="/legal/privacy" className="terms-link">
             Privacy Policy
           </a>
@@ -182,10 +170,8 @@ export function Step4Security({
       </div>
 
       {errors.agreeTerms && (
-        <span className="error-text">
-          {errors.agreeTerms.message}
-        </span>
+        <span className="error-text">{errors.agreeTerms.message}</span>
       )}
     </div>
-  )
+  );
 }

@@ -1,7 +1,8 @@
-body{
-  font-family: Space Grotesk, sans-serif;
+body {
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
-
 
 .verification-label {
   margin-top: 22px;
@@ -193,5 +194,7 @@ body{
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

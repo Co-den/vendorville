@@ -1,56 +1,61 @@
 // components/ChatWidget.tsx
-'use client'
+"use client";
 
-import api from '@/store/axiosInstance';
-import { MessageCircle } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { io, Socket } from 'socket.io-client';
+import api from "@/store/axiosInstance";
+import { MessageCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
 
 export default function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [thread, setThread] = useState<any>(null)
-  const [messages, setMessages] = useState<any[]>([])
-  const [input, setInput] = useState('')
-  const socketRef = useRef<Socket | null>(null)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [thread, setThread] = useState<any>(null);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [input, setInput] = useState("");
+  const socketRef = useRef<Socket | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) return;
 
-    api.get('/auth/chat').then((res) => {
-      setThread(res.data.thread)
-      setMessages(res.data.messages)
-    })
+    api.get("/auth/chat").then((res) => {
+      setThread(res.data.thread);
+      setMessages(res.data.messages);
+    });
 
-    const token = localStorage.getItem('token')
-    const socket = io(process.env.NEXT_PUBLIC_API_URL!.replace('/api', ''), { auth: { token } })
-    socketRef.current = socket
+    const token = localStorage.getItem("token");
+    const socket = io(process.env.NEXT_PUBLIC_API_URL!.replace("/api", ""), {
+      auth: { token },
+    });
+    socketRef.current = socket;
 
-    socket.on('connect', () => {
-      if (thread) socket.emit('join_thread', thread.id)
-    })
-    socket.on('new_message', (msg) => {
-      setMessages((prev) => [...prev, msg])
-    })
+    socket.on("connect", () => {
+      if (thread) socket.emit("join_thread", thread.id);
+    });
+    socket.on("new_message", (msg) => {
+      setMessages((prev) => [...prev, msg]);
+    });
 
-    return () => { socket.disconnect() }
-  }, [isOpen])
+    return () => {
+      socket.disconnect();
+    };
+  }, [isOpen]);
 
   useEffect(() => {
-    if (thread && socketRef.current) socketRef.current.emit('join_thread', thread.id)
-  }, [thread])
+    if (thread && socketRef.current)
+      socketRef.current.emit("join_thread", thread.id);
+  }, [thread]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return
-    const text = input
-    setInput('')
-    const res = await api.post('/auth/chat', { message: text })
-    setMessages((prev) => [...prev, res.data.message])
-  }
+    if (!input.trim()) return;
+    const text = input;
+    setInput("");
+    const res = await api.post("/auth/chat", { message: text });
+    setMessages((prev) => [...prev, res.data.message]);
+  };
 
   return (
     <>
@@ -66,7 +71,10 @@ export default function ChatWidget() {
           </div>
           <div className="chat-panel-messages">
             {messages.map((m) => (
-              <div key={m.id} className={`chat-bubble ${m.senderType === 'vendor' ? 'sent' : 'received'}`}>
+              <div
+                key={m.id}
+                className={`chat-bubble ${m.senderType === "vendor" ? "sent" : "received"}`}
+              >
                 {m.message}
               </div>
             ))}
@@ -76,7 +84,7 @@ export default function ChatWidget() {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               placeholder="Type a message..."
             />
             <button onClick={sendMessage}>Send</button>
@@ -84,5 +92,5 @@ export default function ChatWidget() {
         </div>
       )}
     </>
-  )
+  );
 }

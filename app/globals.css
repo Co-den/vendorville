@@ -515,7 +515,7 @@ header.hero .wrap {
   margin-top: 20px;
   color: #cfe0d4;
   font-size: 1.125rem;
-  font-family:inter;
+  font-family: inter;
   max-width: 46ch;
   opacity: 0;
   animation: fadeInUp 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s forwards;
@@ -539,7 +539,7 @@ header.hero .wrap {
   border: none;
   border-radius: 9999px;
   font-size: 1rem;
-  font-family:inter;
+  font-family: inter;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -567,7 +567,7 @@ header.hero .wrap {
   border-radius: 999px;
   font-weight: 700;
   font-size: 1rem;
-  font-family:inter;
+  font-family: inter;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -592,7 +592,7 @@ header.hero .wrap {
     transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
     border-color 0.25s ease,
     background 0.25s ease;
-    letter-spacing:4px;
+  letter-spacing: 4px;
 }
 
 .btn-outline:hover {
@@ -848,7 +848,7 @@ header.hero .wrap {
 .float-card .fc-label {
   font-size: 0.6rem;
   font-weight: 700;
-  font-family:inter;
+  font-family: inter;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--gray);
@@ -857,7 +857,7 @@ header.hero .wrap {
 .float-card .fc-title {
   font-size: 0.78rem;
   font-weight: 800;
-  font-family:inter;
+  font-family: inter;
   color: var(--ink);
 }
 
@@ -1022,18 +1022,17 @@ section {
   width: 90%;
   height: 10px;
 
-  background:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      #4ade80 8%,
-      #4ade80 46%,
-      transparent 49%,
-      transparent 51%,
-      #4ade80 54%,
-      #4ade80 92%,
-      transparent 100%
-    );
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #4ade80 8%,
+    #4ade80 46%,
+    transparent 49%,
+    transparent 51%,
+    #4ade80 54%,
+    #4ade80 92%,
+    transparent 100%
+  );
 
   clip-path: polygon(
     0 20%,
@@ -1048,8 +1047,6 @@ section {
     4% 5%
   );
 }
-
-
 
 .sec-head {
   text-align: center;
@@ -1072,7 +1069,7 @@ section {
   color: var(--gray);
   font-size: 1.125rem;
   line-height: 1.75;
-  font-family:inter;
+  font-family: inter;
 }
 
 /* FEATURES */
@@ -1119,8 +1116,6 @@ section {
 .feat-icon svg {
   width: 22px;
   height: 22px;
-  
-
 }
 
 .feat-card:hover .feat-icon {
@@ -1133,8 +1128,9 @@ section {
   margin-top: 18px;
   font-size: 1.25rem;
   font-weight: 700;
-  font-family: Space Grotesk, sans-serif;
-
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 .feat-card p {
@@ -1142,7 +1138,7 @@ section {
   color: var(--gray);
   font-size: 0.9rem;
   line-height: 1.625;
-  font-family:inter;
+  font-family: inter;
 }
 
 @media (max-width: 900px) {
@@ -1150,10 +1146,10 @@ section {
     grid-template-columns: 1fr 1fr;
   }
   .sec-head h2 {
-  font-size: 2rem;
-  font-weight: 900;
-  color: #000;
-}
+    font-size: 2rem;
+    font-weight: 900;
+    color: #000;
+  }
 }
 
 @media (max-width: 600px) {
@@ -1376,16 +1372,6 @@ section {
   transition: all 0.25s ease;
   margin-top: 15px;
 }
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 900px) {
   .vendor-grid {
@@ -1811,7 +1797,7 @@ table.compare td.dash {
   padding: 17px 11px;
   font-weight: 700;
   font-size: 1rem;
-  font-family:inter;
+  font-family: inter;
   background: rgba(255, 255, 255, 0.03);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition:
@@ -1831,7 +1817,7 @@ table.compare td.dash {
   color: #7fd99a;
   font-size: 0.86rem;
   font-weight: 700;
-  font-family:inter;
+  font-family: inter;
 }
 
 @media (max-width: 700px) {
@@ -1911,7 +1897,7 @@ footer p.tagline {
   font-size: 0.86rem;
   max-width: 32ch;
   color: #8b96a8;
-  font-family:inter;
+  font-family: inter;
 }
 
 .footer-col h4 {
@@ -1919,7 +1905,7 @@ footer p.tagline {
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 16px;
-  font-family:inter;
+  font-family: inter;
 }
 
 .footer-col a {
@@ -1927,7 +1913,7 @@ footer p.tagline {
   font-size: 0.86rem;
   margin-bottom: 11px;
   color: #94a3b8;
-  font-family:inter;
+  font-family: inter;
 }
 
 .footer-col a:hover {
@@ -1963,14 +1949,13 @@ footer p.tagline {
   display: block;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-border-radius: 2rem;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   text-decoration: none;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-    
 }
 
 .vendor-card-v3:hover {
@@ -2017,12 +2002,16 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.66rem;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 900;
 }
-.vname{
-  font-family: Space Grotesk, sans-serif;
-  font-weight:900;
+.vname {
+  font-family:
+    Space Grotesk,
+    sans-serif;
+  font-weight: 900;
 }
 .v3-badge.availability.open {
   background: rgba(58, 132, 79, 0.92);
@@ -2047,11 +2036,12 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
 .v3-badge.plan {
   text-transform: uppercase;
-  
 }
 .v3-badge.plan-starter {
-  font-family: Space Grotesk, sans-serif;
-  font-weight:900;
+  font-family:
+    Space Grotesk,
+    sans-serif;
+  font-weight: 900;
   background: var(--color-orange-400);
   color: #fff;
 }
@@ -2093,7 +2083,7 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .vendor-card-v3-address {
-    width: 100%;
+  width: 100%;
   max-width: 300px;
   display: flex;
   align-items: flex-start;
@@ -2101,9 +2091,11 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   gap: 5px;
   color: #667085;
   font-size: 0.8rem;
-  font-family: Space Grotesk, sans-serif;
-  font-weight:900;
-   line-height: 1.45;
+  font-family:
+    Space Grotesk,
+    sans-serif;
+  font-weight: 900;
+  line-height: 1.45;
   text-align: left;
   margin-top: 4px;
 }
@@ -2143,7 +2135,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
   animation: popIn 0.4s ease forwards;
 }
-
 
 .pwa-install-section {
   padding: 98px 44px;
@@ -2253,15 +2244,15 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0 0 4px;
-  font-family:inter;
+  font-family: inter;
 }
 
 .pwa-card-header p {
   font-size: 0.85rem;
   margin: 0;
   opacity: 0.9;
-  font-family:inter;
-  font-weight:500;
+  font-family: inter;
+  font-weight: 500;
   color: var(--color-gray-400);
 }
 
@@ -2305,20 +2296,18 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   padding-top: 4px;
   line-height: 1.5;
   font-size: 0.95rem;
-  font-family:inter;
-  font-weight:400;
+  font-family: inter;
+  font-weight: 400;
   color: var(--color-gray-500);
-  
 }
 
 .pwa-step1 span:last-child {
   padding-top: 4px;
   line-height: 1.5;
   font-size: 0.95rem;
-  font-family:inter;
-  font-weight:400;
+  font-family: inter;
+  font-weight: 400;
   color: var(--color-gray-300);
-  
 }
 
 .pwa-browser-tip {
@@ -2328,11 +2317,11 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   padding: 12px 13px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
-   border: 1px solid #ffffff26;
+  border: 1px solid #ffffff26;
   font-size: 0.9rem;
   line-height: 1.5;
-  font-weight:500;
-  font-family:inter;
+  font-weight: 500;
+  font-family: inter;
 }
 .pwa-browser-icon {
   width: 36px;
@@ -2363,12 +2352,11 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   padding: 14px 16px;
   background: var(--color-slate-100);
   border-radius: 1.5rem;
-   border: 1px solid #f1f5f9;
+  border: 1px solid #f1f5f9;
   font-size: 0.9rem;
   line-height: 1.5;
   font-family: inter;
-   font-weight:500;
-
+  font-weight: 500;
 }
 
 .pwa-browser-tip svg {

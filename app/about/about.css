@@ -24,7 +24,9 @@ html {
 }
 
 body {
-   font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   color: var(--ink);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
@@ -103,7 +105,8 @@ svg {
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -115,7 +118,8 @@ svg {
 .reveal-stagger > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
     transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -143,7 +147,9 @@ nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 nav.scrolled {
@@ -176,7 +182,7 @@ nav .wrap {
 }
 
 .brand .mark::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 6px;
   border-radius: 3px;
@@ -214,7 +220,10 @@ nav .wrap {
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.88rem;
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
 }
 
 .nav-cta:hover {
@@ -260,19 +269,19 @@ nav .wrap {
 }
 
 .hero-bg span:nth-child(1) {
-  background-image: url('https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/33203798/pexels-photo-33203798.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-bg span:nth-child(2) {
-  background-image: url('https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/36827828/pexels-photo-36827828.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-bg span:nth-child(3) {
-  background-image: url('https://images.pexels.com/photos/8655018/pexels-photo-8655018.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/8655018/pexels-photo-8655018.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-bg span:nth-child(4) {
-  background-image: url('https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=700');
+  background-image: url("https://images.pexels.com/photos/33337873/pexels-photo-33337873.jpeg?auto=compress&cs=tinysrgb&w=700");
 }
 
 .hero-overlay {
@@ -324,13 +333,16 @@ nav .wrap {
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
-.hero-content h1 .hl
- {
+.hero-content h1 .hl {
   color: #7fd99a;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 .hero-content p {
@@ -339,7 +351,9 @@ nav .wrap {
   max-width: 60ch;
   margin: 0 auto 32px;
   line-height: 1.6;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 @media (max-width: 700px) {
@@ -442,12 +456,13 @@ nav .wrap {
   border-radius: 18px;
   padding: 22px 24px;
   overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
     box-shadow 0.3s ease;
 }
 
 .problem-item::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -478,8 +493,10 @@ nav .wrap {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 10px rgba(19, 46, 27, 0.06);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .problem-icon svg {
@@ -607,7 +624,9 @@ nav .wrap {
 }
 
 .dash-row-info {
-  display: flex; align-items: center; gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .dash-swatch {
@@ -865,8 +884,10 @@ nav .wrap {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--line);
   text-align: center;
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .value-card:hover {
@@ -886,8 +907,10 @@ nav .wrap {
   justify-content: center;
   margin: 0 auto 22px;
   font-size: 28px;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .value-card:hover .value-icon {
@@ -945,7 +968,9 @@ nav .wrap {
 }
 
 .mission-section h2 .hl {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   color: #7fd99a;
 }
 
@@ -955,7 +980,9 @@ nav .wrap {
   font-size: 1.15rem;
   line-height: 1.8;
   color: #cfe0d4;
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
 }
 
 @media (max-width: 700px) {
@@ -1018,7 +1045,8 @@ nav .wrap {
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
     box-shadow 0.25s ease;
 }
 
@@ -1050,7 +1078,7 @@ nav .wrap {
 
   .cta-btn {
     padding: 12px 24px;
-    font-size: 0.90rem;
+    font-size: 0.9rem;
   }
 }
 

@@ -1,0 +1,129 @@
+.trial-banner {
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  border-left: 4px solid;
+}
+
+.trial-banner.normal {
+  background: #eaf6ed;
+  border-left-color: #3a844f;
+}
+
+.trial-banner.urgent {
+  background: linear-gradient(135deg, #fef6ea 0%, #fef3c7 100%);
+  border-left-color: #b4741a;
+}
+
+.trial-banner-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.trial-banner-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(58, 132, 79, 0.1);
+  color: #3a844f;
+}
+
+.trial-banner.urgent .trial-banner-icon {
+  background: rgba(180, 116, 26, 0.1);
+  color: #b4741a;
+}
+
+.trial-banner-text {
+  flex: 1;
+}
+
+.trial-banner-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #132e1b;
+  margin: 0 0 4px;
+}
+
+.trial-banner.urgent .trial-banner-title {
+  color: #b4741a;
+}
+
+.trial-banner-subtitle {
+  font-size: 0.85rem;
+  color: #667085;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.trial-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(58, 132, 79, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.trial-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3a844f, #7fd99a);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.trial-banner.urgent .trial-progress-fill {
+  background: linear-gradient(90deg, #b4741a, #f0a23a);
+}
+
+.trial-progress-text {
+  font-size: 0.75rem;
+  color: #667085;
+  font-weight: 600;
+}
+
+.trial-banner-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.trial-upgrade-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #3a844f;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.trial-upgrade-btn:hover {
+  background: #2d6a3b;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .trial-banner-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .trial-banner-actions {
+    width: 100%;
+  }
+
+  .trial-upgrade-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

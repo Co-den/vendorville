@@ -1,8 +1,7 @@
-'use client'
+"use client";
 
-import { LoginWizard } from '@/components/login/LoginWizard'
-import './login.css'
-
+import { LoginWizard } from "@/components/login/LoginWizard";
+import "./login.css";
 
 export default function LoginPage() {
   return (
@@ -24,8 +23,8 @@ export default function LoginPage() {
             The Future of<span>Vendor Ops.</span>
           </h1>
           <p className="sub">
-            Experience the next generation of vendor management. Secure, intelligent,
-            and built for scale.
+            Experience the next generation of vendor management. Secure,
+            intelligent, and built for scale.
           </p>
           <div className="brand-feats">
             <div className="bf-item">
@@ -87,5 +86,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

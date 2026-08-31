@@ -6,10 +6,11 @@ export interface Product {
   id: number;
   businessId: number;
   name: string;
+  description: string;
   sku: string;
   category: string;
   imageUrl: string | null;
-  price: number; // naira, already converted from kobo by backend
+  price: number;
   stock: number;
   lowStockThreshold: number;
   createdAt: string;
@@ -18,6 +19,7 @@ export interface Product {
 
 export interface ProductFormData {
   name: string;
+  description: string;
   sku: string;
   category: string;
   price: string;
@@ -49,6 +51,7 @@ interface ProductState {
 const buildFormData = (data: ProductFormData) => {
   const formData = new FormData();
   formData.append("name", data.name);
+  formData.append("description", data.description);
   formData.append("sku", data.sku);
   formData.append("category", data.category);
   formData.append("price", data.price);
@@ -67,9 +70,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   fetchProducts: async (businessId) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(
-        `/businesses/${businessId}/products`,
-      );
+      const response = await api.get(`/businesses/${businessId}/products`);
       set({ products: response.data.products, isLoading: false });
     } catch (error: any) {
       set({
@@ -86,9 +87,6 @@ export const useProductStore = create<ProductState>((set, get) => ({
       const response = await api.post(
         `/businesses/${businessId}/products`,
         formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        },
       );
       const newProduct: Product = response.data.product;
       set({ products: [newProduct, ...get().products], isSubmitting: false });
@@ -109,7 +107,6 @@ export const useProductStore = create<ProductState>((set, get) => ({
       const response = await api.patch(
         `/businesses/${businessId}/products/${productId}`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } },
       );
       const updated: Product = response.data.product;
       set({
@@ -128,9 +125,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
 
   deleteProduct: async (businessId, productId) => {
     try {
-      await api.delete(
-        `/businesses/${businessId}/products/${productId}`,
-      );
+      await api.delete(`/businesses/${businessId}/products/${productId}`);
       set({ products: get().products.filter((p) => p.id !== productId) });
     } catch (error: any) {
       set({ error: error.response?.data?.message || "Error deleting product" });

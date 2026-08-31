@@ -2,8 +2,7 @@
 
 import { useAuthStore } from "@/store/authStore";
 import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
-import { Repeat } from 'lucide-react';
-
+import { Repeat } from "lucide-react";
 
 declare global {
   interface Window {

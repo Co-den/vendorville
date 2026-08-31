@@ -247,12 +247,12 @@ export default function OrdersPage() {
     return (
       <>
         <div className="dash-welcome">
-        <div className="dash-welcome-eyebrow">
-          <span className="dash-welcome-icon">
-            <ClipboardList size={25} strokeWidth={2.5} />
-          </span>
-          <span>ORDERS</span>
-        </div>
+          <div className="dash-welcome-eyebrow">
+            <span className="dash-welcome-icon">
+              <ClipboardList size={25} strokeWidth={2.5} />
+            </span>
+            <span>ORDERS</span>
+          </div>
           <h1>
             Process <span>sales</span>.
           </h1>
@@ -444,7 +444,7 @@ export default function OrdersPage() {
             style={{
               fontFamily: "inter",
               fontSize: "1.05rem",
-              fontWeight:700,
+              fontWeight: 700,
               marginBottom: 16,
             }}
           >

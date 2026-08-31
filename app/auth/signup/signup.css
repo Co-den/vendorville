@@ -90,7 +90,6 @@ body {
   }
 }
 
-
 .brand-panel {
   position: relative;
   overflow: hidden;
@@ -208,7 +207,7 @@ body {
   margin-top: 20px;
   color: #cfe0d4;
   font-size: 1.02rem;
-  font-family:inter;
+  font-family: inter;
   line-height: 1.6;
   max-width: 38ch;
   opacity: 0;
@@ -247,7 +246,7 @@ body {
 
 .bf-label {
   margin-top: 10px;
-  font-family:inter;
+  font-family: inter;
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -295,7 +294,7 @@ body {
 .auth-card p.tagline {
   text-align: center;
   color: var(--gray);
-  font-family:inter;
+  font-family: inter;
   font-size: 0.82rem;
   margin-top: 12px;
 }
@@ -442,8 +441,7 @@ body {
 .select-wrap select:focus {
   border-color: #3a844f;
 
-  box-shadow:
-    0 0 0 3px rgba(58, 132, 79, 0.10);
+  box-shadow: 0 0 0 3px rgba(58, 132, 79, 0.1);
 }
 .select-wrap select:hover {
   border-color: #b9c7bd;
@@ -524,7 +522,9 @@ body {
   padding: 11px 14px;
   border-radius: 9px;
   border: 1.5px solid var(--line);
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-size: 0.86rem;
   color: var(--ink);
   background: #fff;
@@ -1011,7 +1011,9 @@ body {
 }
 
 .step-content h2 {
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   font-weight: 800;
   font-size: 1.3rem;
   text-align: center;
@@ -1303,8 +1305,6 @@ body {
   }
 }
 
-
-
 .custom-select {
   position: relative;
   width: 100%;
@@ -1361,7 +1361,6 @@ body {
   transform: rotate(180deg);
 }
 
-
 .custom-select-dropdown {
   position: absolute;
   top: calc(100% + 8px);
@@ -1389,7 +1388,6 @@ body {
     transform: translateY(0);
   }
 }
-
 
 .select-search {
   display: flex;
@@ -1426,7 +1424,6 @@ body {
 .select-search input::placeholder {
   color: #98a2b3;
 }
-
 
 .select-options {
   max-height: 240px;
@@ -1468,8 +1465,6 @@ body {
 .select-option.selected svg {
   color: #3a844f;
 }
-
-
 
 .no-options {
   padding: 18px 12px;

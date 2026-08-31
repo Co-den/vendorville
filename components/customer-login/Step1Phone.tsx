@@ -1,16 +1,21 @@
-'use client'
+"use client";
 
-import type { CompleteCustomerLoginData } from '@/app/customer/schema';
-import { FormState, UseFormRegister } from 'react-hook-form';
+import type { CompleteCustomerLoginData } from "@/app/customer/schema";
+import { FormState, UseFormRegister } from "react-hook-form";
 
 interface Step1PhoneProps {
-  register: UseFormRegister<CompleteCustomerLoginData>
-  formState: FormState<CompleteCustomerLoginData>
-  onSubmit: () => void
-  isLoading?: boolean
+  register: UseFormRegister<CompleteCustomerLoginData>;
+  formState: FormState<CompleteCustomerLoginData>;
+  onSubmit: () => void;
+  isLoading?: boolean;
 }
 
-export function Step1Phone({ register, formState: { errors }, onSubmit, isLoading }: Step1PhoneProps) {
+export function Step1Phone({
+  register,
+  formState: { errors },
+  onSubmit,
+  isLoading,
+}: Step1PhoneProps) {
   return (
     <div className="step-content">
       <h2>Track Your Orders</h2>
@@ -20,7 +25,7 @@ export function Step1Phone({ register, formState: { errors }, onSubmit, isLoadin
       <div className="field">
         <label>Country Code</label>
         <div className="phone-code-wrapper">
-          <select {...register('countryCode')} className="phone-code-select">
+          <select {...register("countryCode")} className="phone-code-select">
             <option value="+234">+234 (Nigeria)</option>
             <option value="+233">+233 (Ghana)</option>
             <option value="+254">+254 (Kenya)</option>
@@ -40,29 +45,48 @@ export function Step1Phone({ register, formState: { errors }, onSubmit, isLoadin
             <option value="+264">+264 (Namibia)</option>
           </select>
         </div>
-        {errors.countryCode && <span className="error-text">{String(errors.countryCode?.message)}</span>}
+        {errors.countryCode && (
+          <span className="error-text">
+            {String(errors.countryCode?.message)}
+          </span>
+        )}
       </div>
 
       <div className="field">
         <label>Phone Number</label>
         <input
           type="tel"
-          {...register('phone')}
+          {...register("phone")}
           placeholder="10-10 digits, no leading 0"
           inputMode="numeric"
           maxLength={10}
         />
-        {errors.phone && <span className="error-text">{String(errors.phone?.message)}</span>}
+        {errors.phone && (
+          <span className="error-text">{String(errors.phone?.message)}</span>
+        )}
       </div>
 
       <p className="helper-text">
-        Enter without leading 0 your country code is already selected. Enter 10 digits for +234.
+        Enter without leading 0 your country code is already selected. Enter 10
+        digits for +234.
       </p>
 
       <div className="form-buttons">
-        <button type="button" onClick={onSubmit} className="btn-primary" disabled={isLoading}>
-          {isLoading ? 'Verifying...' : 'Continue'}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <button
+          type="button"
+          onClick={onSubmit}
+          className="btn-primary"
+          disabled={isLoading}
+        >
+          {isLoading ? "Verifying..." : "Continue"}
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -70,8 +94,11 @@ export function Step1Phone({ register, formState: { errors }, onSubmit, isLoadin
       </div>
 
       <div className="help-section">
-        <p>Your account is created by the vendor store. Contact them if you can&apos;t sign in.</p>
+        <p>
+          Your account is created by the vendor store. Contact them if you
+          can&apos;t sign in.
+        </p>
       </div>
     </div>
-  )
+  );
 }

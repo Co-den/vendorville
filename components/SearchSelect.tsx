@@ -27,12 +27,10 @@ export default function SearchableSelect({
 
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find(
-    (option) => option.value === value
-  );
+  const selectedOption = options.find((option) => option.value === value);
 
   const filteredOptions = options.filter((option) =>
-    option.label.toLowerCase().includes(search.toLowerCase())
+    option.label.toLowerCase().includes(search.toLowerCase()),
   );
 
   useEffect(() => {
@@ -64,9 +62,7 @@ export default function SearchableSelect({
       {/* Trigger */}
       <button
         type="button"
-        className={`searchable-select-trigger ${
-          open ? "active" : ""
-        }`}
+        className={`searchable-select-trigger ${open ? "active" : ""}`}
         onClick={() => setOpen((prev) => !prev)}
       >
         <span className={!selectedOption ? "placeholder" : ""}>
@@ -105,26 +101,17 @@ export default function SearchableSelect({
                   <button
                     type="button"
                     key={option.value}
-                    className={`select-option ${
-                      selected ? "selected" : ""
-                    }`}
+                    className={`select-option ${selected ? "selected" : ""}`}
                     onClick={() => handleSelect(option)}
                   >
                     <span>{option.label}</span>
 
-                    {selected && (
-                      <Check
-                        size={17}
-                        className="option-check"
-                      />
-                    )}
+                    {selected && <Check size={17} className="option-check" />}
                   </button>
                 );
               })
             ) : (
-              <div className="no-options">
-                No results found
-              </div>
+              <div className="no-options">No results found</div>
             )}
           </div>
         </div>

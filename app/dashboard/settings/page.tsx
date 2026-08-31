@@ -1,138 +1,177 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import api from "@/store/axiosInstance";
 import { useBusinessStore } from "@/store/businessStore";
-import { Bolt } from 'lucide-react';
+import { useVendorStore } from "@/store/vendorStore";
+import TrialBanner from "@/components/TrialBanner";
+import StaffLimitWarning from "@/components/StaffLimitWarning";
+import UpgradePromptModal from "@/components/UpgradePromptModal";
+
+import { Bolt } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
-  const { user, updatePassword, isLoading } = useAuthStore();
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const { user, isLoading: authLoading } = useAuthStore();
   const { businesses } = useBusinessStore();
-  const [staff, setStaff] = useState<any[]>([]);
+
+  const {
+    subscription,
+    staff,
+    giftCards,
+    riders,
+    zones,
+    getSubscription,
+    getStaff,
+    inviteStaff,
+    removeStaff,
+    getGiftCards,
+    issueGiftCard,
+    getRiders,
+    addRider,
+    getZones,
+    addZone,
+    removeZone,
+    updatePassword,
+  } = useVendorStore();
+
+  //UI STATE
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
+  const [showAddRider, setShowAddRider] = useState(false);
+  const [showIssueGiftCard, setShowIssueGiftCard] = useState(false);
+  const [showAddZone, setShowAddZone] = useState(false);
+
+  //FORM STATE
   const [staffName, setStaffName] = useState("");
   const [staffEmail, setStaffEmail] = useState("");
   const [staffRole, setStaffRole] = useState("staff");
   const [staffPassword, setStaffPassword] = useState("");
-  const [staffError, setStaffError] = useState("");
-  const activeBusinessId = businesses[0]?.id;
-  const [giftCards, setGiftCards] = useState<any[]>([]);
-  const [showIssueGiftCard, setShowIssueGiftCard] = useState(false);
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [giftCardValue, setGiftCardValue] = useState("");
-  const [giftCardError, setGiftCardError] = useState("");
-  const [issuedCard, setIssuedCard] = useState<any>(null);
-  const [riders, setRiders] = useState<any[]>([]);
-  const [showAddRider, setShowAddRider] = useState(false);
   const [riderName, setRiderName] = useState("");
   const [riderPhone, setRiderPhone] = useState("");
-  const [riderError, setRiderError] = useState("");
-  const [zones, setZones] = useState<any[]>([]);
-  const [showAddZone, setShowAddZone] = useState(false);
   const [zoneName, setZoneName] = useState("");
   const [zoneFee, setZoneFee] = useState("");
+
+  //ERROR/SUCCESS STATE
+  const [staffError, setStaffError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [giftCardError, setGiftCardError] = useState("");
+  const [riderError, setRiderError] = useState("");
   const [zoneError, setZoneError] = useState("");
   const [inviteSuccess, setInviteSuccess] = useState<{
     email: string;
     tempPassword: string;
   } | null>(null);
+  const [issuedCard, setIssuedCard] = useState<any>(null);
 
-  const addRider = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setRiderError("");
-    try {
-      const res = await api.post(`/businesses/${activeBusinessId}/riders`, {
-        name: riderName,
-        phone: riderPhone,
-      });
-      setRiders((prev) => [...prev, res.data.rider]);
-      setShowAddRider(false);
-      setRiderName("");
-      setRiderPhone("");
-    } catch (err: any) {
-      setRiderError(err.response?.data?.message || "Could not add rider");
-    }
-  };
-  const issueGiftCard = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setGiftCardError("");
-    try {
-      const res = await api.post(`/businesses/${activeBusinessId}/gift-cards`, {
-        value: Number(giftCardValue),
-      });
-      setGiftCards((prev) => [...prev, res.data.card]);
-      setIssuedCard(res.data.card);
-      setShowIssueGiftCard(false);
-      setGiftCardValue("");
-    } catch (err: any) {
-      setGiftCardError(
-        err.response?.data?.message || "Could not issue gift card",
-      );
-    }
-  };
+  const activeBusinessId = businesses[0]?.id;
 
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
+  const [staffLoading, setStaffLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [riderLoading, setRiderLoading] = useState(false);
+  const [zoneLoading, setZoneLoading] = useState(false);
+  const [giftCardLoading, setGiftCardLoading] = useState(false);
+
+  //data initialization
   useEffect(() => {
-    if (activeBusinessId) {
-      api
-        .get(`/businesses/${activeBusinessId}/staff`)
-        .then((res) => setStaff(res.data.staff));
-    }
-  }, [activeBusinessId]);
+    if (!user?.id) return;
+    const initData = async () => {
+      try {
+        setSubscriptionLoading(true);
+        const currentSubscription = await getSubscription(user.id);
+        if (currentSubscription.status === "expired") {
+          setShowUpgradeModal(true);
+        }
+      } catch (error) {
+        console.error("Error initializing subscription:", error);
+      } finally {
+        setSubscriptionLoading(false);
+      }
+    };
 
+    initData();
+  }, [user?.id, getSubscription]);
+
+  //staff
   useEffect(() => {
-    if (activeBusinessId) {
-      api
-        .get(`/businesses/${activeBusinessId}/gift-cards`)
-        .then((res) => setGiftCards(res.data.cards))
-        .catch(() => {});
-    }
-  }, [activeBusinessId]);
+    if (!activeBusinessId) return;
+    getStaff(activeBusinessId).catch((err) =>
+      console.error("Error fetching staff:", err),
+    );
+  }, [activeBusinessId, getStaff]);
 
+  // gift cards
   useEffect(() => {
-    if (activeBusinessId) {
-      api
-        .get(`/businesses/${activeBusinessId}/riders`)
-        .then((res) => setRiders(res.data.riders))
-        .catch(() => {});
-    }
-  }, [activeBusinessId]);
+    if (!activeBusinessId) return;
+    getGiftCards(activeBusinessId).catch(() => {});
+  }, [activeBusinessId, getGiftCards]);
 
-  const inviteStaff = async (e: React.FormEvent) => {
+  //riders
+  useEffect(() => {
+    if (!activeBusinessId) return;
+    getRiders(activeBusinessId).catch(() => {});
+  }, [activeBusinessId, getRiders]);
+
+  //zones
+  useEffect(() => {
+    if (!activeBusinessId) return;
+    getZones(activeBusinessId).catch(() => {});
+  }, [activeBusinessId, getZones]);
+
+  // Handlers
+  const handleInviteStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     setStaffError("");
+
     try {
-      const res = await api.post(`/businesses/${activeBusinessId}/staff`, {
+      setStaffLoading(true);
+      await inviteStaff(activeBusinessId, {
         name: staffName,
         email: staffEmail,
         role: staffRole,
         tempPassword: staffPassword,
       });
-      setStaff((prev) => [...prev, res.data.staff]);
+
       setInviteSuccess({ email: staffEmail, tempPassword: staffPassword });
       setShowInvite(false);
       setStaffName("");
       setStaffEmail("");
       setStaffPassword("");
     } catch (err: any) {
-      setStaffError(
-        err.response?.data?.message || "Could not add staff member",
-      );
+      if (err.response?.data?.code === "STAFF_LIMIT_REACHED") {
+        setStaffError(
+          "You've reached your staff limit for your current plan. Upgrade to add more team members.",
+        );
+      } else {
+        setStaffError(
+          err.response?.data?.message || "Could not add staff member",
+        );
+      }
+    } finally {
+      setStaffLoading(false);
     }
   };
 
-  const removeStaffMember = async (staffId: number) => {
-    await api.delete(`/businesses/${activeBusinessId}/staff/${staffId}`);
-    setStaff((prev) => prev.filter((s) => s.id !== staffId));
+  const handleRemoveStaff = async (staffId: number) => {
+    try {
+      setStaffLoading(true);
+      await removeStaff(activeBusinessId, staffId);
+    } catch (err: any) {
+      setStaffError(err.response?.data?.message || "Could not remove staff");
+    } finally {
+      setStaffLoading(false);
+    }
   };
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setPasswordError("");
     setPasswordSuccess("");
 
@@ -147,6 +186,7 @@ export default function SettingsPage() {
     }
 
     try {
+      setPasswordLoading(true);
       const response = await updatePassword(currentPassword, newPassword);
       setPasswordSuccess(response.message);
       setCurrentPassword("");
@@ -156,42 +196,98 @@ export default function SettingsPage() {
       setPasswordError(
         err.response?.data?.message || "Could not update password.",
       );
+    } finally {
+      setPasswordLoading(false);
     }
   };
-  useEffect(() => {
-    if (activeBusinessId) {
-      api
-        .get(`/businesses/${activeBusinessId}/delivery-zones`)
-        .then((res) => setZones(res.data.zones))
-        .catch(() => {});
-    }
-  }, [activeBusinessId]);
 
-  const addZone = async (e: React.FormEvent) => {
+  const handleIssueGiftCard = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setGiftCardError("");
+
+    try {
+      setGiftCardLoading(true);
+      const card = await issueGiftCard(activeBusinessId, Number(giftCardValue));
+      setIssuedCard(card);
+      setShowIssueGiftCard(false);
+      setGiftCardValue("");
+    } catch (err: any) {
+      setGiftCardError(
+        err.response?.data?.message || "Could not issue gift card",
+      );
+    } finally {
+      setGiftCardLoading(false);
+    }
+  };
+
+  const handleAddRider = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setRiderError("");
+
+    try {
+      setRiderLoading(true);
+      await addRider(activeBusinessId, {
+        name: riderName,
+        phone: riderPhone,
+      });
+
+      setShowAddRider(false);
+      setRiderName("");
+      setRiderPhone("");
+    } catch (err: any) {
+      setRiderError(err.response?.data?.message || "Could not add rider");
+    } finally {
+      setRiderLoading(false);
+    }
+  };
+
+  const handleAddZone = async (e: React.FormEvent) => {
     e.preventDefault();
     setZoneError("");
+
     try {
-      const res = await api.post(
-        `/businesses/${activeBusinessId}/delivery-zones`,
-        { name: zoneName, fee: Number(zoneFee) },
-      );
-      setZones((prev) => [...prev, res.data.zone]);
+      setZoneLoading(true);
+      await addZone(activeBusinessId, {
+        name: zoneName,
+        fee: Number(zoneFee),
+      });
+
       setShowAddZone(false);
       setZoneName("");
       setZoneFee("");
     } catch (err: any) {
       setZoneError(err.response?.data?.message || "Could not add zone");
+    } finally {
+      setZoneLoading(false);
     }
   };
 
-  const removeZone = async (zoneId: number) => {
-    await api.delete(
-      `/businesses/${activeBusinessId}/delivery-zones/${zoneId}`,
-    );
-    setZones((prev) => prev.filter((z) => z.id !== zoneId));
+  const handleRemoveZone = async (zoneId: number) => {
+    try {
+      setZoneLoading(true);
+      await removeZone(activeBusinessId, zoneId);
+    } catch (err: any) {
+      setZoneError(err.response?.data?.message || "Could not remove zone");
+    } finally {
+      setZoneLoading(false);
+    }
   };
+
   return (
     <>
+      {subscription && <TrialBanner subscription={subscription} />}
+      {subscription && (
+        <StaffLimitWarning
+          subscription={subscription}
+          staffCount={staff.length}
+        />
+      )}
+      <UpgradePromptModal
+        subscription={subscription}
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+      />
+
       <div className="dash-welcome">
         <div className="dash-welcome-eyebrow">
           <span className="dash-welcome-icon">
@@ -280,8 +376,12 @@ export default function SettingsPage() {
             </div>
           )}
 
-          <button type="submit" className="btn-create" disabled={isLoading}>
-            {isLoading ? "Updating..." : "Update Password"}
+          <button
+            type="submit"
+            className="btn-create"
+            disabled={passwordLoading}
+          >
+            {passwordLoading ? "Updating..." : "Update Password"}
           </button>
         </form>
       </div>
@@ -317,7 +417,7 @@ export default function SettingsPage() {
               </div>
               <button
                 className="icon-btn-small warn"
-                onClick={() => removeStaffMember(s.id)}
+                onClick={() => handleRemoveStaff(s.id)}
               >
                 Remove
               </button>
@@ -373,7 +473,7 @@ export default function SettingsPage() {
         <div className="modal-overlay" onClick={() => setShowAddRider(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Add Rider</h3>
-            <form onSubmit={addRider}>
+            <form onSubmit={handleAddRider}>
               <div className="modal-field">
                 <label>Name</label>
                 <input
@@ -412,7 +512,7 @@ export default function SettingsPage() {
         <div className="modal-overlay" onClick={() => setShowInvite(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Add Team Member</h3>
-            <form onSubmit={inviteStaff}>
+            <form onSubmit={handleInviteStaff}>
               <div className="modal-field">
                 <label>Name</label>
                 <input
@@ -583,9 +683,10 @@ export default function SettingsPage() {
                 </span>
                 <button
                   className="icon-btn-small warn"
-                  onClick={() => removeZone(z.id)}
+                  onClick={() => handleRemoveZone(z.id)}
+                  disabled={zoneLoading}
                 >
-                  Remove
+                  {zoneLoading ? "Removing..." : "Remove"}
                 </button>
               </div>
             </div>
@@ -597,7 +698,7 @@ export default function SettingsPage() {
         <div className="modal-overlay" onClick={() => setShowAddZone(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Add Delivery Zone</h3>
-            <form onSubmit={addZone}>
+            <form onSubmit={handleAddZone}>
               <div className="modal-field">
                 <label>Zone Name</label>
                 <input
@@ -686,7 +787,7 @@ export default function SettingsPage() {
         >
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h3>Issue Gift Card</h3>
-            <form onSubmit={issueGiftCard}>
+            <form onSubmit={handleIssueGiftCard}>
               <div className="modal-field">
                 <label>Value (₦)</label>
                 <input

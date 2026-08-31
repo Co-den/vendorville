@@ -116,19 +116,19 @@ export function SignupWizard() {
             <Step1Identity register={register} errors={errors} watch={watch} />
           )}
           {currentStep === 2 && (
-                   <Step2Business
-                 register={register}
-                control={control}
-                errors={errors}
-             />
-              )}
+            <Step2Business
+              register={register}
+              control={control}
+              errors={errors}
+            />
+          )}
           {currentStep === 3 && (
-  <Step3Location
-    register={register}
-    control={control}
-    errors={errors}
-  />
-)}
+            <Step3Location
+              register={register}
+              control={control}
+              errors={errors}
+            />
+          )}
           {currentStep === 4 && (
             <Step4Security
               control={control}

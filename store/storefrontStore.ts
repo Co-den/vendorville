@@ -42,7 +42,6 @@ export interface CheckoutPayload {
   deliveryZoneId: number;
   paymentMethod: "paystack" | "pay_on_delivery";
   items: { productId: number; quantity: number }[];
-  
 }
 
 interface StorefrontState {

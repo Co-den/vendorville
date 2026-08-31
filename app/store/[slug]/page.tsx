@@ -1,13 +1,20 @@
 "use client";
 
-
 import "@/app/dashboard/dashboard.css";
 import NavbarMobile from "@/components/NavbarMobile";
 import api from "@/store/axiosInstance";
 import { useReviewStore } from "@/store/reviewStore";
 import { useStorefrontStore } from "@/store/storefrontStore";
 import PaystackPop from "@paystack/inline-js";
-import { Mail, MapPin, ShoppingCart, Star } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  ShoppingCart,
+  Star,
+  Check,
+  ChevronDown,
+  Search,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -70,12 +77,14 @@ export default function StorefrontPage() {
   const [checkoutError, setCheckoutError] = useState("");
   const [orderSuccess, setOrderSuccess] = useState<any>(null);
   const [deliveryZoneId, setDeliveryZoneId] = useState<number | null>(null);
+  const [deliveryZoneOpen, setDeliveryZoneOpen] = useState(false);
+  const [deliveryZoneSearch, setDeliveryZoneSearch] = useState("");
+  const [paymentDropdownOpen, setPaymentDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (slug) fetchStorefront(slug);
   }, [slug]);
 
-  // for reviews
   useEffect(() => {
     if (slug) fetchPublicReviews(slug);
   }, [slug]);
@@ -219,8 +228,6 @@ export default function StorefrontPage() {
       const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
       if (!publicKey) {
-        console.error("NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY is missing");
-
         setCheckoutError(
           "Paystack public key is missing. Please check your environment configuration.",
         );
@@ -252,23 +259,15 @@ export default function StorefrontPage() {
           currency: "NGN",
           reference: order.paystackReference,
           onSuccess: async (transaction: any) => {
-            console.log("PAYSTACK SUCCESS:", transaction);
-
             try {
               console.log("Verifying payment...");
 
               await verifyPayment(slug, transaction.reference);
-
-              console.log("Payment verified successfully");
-
               setOrderSuccess(order);
               setCart([]);
               setShowCheckout(false);
               resetCheckout();
             } catch (err: any) {
-              console.error("PAYMENT VERIFICATION ERROR:", err);
-              console.error("RESPONSE:", err.response?.data);
-
               setCheckoutError(
                 err.response?.data?.message ||
                   "Payment was received but verification failed. Please contact the vendor.",
@@ -277,31 +276,21 @@ export default function StorefrontPage() {
           },
 
           onCancel: () => {
-            console.log("PAYSTACK PAYMENT CANCELLED");
-
             setCheckoutError(
               "Payment was cancelled. Your order has been saved as pending.",
             );
           },
 
           onError: (error: any) => {
-            console.error("PAYSTACK ERROR:", error);
-
             setCheckoutError(
               error?.message ||
                 "Paystack could not process the payment. Please try again.",
             );
           },
 
-          onLoad: (response: any) => {
-            console.log("PAYSTACK CHECKOUT LOADED:", response);
-          },
+          onLoad: (response: any) => {},
         });
-
-        console.log("Paystack V2 transaction started");
       } catch (err: any) {
-        console.error("PAYSTACK SETUP ERROR:", err);
-
         setCheckoutError(
           err?.message ||
             "Your order was saved, but we could not start the payment popup.",
@@ -518,7 +507,6 @@ export default function StorefrontPage() {
                 transform: `translateX(-${activeIndex * (100 / tabs.length)}%)`,
               }}
             >
-              {/* ===== OVERVIEW TAB ===== */}
               <div className="sf-slide">
                 <div className="panel">
                   <h2>About this Business</h2>
@@ -575,42 +563,68 @@ export default function StorefrontPage() {
                             ) : (
                               <span>{product.name[0]}</span>
                             )}
+
+                            <button
+                              type="button"
+                              className="product-image-action"
+                              aria-label={`View ${product.name}`}
+                            >
+                              <svg
+                                width="17"
+                                height="17"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              >
+                                <path d="M15 3h6v6" />
+                                <path d="M10 14L21 3" />
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                              </svg>
+                            </button>
                           </div>
+
                           <div className="storefront-product-info">
-                            <div className="storefront-product-name">
+                            <h3 className="storefront-product-name">
                               {product.name}
-                            </div>
-                            <div className="storefront-product-price">
-                              ₦{product.price.toLocaleString()}
-                            </div>
-                            {inCart ? (
-                              <div
-                                className="pos-qty-control"
-                                style={{ justifyContent: "center" }}
-                              >
+                            </h3>
+
+                            <div className="storefront-product-bottom">
+                              <span className="storefront-product-price">
+                                ₦{product.price.toLocaleString()}
+                              </span>
+
+                              {inCart ? (
+                                <div className="pos-qty-control">
+                                  <button
+                                    type="button"
+                                    onClick={() => updateQty(product.id, -1)}
+                                  >
+                                    −
+                                  </button>
+
+                                  <span>{inCart.quantity}</span>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => updateQty(product.id, 1)}
+                                    disabled={inCart.quantity >= product.stock}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              ) : (
                                 <button
                                   type="button"
-                                  onClick={() => updateQty(product.id, -1)}
+                                  className="storefront-add-btn"
+                                  onClick={() => addToCart(product)}
                                 >
-                                  −
+                                  Add
                                 </button>
-                                <span>{inCart.quantity}</span>
-                                <button
-                                  type="button"
-                                  onClick={() => updateQty(product.id, 1)}
-                                  disabled={inCart.quantity >= product.stock}
-                                >
-                                  +
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                className="storefront-add-btn"
-                                onClick={() => addToCart(product)}
-                              >
-                                Add to Cart
-                              </button>
-                            )}
+                              )}
+                            </div>
                           </div>
                         </div>
                       );
@@ -619,7 +633,6 @@ export default function StorefrontPage() {
                 )}
               </div>
 
-              {/* ===== LOCATIONS TAB ===== */}
               <div className="sf-slide">
                 <div className="panel">
                   <h2>Location</h2>
@@ -831,7 +844,6 @@ export default function StorefrontPage() {
             </div>
           </div>
 
-          {/* ===== FIXED CONTACT SIDEBAR ===== */}
           <aside className="sf-sidebar">
             <div className="panel">
               <h2 style={{ marginBottom: 16 }}>Contact Details</h2>
@@ -1093,32 +1105,199 @@ export default function StorefrontPage() {
                   <hr className="section-divider" />
                   <div className="field-group">
                     <label className="field-label">Payment Method</label>
-                    <select
-                      value={paymentMethod}
-                      onChange={(e) => setPaymentMethod(e.target.value as any)}
-                    >
-                      <option value="pay_on_delivery">Pay on Delivery</option>
-                      <option value="paystack">Pay Now (Card/Transfer)</option>
-                    </select>
+
+                    <div className="custom-select">
+                      <button
+                        type="button"
+                        className="custom-select-trigger"
+                        onClick={() => setPaymentDropdownOpen((prev) => !prev)}
+                      >
+                        <span>
+                          {paymentMethod === "pay_on_delivery"
+                            ? "Pay on Delivery"
+                            : "Pay Now (Card/Transfer)"}
+                        </span>
+
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </button>
+
+                      {paymentDropdownOpen && (
+                        <div className="custom-select-dropdown">
+                          <button
+                            type="button"
+                            className={`custom-option ${
+                              paymentMethod === "pay_on_delivery"
+                                ? "selected"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              setPaymentMethod("pay_on_delivery");
+                              setPaymentDropdownOpen(false);
+                            }}
+                          >
+                            <div>
+                              <strong>Pay on Delivery</strong>
+                              <span>Pay when your order arrives</span>
+                            </div>
+
+                            {paymentMethod === "pay_on_delivery" && (
+                              <svg
+                                width="17"
+                                height="17"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2.5"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            )}
+                          </button>
+
+                          <button
+                            type="button"
+                            className={`custom-option ${
+                              paymentMethod === "paystack" ? "selected" : ""
+                            }`}
+                            onClick={() => {
+                              setPaymentMethod("paystack");
+                              setPaymentDropdownOpen(false);
+                            }}
+                          >
+                            <div>
+                              <strong>Pay Now</strong>
+                              <span>Card or bank transfer</span>
+                            </div>
+
+                            {paymentMethod === "paystack" && (
+                              <svg
+                                width="17"
+                                height="17"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2.5"
+                              >
+                                <polyline points="20 6 9 17 4 12" />
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="field-group">
                     <label className="field-label">Delivery Zone *</label>
-                    <select
-                      required
-                      value={deliveryZoneId ?? ""}
-                      onChange={(e) =>
-                        setDeliveryZoneId(
-                          e.target.value === "" ? null : Number(e.target.value),
-                        )
-                      }
-                    >
-                      <option value="">Select your area</option>
-                      {business?.deliveryZones.map((zone) => (
-                        <option key={zone.id} value={zone.id}>
-                          {zone.name} — ₦{zone.fee.toLocaleString()}
-                        </option>
-                      ))}
-                    </select>
+
+                    <div className="delivery-zone-select">
+                      {/* Trigger */}
+                      <button
+                        type="button"
+                        className={`delivery-zone-trigger ${
+                          deliveryZoneId ? "has-value" : ""
+                        }`}
+                        onClick={() => {
+                          setDeliveryZoneOpen((prev) => !prev);
+                          setDeliveryZoneSearch("");
+                        }}
+                      >
+                        <span>
+                          {deliveryZoneId
+                            ? business?.deliveryZones.find(
+                                (zone) => zone.id === deliveryZoneId,
+                              )?.name +
+                              " - ₦" +
+                              business?.deliveryZones
+                                .find((zone) => zone.id === deliveryZoneId)
+                                ?.fee.toLocaleString()
+                            : "Select your area"}
+                        </span>
+
+                        <ChevronDown
+                          size={17}
+                          className={`delivery-zone-chevron ${
+                            deliveryZoneOpen ? "rotate" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {/* Dropdown */}
+                      {deliveryZoneOpen && (
+                        <div className="delivery-zone-dropdown">
+                          {/* Search */}
+                          <div className="delivery-zone-search">
+                            <Search size={16} />
+
+                            <input
+                              type="text"
+                              placeholder="Search your area..."
+                              value={deliveryZoneSearch}
+                              onChange={(e) =>
+                                setDeliveryZoneSearch(e.target.value)
+                              }
+                              autoFocus
+                            />
+                          </div>
+
+                          {/* Options */}
+                          <div className="delivery-zone-options">
+                            {business?.deliveryZones
+                              .filter((zone) =>
+                                zone.name
+                                  .toLowerCase()
+                                  .includes(deliveryZoneSearch.toLowerCase()),
+                              )
+                              .map((zone) => (
+                                <button
+                                  type="button"
+                                  key={zone.id}
+                                  className={`delivery-zone-option ${
+                                    deliveryZoneId === zone.id ? "selected" : ""
+                                  }`}
+                                  onClick={() => {
+                                    setDeliveryZoneId(zone.id);
+                                    setDeliveryZoneOpen(false);
+                                    setDeliveryZoneSearch("");
+                                  }}
+                                >
+                                  <div className="delivery-zone-option-content">
+                                    <span className="delivery-zone-name">
+                                      {zone.name}
+                                    </span>
+
+                                    <span className="delivery-zone-fee">
+                                      ₦{zone.fee.toLocaleString()}
+                                    </span>
+                                  </div>
+
+                                  {deliveryZoneId === zone.id && (
+                                    <Check size={16} />
+                                  )}
+                                </button>
+                              ))}
+
+                            {business?.deliveryZones.filter((zone) =>
+                              zone.name
+                                .toLowerCase()
+                                .includes(deliveryZoneSearch.toLowerCase()),
+                            ).length === 0 && (
+                              <div className="delivery-zone-empty">
+                                No delivery zone found
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   {myPoints > 0 && (
                     <div className="field-group">

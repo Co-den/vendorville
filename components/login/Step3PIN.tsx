@@ -1,56 +1,56 @@
-'use client'
+"use client";
 
-import { CompleteLoginData } from '@/app/auth/login/schema'
-import { useEffect, useRef } from 'react'
-import { useFormContext } from 'react-hook-form'
+import { CompleteLoginData } from "@/app/auth/login/schema";
+import { useEffect, useRef } from "react";
+import { useFormContext } from "react-hook-form";
 
 export function Step3PIN() {
-  const pinInputsRef = useRef<HTMLInputElement[]>([])
+  const pinInputsRef = useRef<HTMLInputElement[]>([]);
   const {
     register,
     setValue,
     formState: { errors },
-  } = useFormContext<CompleteLoginData>()
+  } = useFormContext<CompleteLoginData>();
 
   useEffect(() => {
-    const cleanups: (() => void)[] = []
+    const cleanups: (() => void)[] = [];
 
     pinInputsRef.current.forEach((input, index) => {
-      if (!input) return
+      if (!input) return;
 
       const handleInput = (e: Event) => {
-        const target = e.target as HTMLInputElement
-        target.value = target.value.replace(/\D/g, '').slice(-1)
+        const target = e.target as HTMLInputElement;
+        target.value = target.value.replace(/\D/g, "").slice(-1);
 
         if (target.value && index < pinInputsRef.current.length - 1) {
-          pinInputsRef.current[index + 1]?.focus()
+          pinInputsRef.current[index + 1]?.focus();
         }
 
         // Update form value
-        const pinArray = pinInputsRef.current.map((inp) => inp.value)
-        setValue('pin', pinArray.join(''))
-      }
+        const pinArray = pinInputsRef.current.map((inp) => inp.value);
+        setValue("pin", pinArray.join(""));
+      };
 
       const handleKeyDown = (e: KeyboardEvent) => {
-        const target = e.target as HTMLInputElement
-        if (e.key === 'Backspace' && !target.value && index > 0) {
-          pinInputsRef.current[index - 1]?.focus()
+        const target = e.target as HTMLInputElement;
+        if (e.key === "Backspace" && !target.value && index > 0) {
+          pinInputsRef.current[index - 1]?.focus();
         }
-      }
+      };
 
-      input.addEventListener('input', handleInput)
-      input.addEventListener('keydown', handleKeyDown)
+      input.addEventListener("input", handleInput);
+      input.addEventListener("keydown", handleKeyDown);
 
       cleanups.push(() => {
-        input.removeEventListener('input', handleInput)
-        input.removeEventListener('keydown', handleKeyDown)
-      })
-    })
+        input.removeEventListener("input", handleInput);
+        input.removeEventListener("keydown", handleKeyDown);
+      });
+    });
 
     return () => {
-      cleanups.forEach((cleanup) => cleanup())
-    }
-  }, [setValue])
+      cleanups.forEach((cleanup) => cleanup());
+    };
+  }, [setValue]);
 
   return (
     <div className="step-content">
@@ -65,23 +65,24 @@ export function Step3PIN() {
             <input
               key={index}
               ref={(el) => {
-                if (el) pinInputsRef.current[index] = el
+                if (el) pinInputsRef.current[index] = el;
               }}
               type="password"
               inputMode="numeric"
               maxLength={1}
               aria-invalid={!!errors.pin}
-              className={errors.pin ? 'error' : ''}
+              className={errors.pin ? "error" : ""}
             />
           ))}
         </div>
-        <input type="hidden" {...register('pin')} />
+        <input type="hidden" {...register("pin")} />
         {errors.pin && <span className="error-text">{errors.pin.message}</span>}
       </div>
 
       <p className="helper-text">
-        Your PIN provides an extra layer of security to access your VendorHub account.
+        Your PIN provides an extra layer of security to access your VendorHub
+        account.
       </p>
     </div>
-  )
+  );
 }

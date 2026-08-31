@@ -1,0 +1,80 @@
+.staff-limit-warning {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.staff-limit-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+
+.staff-limit-content {
+  flex: 1;
+}
+
+.staff-limit-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #991b1b;
+  margin: 0 0 6px;
+}
+
+.staff-limit-text {
+  font-size: 0.85rem;
+  color: #7f1d1d;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.staff-limit-plans {
+  margin-bottom: 12px;
+}
+
+.staff-limit-plans-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #991b1b;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.staff-limit-plans-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #7f1d1d;
+}
+
+.staff-limit-plans-list li {
+  padding: 4px 0;
+}
+
+.staff-limit-upgrade-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.staff-limit-upgrade-btn:hover {
+  background: #991b1b;
+}

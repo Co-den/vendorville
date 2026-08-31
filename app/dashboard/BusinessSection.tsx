@@ -89,13 +89,10 @@ export default function BusinessSection() {
   const saveAvailability = async () => {
     setSavingAvailability(true);
     try {
-      await api.patch(
-        `/businesses/${editingAvailability.id}/availability`,
-        {
-          isAvailable,
-          availableDays: availDays,
-        },
-      );
+      await api.patch(`/businesses/${editingAvailability.id}/availability`, {
+        isAvailable,
+        availableDays: availDays,
+      });
       await fetchBusinesses();
       setEditingAvailability(null);
     } catch (err) {
@@ -338,135 +335,134 @@ export default function BusinessSection() {
       ) : (
         <div className="biz-grid">
           {businesses.map((biz: any) => (
-  <div className="biz-card" key={biz.id}>
-    {/* Header */}
-    <div className="biz-card-header">
-      <div className="biz-logo">
-        {biz.logoUrl ? (
-          <img src={biz.logoUrl} alt={biz.name} />
-        ) : (
-          <span>{biz.name?.[0]?.toUpperCase()}</span>
-        )}
-      </div>
+            <div className="biz-card" key={biz.id}>
+              {/* Header */}
+              <div className="biz-card-header">
+                <div className="biz-logo">
+                  {biz.logoUrl ? (
+                    <img src={biz.logoUrl} alt={biz.name} />
+                  ) : (
+                    <span>{biz.name?.[0]?.toUpperCase()}</span>
+                  )}
+                </div>
 
-      <div className="biz-card-info">
-        <div className="biz-name-row">
-          <h3 className="biz-name">{biz.name}</h3>
+                <div className="biz-card-info">
+                  <div className="biz-name-row">
+                    <h3 className="biz-name">{biz.name}</h3>
 
-          <span
-            className={`biz-verified ${
-              biz.isVerified ? "verified" : "pending"
-            }`}
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              width="11"
-              height="11"
-            >
-              {biz.isVerified ? (
-                <polyline points="20 6 9 17 4 12" />
-              ) : (
-                <>
-                  <circle cx="12" cy="12" r="9" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </>
-              )}
-            </svg>
+                    <span
+                      className={`biz-verified ${
+                        biz.isVerified ? "verified" : "pending"
+                      }`}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        width="11"
+                        height="11"
+                      >
+                        {biz.isVerified ? (
+                          <polyline points="20 6 9 17 4 12" />
+                        ) : (
+                          <>
+                            <circle cx="12" cy="12" r="9" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                          </>
+                        )}
+                      </svg>
 
-            {biz.isVerified ? "Verified" : "Pending"}
-          </span>
-        </div>
+                      {biz.isVerified ? "Verified" : "Pending"}
+                    </span>
+                  </div>
 
-        <div className="biz-meta">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            width="14"
-            height="14"
-          >
-            <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
+                  <div className="biz-meta">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      width="14"
+                      height="14"
+                    >
+                      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
 
-          <span>{biz.address || "No address provided"}</span>
-        </div>
-      </div>
-    </div>
+                    <span>{biz.address || "No address provided"}</span>
+                  </div>
+                </div>
+              </div>
 
-    {/* Status */}
-    <div className="biz-card-status">
-      <div className="status-info">
-        <span
-          className={`status-dot ${
-            biz.isAvailable ? "open" : "closed"
-          }`}
-        />
+              {/* Status */}
+              <div className="biz-card-status">
+                <div className="status-info">
+                  <span
+                    className={`status-dot ${
+                      biz.isAvailable ? "open" : "closed"
+                    }`}
+                  />
 
-        <div>
-          <span className="status-label">Store Status</span>
+                  <div>
+                    <span className="status-label">Store Status</span>
 
-          <span
-            className={`status-value ${
-              biz.isAvailable ? "open" : "closed"
-            }`}
-          >
-            {biz.isAvailable ? "Currently Available" : "Currently Unavailable"}
-          </span>
-        </div>
-      </div>
+                    <span
+                      className={`status-value ${
+                        biz.isAvailable ? "open" : "closed"
+                      }`}
+                    >
+                      {biz.isAvailable
+                        ? "Currently Available"
+                        : "Currently Unavailable"}
+                    </span>
+                  </div>
+                </div>
 
-      <button
-        type="button"
-        className="status-edit-btn"
-        onClick={() => openAvailabilityEditor(biz)}
-      >
-        Change
-      </button>
-    </div>
+                <button
+                  type="button"
+                  className="status-edit-btn"
+                  onClick={() => openAvailabilityEditor(biz)}
+                >
+                  Change
+                </button>
+              </div>
 
-    {/* Footer */}
-    <div className="biz-card-footer">
-      <span className="biz-store-label">
-        Your storefront
-      </span>
+              {/* Footer */}
+              <div className="biz-card-footer">
+                <span className="biz-store-label">Your storefront</span>
 
-      <a
-        href={`/store/${biz.slug}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="biz-store-link"
-        title="View your storefront"
-      >
-        View Store
-
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          width="15"
-          height="15"
-        >
-          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-          <polyline points="15 3 21 3 21 9" />
-          <line x1="10" y1="14" x2="21" y2="3" />
-        </svg>
-      </a>
-    </div>
-  </div>
-))}
+                <a
+                  href={`/store/${biz.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="biz-store-link"
+                  title="View your storefront"
+                >
+                  View Store
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    width="15"
+                    height="15"
+                  >
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

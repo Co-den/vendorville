@@ -1,10 +1,9 @@
-'use client'
+"use client";
 
-import { SignupWizard } from '@/components/signup/SignupWizard'
-import './signup.css'
+import { SignupWizard } from "@/components/signup/SignupWizard";
+import "./signup.css";
 
 export default function SignupPage() {
-
   return (
     <div className="signup-container">
       <div className="brand-panel">
@@ -23,8 +22,8 @@ export default function SignupPage() {
             The Future of<span>Vendor Ops.</span>
           </h1>
           <p className="sub">
-            Experience the next generation of vendor management. Secure, intelligent,
-            and built for scale.
+            Experience the next generation of vendor management. Secure,
+            intelligent, and built for scale.
           </p>
           <div className="brand-feats">
             <div className="bf-item">
@@ -85,5 +84,5 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

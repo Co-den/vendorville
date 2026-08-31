@@ -182,7 +182,8 @@
 .ca-brand-content h1 span {
   display: block;
   color: #7fd99a;
-  font-family:Space Grotesk,
+  font-family:
+    Space Grotesk,
     sans-serif;
   font-weight: 700;
 }
@@ -191,7 +192,7 @@
   margin-top: 20px;
   color: #cfe0d4;
   font-size: 1.02rem;
-  font-family:inter;
+  font-family: inter;
   line-height: 1.6;
   max-width: 38ch;
   opacity: 0;
@@ -240,7 +241,7 @@
 .ca-tagline {
   text-align: center;
   color: var(--gray);
-  font-family:inter;
+  font-family: inter;
   font-size: 0.82rem;
   margin-top: 12px;
   margin-bottom: 24px;

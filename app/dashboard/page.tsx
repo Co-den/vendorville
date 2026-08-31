@@ -4,7 +4,16 @@ import { useAuthStore } from "@/store/authStore";
 import { useBusinessStore } from "@/store/businessStore";
 import { useOrderStore } from "@/store/orderStore";
 import { useProductStore } from "@/store/productStore";
-import { Box, LayoutGrid, ShoppingCart, TrendingUp, TriangleAlert } from "lucide-react";
+import TrialBanner from "@/components/TrialBanner.jsx";
+import StaffLimitWarning from "@/components/StaffLimitWarning.jsx";
+import UpgradePromptModal from "@/components/UpgradePromptModal.jsx";
+import {
+  Box,
+  LayoutGrid,
+  ShoppingCart,
+  TrendingUp,
+  TriangleAlert,
+} from "lucide-react";
 import Script from "next/script";
 import { JSX, useEffect, useMemo, useState } from "react";
 import {
@@ -91,7 +100,6 @@ export default function DashboardOverview() {
   const { businesses, fetchBusinesses } = useBusinessStore();
   const { products, fetchProducts } = useProductStore();
   const { orders, fetchOrders } = useOrderStore();
-
   const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -195,7 +203,7 @@ export default function DashboardOverview() {
             <div className="stat-card">
               <div className="stat-card-top">
                 <div className="stat-icon1">
-                   <TrendingUp size={25} />
+                  <TrendingUp size={25} />
                 </div>
               </div>
               <div className="stat-value">₦{totalRevenue.toLocaleString()}</div>
@@ -204,7 +212,7 @@ export default function DashboardOverview() {
             <div className="stat-card">
               <div className="stat-card-top">
                 <div className="stat-icon2">
-                   <ShoppingCart size={25} />
+                  <ShoppingCart size={25} />
                 </div>
               </div>
               <div className="stat-value">{ordersToday.length}</div>
@@ -213,7 +221,7 @@ export default function DashboardOverview() {
             <div className="stat-card">
               <div className="stat-card-top">
                 <div className="stat-icon3">
-                   <Box size={29}/>
+                  <Box size={29} />
                 </div>
               </div>
               <div className="stat-value">{products.length}</div>

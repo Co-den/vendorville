@@ -144,7 +144,6 @@ export default function AdminOverviewPage() {
           <div className="loading-spinner" />
           <span>Loading dashboard...</span>
         </div>
-
       </>
     );
   }
@@ -492,9 +491,10 @@ export default function AdminOverviewPage() {
                         cx="50%"
                         cy="50%"
                         outerRadius={85}
-                        label={(
-                          entry: { payload?: { state?: string }; name?: string }
-                        ) => entry.payload?.state ?? entry.name ?? ""}
+                        label={(entry: {
+                          payload?: { state?: string };
+                          name?: string;
+                        }) => entry.payload?.state ?? entry.name ?? ""}
                       >
                         {stats.locationData.map((item, index) => (
                           <Cell

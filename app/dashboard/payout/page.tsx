@@ -1,7 +1,7 @@
 "use client";
 
 import { useWalletStore } from "@/store/walletStore";
-import { BanknoteArrowDown, RefreshCw, Wallet } from 'lucide-react';
+import { BanknoteArrowDown, RefreshCw, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type BankAccount = {
@@ -272,7 +272,9 @@ export default function PayoutPage() {
           </div>
 
           <div className="payout-action-title">Send Money</div>
-          <div className="payout-action-sub">Send funds to another wallet instantly</div>
+          <div className="payout-action-sub">
+            Send funds to another wallet instantly
+          </div>
         </div>
 
         <div
@@ -297,7 +299,7 @@ export default function PayoutPage() {
         </div>
 
         <button className="icon-btn-small" onClick={fetchWallet}>
-          <RefreshCw size={25}/>
+          <RefreshCw size={25} />
         </button>
       </div>
 

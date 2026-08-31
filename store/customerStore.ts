@@ -34,9 +34,7 @@ export const useCustomerStore = create<CustomerState>((set, get) => ({
   fetchCustomers: async (businessId) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await api.get(
-        `/businesses/${businessId}/customers`,
-      );
+      const response = await api.get(`/businesses/${businessId}/customers`);
       set({ customers: response.data.customers, isLoading: false });
     } catch (error: any) {
       set({

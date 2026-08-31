@@ -71,8 +71,6 @@
   z-index: 2;
 }
 
-
-
 .discover-hero h1 {
   font-family: var(--font-fraunces), "Fraunces", serif;
   font-weight: 800;
@@ -95,8 +93,8 @@
   gap: 10px;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-border-radius: 2rem;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   padding: 14px 20px;
 }
 
@@ -105,7 +103,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   height: 18px;
   color: var(--gray);
   flex-shrink: 0;
-  
 }
 
 .discover-search-bar input {
@@ -181,14 +178,13 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   opacity: 0;
   animation: fadeInUp 0.7s ease 0.1s forwards;
   color: rgb(45 107 65 / var(--tw-text-opacity, 1));
-
 }
 
 .discover-hero-content h1 {
   opacity: 0;
   animation: fadeInUp 0.7s ease 0.22s forwards;
-  color:#000;
-  font-size:3.5rem;
+  color: #000;
+  font-size: 3.5rem;
 }
 
 .discover-hero-content p {
@@ -238,7 +234,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 }
-
 
 .discover-location-btn {
   position: absolute;
@@ -320,8 +315,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   animation: location-pulse 1.5s ease-in-out infinite;
 }
 
-
-
 .discover-location-name {
   color: #0f172a;
   font-size: 13px;
@@ -332,8 +325,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   text-overflow: ellipsis;
 }
 
-
-
 .discover-location-hint {
   margin-top: 3px;
   color: #cbd5e1;
@@ -342,8 +333,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   line-height: 1;
   white-space: nowrap;
 }
-
-
 
 .discover-location-chevron {
   width: 13px;
@@ -355,8 +344,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 .discover-location-btn:hover .discover-location-chevron {
   color: #3a844f;
 }
-
-
 
 @keyframes location-pulse {
   0%,
@@ -371,8 +358,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 }
 
-
-
 @media (max-width: 639px) {
   .discover-location-btn {
     top: 16px;
@@ -386,7 +371,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     border-radius: 20%;
   }
 
- 
   .discover-location-icon {
     width: 100%;
     height: 100%;
@@ -423,8 +407,8 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   display: block;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-border-radius: 2rem;
-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   text-decoration: none;
   transition:
@@ -505,7 +489,9 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .v3-badge.plan-starter {
   background: var(--color-orange-400);
-  font-family: Space Grotesk, sans-serif;
+  font-family:
+    Space Grotesk,
+    sans-serif;
   color: #fff;
 }
 .v3-badge.plan-professional {
@@ -546,7 +532,7 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .vendor-card-v3-address {
-   width: 100%;
+  width: 100%;
   max-width: 300px;
   display: flex;
   align-items: flex-start;
@@ -554,9 +540,11 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   gap: 5px;
   color: #667085;
   font-size: 0.8rem;
-  font-family: Space Grotesk, sans-serif;
-  font-weight:900;
-   line-height: 1.45;
+  font-family:
+    Space Grotesk,
+    sans-serif;
+  font-weight: 900;
+  line-height: 1.45;
   text-align: left;
   margin-top: 4px;
 }
@@ -566,6 +554,6 @@ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-weight: 700;
   margin-top: 8px;
 }
-footer{
+footer {
   margin-top: 36px;
 }

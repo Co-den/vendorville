@@ -41,8 +41,15 @@ interface OrderState {
   error: string | null;
 
   fetchOrders: (businessId: number) => Promise<void>;
-  createOrder: (businessId: number, payload: CreateOrderPayload) => Promise<Order>;
-  updateOrderStatus: (businessId: number, orderId: number, status: string) => Promise<void>;
+  createOrder: (
+    businessId: number,
+    payload: CreateOrderPayload,
+  ) => Promise<Order>;
+  updateOrderStatus: (
+    businessId: number,
+    orderId: number,
+    status: string,
+  ) => Promise<void>;
   deleteOrder: (businessId: number, orderId: number) => Promise<void>;
   clearOrders: () => void;
 }
@@ -69,7 +76,10 @@ export const useOrderStore = create<OrderState>((set, get) => ({
   createOrder: async (businessId, payload) => {
     set({ isSubmitting: true, error: null });
     try {
-      const response = await api.post(`/businesses/${businessId}/orders`, payload);
+      const response = await api.post(
+        `/businesses/${businessId}/orders`,
+        payload,
+      );
       const newOrder: Order = response.data.order;
       set({ orders: [newOrder, ...get().orders], isSubmitting: false });
       return newOrder;
@@ -84,14 +94,18 @@ export const useOrderStore = create<OrderState>((set, get) => ({
 
   updateOrderStatus: async (businessId, orderId, status) => {
     try {
-      await api.patch(`/businesses/${businessId}/orders/${orderId}/status`, { status });
+      await api.patch(`/businesses/${businessId}/orders/${orderId}/status`, {
+        status,
+      });
       set({
         orders: get().orders.map((o) =>
-          o.id === orderId ? { ...o, status: status as Order["status"] } : o
+          o.id === orderId ? { ...o, status: status as Order["status"] } : o,
         ),
       });
     } catch (error: any) {
-      set({ error: error.response?.data?.message || "Error updating order status" });
+      set({
+        error: error.response?.data?.message || "Error updating order status",
+      });
       throw error;
     }
   },

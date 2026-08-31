@@ -6,13 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { io, Socket } from "socket.io-client";
 
-
 const riderIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
   iconSize: [36, 36],
   iconAnchor: [18, 18],
 });
-
 
 export default function OrderTrackingMap({
   orderId,

@@ -1,25 +1,25 @@
-'use client'
+"use client";
 
-import { useCustomerAuthStore } from '@/store/customerAuthStore'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import '../customer-auth.css'
+import { useCustomerAuthStore } from "@/store/customerAuthStore";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import "../customer-auth.css";
 
 export default function CustomerLoginPage() {
-  const { login, isLoading, error } = useCustomerAuthStore()
-  const router = useRouter()
+  const { login, isLoading, error } = useCustomerAuthStore();
+  const router = useRouter();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      await login(email, password)
-      router.push('/customer/orders')
+      await login(email, password);
+      router.push("/customer/orders");
     } catch {}
-  }
+  };
 
   return (
     <div className="ca-container">
@@ -40,7 +40,8 @@ export default function CustomerLoginPage() {
             Shop from Vendors <span>You Trust.</span>
           </h1>
           <p className="ca-sub">
-            Track your orders, save your details, and check out faster every time you shop on VendorVille.
+            Track your orders, save your details, and check out faster every
+            time you shop on VendorVille.
           </p>
         </div>
       </div>
@@ -50,20 +51,36 @@ export default function CustomerLoginPage() {
         <div className="ca-auth-card">
           <h2>Welcome Back</h2>
           <div className="ca-rule"></div>
-          <p className="ca-tagline">Log in to track your orders and check out faster.</p>
+          <p className="ca-tagline">
+            Log in to track your orders and check out faster.
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="ca-field">
               <label>Email</label>
-              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <div className="ca-field">
               <label>Password</label>
-              <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             {error && <div className="ca-error">{error}</div>}
-            <button type="submit" className="ca-submit-btn" disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Log In'}
+            <button
+              type="submit"
+              className="ca-submit-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? "Logging in..." : "Log In"}
             </button>
           </form>
 
@@ -73,5 +90,5 @@ export default function CustomerLoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

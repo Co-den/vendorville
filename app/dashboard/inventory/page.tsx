@@ -2,7 +2,15 @@
 
 import { useBusinessStore } from "@/store/businessStore";
 import { useProductStore, type Product } from "@/store/productStore";
-import { Box, CircleX, TrendingUp, TriangleAlert } from "lucide-react";
+import {
+  Box,
+  CircleX,
+  TrendingUp,
+  TriangleAlert,
+  Check,
+  ChevronDown,
+  Search,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 const categories = [
@@ -47,6 +55,13 @@ export default function InventoryPage() {
   const [lowStockThreshold, setLowStockThreshold] = useState("");
   const [image, setImage] = useState<{ file: File; preview: string } | null>(
     null,
+  );
+  const [description, setDescription] = useState("");
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [categorySearch, setCategorySearch] = useState("");
+
+  const filteredCategories = categories.filter((c) =>
+    c.toLowerCase().includes(categorySearch.toLowerCase()),
   );
 
   useEffect(() => {
@@ -103,6 +118,7 @@ export default function InventoryPage() {
 
   const resetForm = () => {
     setName("");
+    setDescription("");
     setSku("");
     setCategory("Fabrics");
     setPrice("");
@@ -121,6 +137,7 @@ export default function InventoryPage() {
   const openEdit = (product: Product) => {
     setEditingProduct(product);
     setName(product.name);
+    setDescription(product.description);
     setSku(product.sku);
     setCategory(product.category);
     setPrice(String(product.price));
@@ -146,6 +163,7 @@ export default function InventoryPage() {
 
     const formData = {
       name,
+      description,
       sku,
       category,
       price,
@@ -186,12 +204,12 @@ export default function InventoryPage() {
     return (
       <>
         <div className="dash-welcome">
-        <div className="dash-welcome-eyebrow">
-          <span className="dash-welcome-icon">
-            <Box size={25} strokeWidth={2.5} />
-          </span>
-          <span>INVENTORY</span>
-        </div>
+          <div className="dash-welcome-eyebrow">
+            <span className="dash-welcome-icon">
+              <Box size={25} strokeWidth={2.5} />
+            </span>
+            <span>INVENTORY</span>
+          </div>
           <h1>
             Manage your <span>stock</span>.
           </h1>
@@ -246,7 +264,7 @@ export default function InventoryPage() {
         <div className="stat-card">
           <div className="stat-card-top">
             <div className="stat-icon3">
-              <Box size={25}/>
+              <Box size={25} />
             </div>
           </div>
           <div className="stat-value">{products.length}</div>
@@ -255,7 +273,7 @@ export default function InventoryPage() {
         <div className="stat-card">
           <div className="stat-card-top">
             <div className="stat-icon1">
-              <TrendingUp size={25}/>
+              <TrendingUp size={25} />
             </div>
           </div>
           <div className="stat-value">₦{totalValue.toLocaleString()}</div>
@@ -264,7 +282,7 @@ export default function InventoryPage() {
         <div className="stat-card">
           <div className="stat-card-top">
             <div className="stat-icon4">
-              <TriangleAlert size={25}/>
+              <TriangleAlert size={25} />
             </div>
           </div>
           <div className="stat-value">{lowStockCount}</div>
@@ -273,7 +291,7 @@ export default function InventoryPage() {
         <div className="stat-card">
           <div className="stat-card-top">
             <div className="stat-icon5">
-              <CircleX size={25}/>
+              <CircleX size={25} />
             </div>
           </div>
           <div className="stat-value">{outOfStockCount}</div>
@@ -498,7 +516,7 @@ export default function InventoryPage() {
                 </div>
                 <div className="logo-upload-text">
                   <strong>Product Photo</strong>
-                  <span>Optional — PNG or JPG.</span>
+                  <span>Optional - PNG or JPG.</span>
                 </div>
               </div>
 
@@ -510,6 +528,16 @@ export default function InventoryPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Ankara Fabric Bundle"
+                />
+              </div>
+              <div className="modal-field">
+                <label>Product Description</label>
+                <textarea
+                  required
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="e.g. Premium Ankara fabric bundle with vibrant colors and high-quality finishing."
+                  rows={2}
                 />
               </div>
 
@@ -526,16 +554,69 @@ export default function InventoryPage() {
                 </div>
                 <div className="modal-field">
                   <label>Category</label>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
-                    {categories.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
+
+                  <div className="custom-select">
+                    <button
+                      type="button"
+                      className={`custom-select-trigger ${
+                        category ? "selected" : ""
+                      }`}
+                      onClick={() => setCategoryOpen((prev) => !prev)}
+                    >
+                      <span>{category || "Select category"}</span>
+
+                      <ChevronDown
+                        size={17}
+                        className={categoryOpen ? "rotate" : ""}
+                      />
+                    </button>
+
+                    {categoryOpen && (
+                      <div className="custom-select-dropdown">
+                        {/* Search */}
+                        <div className="custom-select-search">
+                          <Search size={16} />
+
+                          <input
+                            type="text"
+                            placeholder="Search category..."
+                            value={categorySearch}
+                            onChange={(e) => setCategorySearch(e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            autoFocus
+                          />
+                        </div>
+
+                        {/* Options */}
+                        <div className="custom-select-options">
+                          {filteredCategories.length > 0 ? (
+                            filteredCategories.map((c) => (
+                              <button
+                                type="button"
+                                key={c}
+                                className={`custom-select-option ${
+                                  category === c ? "active" : ""
+                                }`}
+                                onClick={() => {
+                                  setCategory(c);
+                                  setCategoryOpen(false);
+                                  setCategorySearch("");
+                                }}
+                              >
+                                <span>{c}</span>
+
+                                {category === c && <Check size={16} />}
+                              </button>
+                            ))
+                          ) : (
+                            <div className="custom-select-empty">
+                              No categories found
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
