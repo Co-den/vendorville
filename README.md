@@ -276,8 +276,8 @@ POST /staff/login - Staff login
 
 ---
 
-**Live Demo:** [Your VendorVille Link]  
-**GitHub:** [Your Repo Link]
+**Live Demo:** http://vendorville.vercel.app/
+
 
 ---
 
