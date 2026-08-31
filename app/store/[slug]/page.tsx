@@ -888,13 +888,13 @@ export default function StorefrontPage() {
                       </a>
                     )}
                     {business.tiktok && (
-                      <a
+                      <Link
                         href={`https://${business.tiktok}`}
                         target="_blank"
                         className="sf-social-pill tiktok"
                       >
                         TikTok
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </div>

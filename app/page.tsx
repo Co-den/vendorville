@@ -40,7 +40,7 @@ async function getFeaturedVendors() {
     );
     if (!res.ok) return [];
     const data = await res.json();
-    return (data.businesses || []).slice(0, 3);
+    return (data.businesses || []).slice(0, 6);
   } catch {
     return [];
   }

@@ -957,7 +957,7 @@ p {
   padding: 11px 24px;
   border-radius: 9px;
   border: none;
-  background: var(--color-green-500);
+  background: var(--color-green-600);
   color: #fff;
   font-weight: 700;
   font-size: 0.86rem;
@@ -969,7 +969,7 @@ p {
   cursor: not-allowed;
 }
 
-/* ===== FORM FIELDS ===== */
+
 .field-group {
   margin-bottom: 20px;
 }

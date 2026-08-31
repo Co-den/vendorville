@@ -92,21 +92,31 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  font-family: Inter, sans-serif;
 }
 
 .admin-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: black;
-  padding: 10px 12px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
   text-decoration: none;
   font-size: 0.86rem;
-  font-weight: 600;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.admin-sidebar nav a:hover,
-.admin-sidebar nav a.active {
-  background: rgba(255, 255, 255, 0.1);
+.admin-sidebar nav a:hover {
   color: var(--color-green-600);
+}
+
+.admin-sidebar nav a.active {
+  background: var(--color-green-600);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
 }
 
 .admin-logout {
@@ -184,6 +194,7 @@
 
 .admin-card-header {
   display: flex;
+  font-family:inter;
   gap: 12px;
   align-items: center;
   margin-bottom: 16px;
@@ -208,6 +219,7 @@
 }
 
 .admin-card-details {
+  font-family:inter;
   font-size: 0.86rem;
   display: flex;
   flex-direction: column;
@@ -822,12 +834,14 @@
 }
 
 .dashboard-greeting h1 {
+  font-family:inter;
   font-size: 2rem;
   font-weight: 800;
   margin: 8px 0 4px;
 }
 
 .dashboard-greeting p {
+  font-family:inter;
   font-size: 1.1rem;
   color: #7fd99a;
   font-weight: 500;
@@ -839,17 +853,7 @@
   margin-bottom: 12px;
 }
 
-.dashboard-accent-icon {
-  width: 80px;
-  height: 80px;
-  background: rgba(127, 217, 154, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #7fd99a;
-  font-size: 2.5rem;
-}
+
 
 .dashboard-section {
   background: #fff;
@@ -871,6 +875,7 @@
 }
 
 .section-header h2 {
+  font-family:inter;
   font-size: 1.1rem;
   font-weight: 800;
   margin: 0;
@@ -922,9 +927,8 @@
   align-items: flex-start;
   padding: 2.5rem;
   border-radius: 2.5rem;
-  border: 1px solid #f1f5f9;
-  background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #fff;
   transition: all 0.2s ease;
 }
 
@@ -946,19 +950,19 @@
 }
 
 .metric-icon.total {
-  background: #3a844f;
+  background: var(--color-green-200);
 }
 
 .metric-icon.pending {
-  background: #b4741a;
+  background: var(--color-amber-400);
 }
 
 .metric-icon.approved {
-  background: #3a844f;
+  background: var(--color-blue-700);
 }
 
 .metric-icon.rejected {
-  background: #dc2626;
+  background: var(--color-red-600);
 }
 
 .metric-icon svg {
@@ -1003,13 +1007,16 @@
 }
 
 .performer-card {
-  padding: 16px;
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   background: linear-gradient(135deg, #f0f9f6 0%, #f5fcfa 100%);
   border: 1px solid #d1ebe2;
-  border-radius: 10px;
+  
 }
 
 .performer-label {
+  font-family:inter;
   font-size: 0.76rem;
   color: #667085;
   font-weight: 600;
@@ -1019,6 +1026,7 @@
 }
 
 .performer-value {
+  font-family:inter;
   font-size: 1.3rem;
   font-weight: 800;
   color: #3a844f;

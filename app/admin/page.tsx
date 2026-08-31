@@ -2,6 +2,7 @@
 
 import { adminApi } from "@/store/adminAuthStore";
 import { useEffect, useState } from "react";
+import { Users, Check } from 'lucide-react';
 import {
   Cell,
   Legend,
@@ -161,7 +162,6 @@ export default function AdminOverviewPage() {
   return (
     <>
       <div className="admin-dashboard">
-        {/* Header */}
         <div className="dashboard-header">
           <div className="dashboard-greeting">
             <div className="greeting-date">
@@ -171,14 +171,10 @@ export default function AdminOverviewPage() {
                 day: "numeric",
               })}
             </div>
-
             <h1>Hello, Admin</h1>
-
             <p>Let&apos;s help some Vendors today</p>
           </div>
         </div>
-
-        {/* Key Metrics */}
         <div className="dashboard-section">
           <button
             type="button"
@@ -186,7 +182,6 @@ export default function AdminOverviewPage() {
             onClick={() => toggleSection("stats")}
           >
             <h2>Key Metrics</h2>
-
             <svg
               className={`toggle-icon ${expandedSections.stats ? "open" : ""}`}
               viewBox="0 0 24 24"
@@ -197,31 +192,18 @@ export default function AdminOverviewPage() {
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
-
           {expandedSections.stats && (
             <div className="dashboard-grid">
               {/* Total */}
               <div className="metric-card">
                 <div className="metric-icon total">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="8.5" cy="7" r="4" />
-                    <path d="M20 8v6M23 11h-6" />
-                  </svg>
+                  <Users size={25} color="green"/>
                 </div>
-
                 <div className="metric-info">
                   <div className="metric-label">Total Businesses</div>
                   <div className="metric-value">{stats.total}</div>
                 </div>
               </div>
-
-              {/* Pending */}
               <div className="metric-card">
                 <div className="metric-icon pending">
                   <svg
@@ -234,32 +216,20 @@ export default function AdminOverviewPage() {
                     <polyline points="12 6 12 12 16 14" />
                   </svg>
                 </div>
-
                 <div className="metric-info">
                   <div className="metric-label">Pending Review</div>
                   <div className="metric-value pending">{stats.pending}</div>
                 </div>
               </div>
-
-              {/* Approved */}
               <div className="metric-card">
                 <div className="metric-icon approved">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+                  <Check/>
                 </div>
-
                 <div className="metric-info">
                   <div className="metric-label">Approved</div>
                   <div className="metric-value approved">{stats.approved}</div>
                 </div>
               </div>
-
               {/* Rejected */}
               <div className="metric-card">
                 <div className="metric-icon rejected">
