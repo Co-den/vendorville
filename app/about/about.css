@@ -140,29 +140,8 @@ svg {
   transition-delay: 0.14s;
 }
 
-/* ===== NAV ===== */
-nav {
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  transition:
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
-}
 
-nav.scrolled {
-  box-shadow: 0 4px 20px rgba(19, 46, 27, 0.08);
-  border-bottom-color: transparent;
-}
 
-nav .wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 76px;
-}
 
 .brand {
   display: flex;
@@ -189,52 +168,6 @@ nav .wrap {
   background: var(--paper);
 }
 
-.nav-links {
-  display: flex;
-  gap: 30px;
-  font-size: 0.93rem;
-  color: #3b4553;
-  font-weight: 500;
-}
-
-.nav-links a:hover {
-  color: var(--ink);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.nav-login {
-  font-size: 0.93rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.nav-cta {
-  background: #7fd99a;
-  color: var(--green-900);
-  padding: 11px 22px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  transition:
-    background 0.25s ease,
-    transform 0.2s ease,
-    box-shadow 0.25s ease;
-}
-
-.nav-cta:hover {
-  background: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(127, 217, 154, 0.4);
-}
-
-.nav-cta:active {
-  transform: scale(0.96);
-}
 
 @media (max-width: 840px) {
   .nav-links {
@@ -242,7 +175,6 @@ nav .wrap {
   }
 }
 
-/* ===== HERO SECTION ===== */
 .hero-section {
   background: var(--green-900);
   color: #fff;
@@ -351,9 +283,7 @@ nav .wrap {
   max-width: 60ch;
   margin: 0 auto 32px;
   line-height: 1.6;
-  font-family:
-    Space Grotesk,
-    sans-serif;
+  font-family:inter;
 }
 
 @media (max-width: 700px) {
@@ -374,7 +304,7 @@ nav .wrap {
   }
 }
 
-/* ===== PROBLEM/SOLUTION SECTION ===== */
+
 .problem-section {
   padding: 70px 44px 90px;
   background: var(--paper);
@@ -434,6 +364,7 @@ nav .wrap {
 }
 
 .problem-content > p {
+  font-family:inter;
   font-size: 1rem;
   color: var(--gray);
   margin-bottom: 40px;
@@ -517,6 +448,7 @@ nav .wrap {
 }
 
 .problem-item p {
+  font-family:inter;
   font-size: 0.92rem;
   color: var(--gray);
   line-height: 1.55;
@@ -842,7 +774,7 @@ nav .wrap {
   }
 }
 
-/* ===== VALUES SECTION ===== */
+
 .values-section {
   padding: 100px 0;
   background: var(--offwhite);
@@ -855,6 +787,7 @@ nav .wrap {
 }
 
 .values-header h2 {
+
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   font-weight: 800;
   margin-bottom: 14px;
@@ -865,6 +798,7 @@ nav .wrap {
 }
 
 .values-header p {
+  font-family:inter;
   font-size: 1rem;
   color: var(--gray);
   line-height: 1.6;
@@ -926,6 +860,7 @@ nav .wrap {
 }
 
 .value-card p {
+  font-family:inter;
   font-size: 0.95rem;
   color: var(--gray);
   line-height: 1.7;
@@ -937,7 +872,7 @@ nav .wrap {
   }
 }
 
-/* ===== MISSION SECTION ===== */
+
 .mission-section {
   background: var(--green-900);
   color: #fff;
@@ -980,9 +915,7 @@ nav .wrap {
   font-size: 1.15rem;
   line-height: 1.8;
   color: #cfe0d4;
-  font-family:
-    Space Grotesk,
-    sans-serif;
+  font-family:inter;
 }
 
 @media (max-width: 700px) {
@@ -999,7 +932,7 @@ nav .wrap {
   }
 }
 
-/* ===== CTA SECTION ===== */
+
 .cta-section {
   padding: 100px 28px;
 }
@@ -1024,6 +957,7 @@ nav .wrap {
 }
 
 .cta-card p {
+  font-family:inter;
   font-size: 1.05rem;
   color: #cfe0d4;
   margin-bottom: 32px;

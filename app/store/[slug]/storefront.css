@@ -766,15 +766,28 @@ p {
   color: #cfe0d4;
   margin-top: 2px;
 }
-
-.storefront-cart-btn {
+.my-acc-btn{
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 11px 18px;
   border-radius: 30px;
   background: #fff;
-  color: var(--green-900);
+  color: #000;
+  border: none;
+  font-family: inter;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.storefront-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 30px;
+  background: var(--color-orange-500);
+  color: #fff;
   border: none;
   font-family: inter;
   font-weight: 700;

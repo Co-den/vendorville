@@ -9,7 +9,7 @@ import PaystackPop from "@paystack/inline-js";
 import {
   Mail,
   MapPin,
-  ShoppingCart,
+  ShoppingBag,
   Star,
   Check,
   ChevronDown,
@@ -237,12 +237,10 @@ export default function StorefrontPage() {
 
       if (actualTotal <= 0) {
         console.log("Total is zero. Skipping Paystack.");
-
         setOrderSuccess(order);
         setCart([]);
         setShowCheckout(false);
         resetCheckout();
-
         return;
       }
 
@@ -261,7 +259,6 @@ export default function StorefrontPage() {
           onSuccess: async (transaction: any) => {
             try {
               console.log("Verifying payment...");
-
               await verifyPayment(slug, transaction.reference);
               setOrderSuccess(order);
               setCart([]);
@@ -280,14 +277,12 @@ export default function StorefrontPage() {
               "Payment was cancelled. Your order has been saved as pending.",
             );
           },
-
           onError: (error: any) => {
             setCheckoutError(
               error?.message ||
                 "Paystack could not process the payment. Please try again.",
             );
           },
-
           onLoad: (response: any) => {},
         });
       } catch (err: any) {
@@ -474,13 +469,13 @@ export default function StorefrontPage() {
             onClick={() => setShowCheckout(true)}
             disabled={cart.length === 0}
           >
-            <ShoppingCart />
+            <ShoppingBag />
             Cart ({cart.reduce((s, i) => s + i.quantity, 0)}) · ₦
             {cartTotal.toLocaleString()}
           </button>
           <Link
             href={`/customer/login?redirect=${slug}`}
-            className="storefront-cart-btn"
+            className="my-acc-btn"
             style={{ marginRight: 8 }}
           >
             My Account
@@ -1011,7 +1006,7 @@ export default function StorefrontPage() {
             </div>
           </div>
         )}
-        {/* ===== CHECKOUT MODAL ===== */}
+        
         {showCheckout && (
           <div className="modal-overlay" onClick={() => setShowCheckout(false)}>
             <div

@@ -16,6 +16,10 @@ export interface Order {
   customerName: string;
   customerPhone: string | null;
   customerEmail: string | null;
+  customerAccountId: number | null;
+  deliveryAddress: string | null;
+  deliveryZoneId: number | null;
+  deliveryFee: number;
   totalAmount: number;
   paymentMethod: string;
   status: "pending" | "paid" | "fulfilled" | "cancelled";
@@ -24,14 +28,20 @@ export interface Order {
   createdAt: string;
   updatedAt: string;
 }
-
 export interface CreateOrderPayload {
   customerName: string;
   customerPhone?: string;
   customerEmail?: string;
   paymentMethod: string;
   notes?: string;
-  items: { productId: number; quantity: number }[];
+  deliveryAddress?: string;
+  deliveryZoneId?: number | null;
+  deliveryFee?: number;
+  customerAccountId?: number | null;
+  items: {
+    productId: number;
+    quantity: number;
+  }[];
 }
 
 interface OrderState {

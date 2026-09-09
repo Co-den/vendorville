@@ -3,6 +3,7 @@
 import NavbarMobile from "@/components/NavbarMobile";
 import { Fraunces } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
 import "./blog.css";
 
@@ -12,7 +13,7 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
 });
 
-// Mock blog data
+
 const mockBlogPosts = [
   {
     id: 1,
@@ -514,14 +515,11 @@ export default function BlogPage() {
 
             <Link href="/blog/share-story" className="sidebar-card write-card">
               <div className="write-icon">✍️</div>
-
               <h4>Share Your Story</h4>
-
               <p>
                 Have a success story or business tip? Write for the VendorVille
                 blog and reach 10,000+ vendors.
               </p>
-
               <span className="write-btn">Start Writing</span>
             </Link>
           </aside>
@@ -529,42 +527,57 @@ export default function BlogPage() {
       </section>
 
       <footer>
-        <div className="footer-grid">
-          <div>
-            <div className="brand">
-              <span className="mark"></span>VendorVille
+        <div className="wrap">
+          <div className="footer-grid">
+            <div>
+              <div className="brand">
+                <Link href="/" className="brand">
+                  <Image
+                    src="/images/vv.png"
+                    alt="VendorVille"
+                    width={180}
+                    height={55}
+                    priority
+                    className="h-12 w-auto"
+                  />
+                </Link>
+              </div>
+              <p className="tagline">
+                The all-in-one platform for Nigerian market vendors - track
+                orders, manage stock, and send Email, SMS &amp; WhatsApp alerts,
+                all from your phone.
+              </p>
+              <span className="footer-phone">+234 903 935 4723</span>
             </div>
-            <p className="tagline">
-              Empowering Nigerian vendors with smart tools, insights, and
-              connections to grow their businesses profitably.
-            </p>
-            <span className="footer-phone">+234 707 647 3776</span>
+            <div className="footer-col">
+              <h4>Quick Links</h4>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="/blog">Blog</a>
+            </div>
+            <div className="footer-col">
+              <h4>Company</h4>
+              <a href="/about">About VendorVille</a>
+              <a href="#">Become a Partner</a>
+              <a href="#">Contact Us</a>
+              <a href="#">Careers</a>
+            </div>
+            <div className="footer-col">
+              <h4>VendorVille Technologies Limited</h4>
+              <a href="#">
+                123 Market Avenue,
+                <br />
+                Enugu, Nigeria
+              </a>
+              <a href="/legal/privacy">Privacy Policy</a>
+              <a href="/terms">Terms of Service</a>
+            </div>
           </div>
-          <div className="footer-col">
-            <h4>Quick Links</h4>
-            <a href="/">Home</a>
-            <a href="/blog">Blog</a>
-            <a href="/about">About</a>
-            <a href="#">Features</a>
+          <div className="footer-bottom">
+            <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
+            <span>Nigeria Data Protection Act (NDPR) compliant</span>
           </div>
-          <div className="footer-col">
-            <h4>Company</h4>
-            <a href="#">About Us</a>
-            <a href="#">Careers</a>
-            <a href="#">Contact</a>
-            <a href="#">FAQs</a>
-          </div>
-          <div className="footer-col">
-            <h4>Legal</h4>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
-            <a href="#">Disclaimer</a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© 2026 VendorVille Nigeria. All rights reserved.</span>
-          <span>Building Nigeria&apos;s vendor economy</span>
         </div>
       </footer>
     </div>

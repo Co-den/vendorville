@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import api from "./axiosInstance";
+import type { Order, Transaction, DateRangeStats } from "@/types/model";
 
-export interface Subscription {
+interface Subscription {
   id: number;
   userId: number;
   plan: "starter" | "professional" | "enterprise";
@@ -94,12 +95,27 @@ interface VendorState {
     data: { name: string; fee: number },
   ) => Promise<Zone>;
   removeZone: (businessId: number | string, zoneId: number) => Promise<void>;
-
-  // Password
-  updatePassword: (
+updatePassword: (
     currentPassword: string,
     newPassword: string,
   ) => Promise<{ message: string }>;
+  getOrdersByDateRange: (
+    businessId: number | string,
+    startDate: string,
+    endDate: string
+  ) => Promise<Order[]>;
+
+  getTransactionsByDateRange: (
+    businessId: number | string,
+    startDate: string,
+    endDate: string
+  ) => Promise<Transaction[]>;
+
+  getStatsByDateRange: (
+    businessId: number | string,
+    startDate: string,
+    endDate: string
+  ) => Promise<DateRangeStats>;
 }
 
 
@@ -285,6 +301,61 @@ export const useVendorStore = create<VendorState>((set, get) => ({
         currentPassword,
         newPassword,
       });
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+  
+   getOrdersByDateRange: async (
+    businessId: number | string,
+    startDate: string,
+    endDate: string
+  ): Promise<Order[]> => {
+    try {
+      const response = await api.get<{
+        orders: Order[];
+      }>(`/businesses/${businessId}/orders`, {
+        params: { startDate, endDate },
+      });
+
+      return response.data.orders;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getTransactionsByDateRange: async (
+    businessId: number | string,
+    startDate: string,
+    endDate: string
+  ): Promise<Transaction[]> => {
+    try {
+      const response = await api.get<{
+        transactions: Transaction[];
+      }>(`/businesses/${businessId}/transactions`, {
+        params: { startDate, endDate },
+      });
+
+      return response.data.transactions;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getStatsByDateRange: async (
+    businessId: number | string,
+    startDate: string,
+    endDate: string
+  ): Promise<DateRangeStats> => {
+    try {
+      const response = await api.get<DateRangeStats>(
+        `/businesses/${businessId}/stats`,
+        {
+          params: { startDate, endDate },
+        }
+      );
 
       return response.data;
     } catch (error) {
