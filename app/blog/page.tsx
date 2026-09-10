@@ -13,7 +13,6 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
 });
 
-
 const mockBlogPosts = [
   {
     id: 1,

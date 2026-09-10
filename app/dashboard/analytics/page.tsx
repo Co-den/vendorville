@@ -9,8 +9,6 @@ import type { Order, Transaction, DateRangeStats } from "@/types/model";
 import { Activity, Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-
-
 interface MonthData {
   month: string;
   year: number;
@@ -24,39 +22,60 @@ export default function AnalyticsPage() {
   const { products, fetchProducts } = useProductStore();
   const { orders, fetchOrders } = useOrderStore();
   const [activeBusinessId, setActiveBusinessId] = useState<number | null>(null);
-  const { getOrdersByDateRange, getTransactionsByDateRange, getStatsByDateRange } =
-    useVendorStore();
+  const {
+    getOrdersByDateRange,
+    getTransactionsByDateRange,
+    getStatsByDateRange,
+  } = useVendorStore();
   const [selectedMonth, setSelectedMonth] = useState<MonthData | null>(null);
-  const [order, setOrders] = useState<Order[]>([]);
+  const [analyticsOrders, setAnalyticsOrders] = useState<Order[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [stats, setStats] = useState<DateRangeStats | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const businessId = 1;
-  
+
+  const businessId = [0];
+
   const handleMonthSelect = async (monthData: MonthData): Promise<void> => {
+    if (!activeBusinessId) {
+      setError("No business selected");
+      return;
+    }
+
     setSelectedMonth(monthData);
     setIsLoading(true);
     setError(null);
+    setStats(null);
+    setAnalyticsOrders([]);
+    setTransactions([]);
+    setSelectedMonth(monthData);
 
     try {
-      const [ordersData, transactionsData, statsData] = await Promise.all([
-        getOrdersByDateRange(businessId, monthData.startDate, monthData.endDate),
-        getTransactionsByDateRange(
-          businessId,
+      const [statsData, ordersData, transactionsData] = await Promise.all([
+        getStatsByDateRange(
+          activeBusinessId,
           monthData.startDate,
-          monthData.endDate
+          monthData.endDate,
         ),
-        getStatsByDateRange(businessId, monthData.startDate, monthData.endDate),
+        getOrdersByDateRange(
+          activeBusinessId,
+          monthData.startDate,
+          monthData.endDate,
+        ),
+        getTransactionsByDateRange(
+          activeBusinessId,
+          monthData.startDate,
+          monthData.endDate,
+        ),
       ]);
 
-      setOrders(ordersData);
-      setTransactions(transactionsData);
       setStats(statsData);
+      setAnalyticsOrders(Array.isArray(ordersData) ? ordersData : []);
+      setTransactions(Array.isArray(transactionsData) ? transactionsData : []);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch analytics data"
-      );
+      const message =
+        err instanceof Error ? err.message : "Failed to fetch analytics data";
+      setError(message);
       console.error("Error fetching data:", err);
     } finally {
       setIsLoading(false);
@@ -106,7 +125,6 @@ export default function AnalyticsPage() {
 
   const maxDayTotal = Math.max(...last7Days.map((d) => d.total), 1);
 
-  // Top products by units sold
   const topProducts = useMemo(() => {
     const tally: Record<
       string,
@@ -223,27 +241,6 @@ export default function AnalyticsPage() {
           </select>
         </div>
       )}
-
-      <div className="stat-grid">
-        <div className="stat-card">
-          <div className="stat-value">₦{totalRevenue.toLocaleString()}</div>
-          <div className="stat-label">Total Revenue</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-value">{validOrders.length}</div>
-          <div className="stat-label">Completed Orders</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-value">
-            ₦{Math.round(avgOrderValue).toLocaleString()}
-          </div>
-          <div className="stat-label">Avg. Order Value</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-value">{totalUnitsSold}</div>
-          <div className="stat-label">Units Sold</div>
-        </div>
-      </div>
       <MonthCalendar onMonthSelect={handleMonthSelect} />
 
       {isLoading && <div className="loading">Loading...</div>}
@@ -255,81 +252,103 @@ export default function AnalyticsPage() {
           <h2>
             {selectedMonth.month} {selectedMonth.year}
           </h2>
-
-          <div className="stats-grid">
+          <div className="stat-grid">
             <div className="stat-card">
-              <h3>Total Orders</h3>
-              <p className="stat-value">{stats.orders.totalOrders}</p>
+              <div className="stat-value">{stats.orders.totalOrders}</div>
+              <div className="stat-label">Total Orders</div>
             </div>
             <div className="stat-card">
-              <h3>Completed Orders</h3>
-              <p className="stat-value">{stats.orders.completedOrders}</p>
+              <div className="stat-value">
+                ₦{(stats.orders.totalRevenue / 100).toLocaleString()}
+              </div>
+              <div className="stat-label">Total Revenue</div>
             </div>
             <div className="stat-card">
-              <h3>Total Revenue</h3>
-              <p className="stat-value">₦{stats.orders.totalRevenue.toLocaleString()}</p>
+              <div className="stat-value">
+                ₦{(stats.orders.averageOrderValue / 100).toLocaleString()}
+              </div>
+              <div className="stat-label">Avg. Order Value</div>
             </div>
             <div className="stat-card">
-              <h3>Average Order Value</h3>
-              <p className="stat-value">₦{stats.orders.averageOrderValue.toLocaleString()}</p>
+              <div className="stat-value">
+                {" "}
+                {stats.orders.totalUnitsSold.toLocaleString()}
+              </div>
+              <div className="stat-label">Units Sold</div>
             </div>
           </div>
 
-          {/* Orders Table */}
-          <div className="orders-section">
-            <h3>Orders ({orders.length})</h3>
-            <table className="orders-table">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id}>
-                    <td>#{order.id}</td>
-                    <td>{order.customerName}</td>
-                    <td>₦{order.totalAmount.toLocaleString()}</td>
-                    <td className={`status-${order.status}`}>{order.status}</td>
-                    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+          {(() => {
+            const hasOrders =
+              Array.isArray(analyticsOrders) && analyticsOrders.length > 0;
+
+            return (
+              hasOrders &&
+              !isLoading && (
+                <div className="orders-section">
+                  <h3>Orders ({analyticsOrders.length})</h3>
+                  <table className="orders-table">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {analyticsOrders.map((order) => (
+                        <tr key={order.id}>
+                          <td>#{order.id}</td>
+                          <td>{order.customerName}</td>
+                          <td>₦{order.totalAmount.toLocaleString()}</td>
+                          <td className={`status-${order.status}`}>
+                            {order.status}
+                          </td>
+                          <td>
+                            {new Date(order.createdAt).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )
+            );
+          })()}
+
+          {transactions && transactions.length > 0 && !isLoading && (
+            <div className="transactions-section">
+              <h3>Transactions ({transactions.length})</h3>
+              <table className="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Transaction ID</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Transactions Table */}
-          <div className="transactions-section">
-            <h3>Transactions ({transactions.length})</h3>
-            <table className="transactions-table">
-              <thead>
-                <tr>
-                  <th>Transaction ID</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((transaction) => (
-                  <tr key={transaction.id}>
-                    <td>#{transaction.id}</td>
-                    <td>{transaction.type}</td>
-                    <td>₦{transaction.amount.toLocaleString()}</td>
-                    <td className={`status-${transaction.status}`}>
-                      {transaction.status}
-                    </td>
-                    <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {transactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                      <td>#{transaction.id}</td>
+                      <td>{transaction.type}</td>
+                      <td>₦{transaction.amount.toLocaleString()}</td>
+                      <td className={`status-${transaction.status}`}>
+                        {transaction.status}
+                      </td>
+                      <td>
+                        {new Date(transaction.createdAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       )}
       <div className="panel" style={{ marginBottom: 20 }}>

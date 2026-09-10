@@ -80,10 +80,6 @@ body {
   padding: 0 32px;
 }
 
-
-
-
-
 .brand {
   display: flex;
   align-items: center;
@@ -114,11 +110,6 @@ body {
 .brand:hover .mark {
   transform: rotate(-8deg) scale(1.08);
 }
-
-
-
-
-
 
 /* ===== BLOG HERO ===== */
 .blog-hero {

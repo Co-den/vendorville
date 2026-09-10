@@ -140,9 +140,6 @@ svg {
   transition-delay: 0.14s;
 }
 
-
-
-
 .brand {
   display: flex;
   align-items: center;
@@ -167,7 +164,6 @@ svg {
   border-radius: 3px;
   background: var(--paper);
 }
-
 
 @media (max-width: 840px) {
   .nav-links {
@@ -283,7 +279,7 @@ svg {
   max-width: 60ch;
   margin: 0 auto 32px;
   line-height: 1.6;
-  font-family:inter;
+  font-family: inter;
 }
 
 @media (max-width: 700px) {
@@ -303,7 +299,6 @@ svg {
     font-size: 0.98rem;
   }
 }
-
 
 .problem-section {
   padding: 70px 44px 90px;
@@ -364,7 +359,7 @@ svg {
 }
 
 .problem-content > p {
-  font-family:inter;
+  font-family: inter;
   font-size: 1rem;
   color: var(--gray);
   margin-bottom: 40px;
@@ -448,7 +443,7 @@ svg {
 }
 
 .problem-item p {
-  font-family:inter;
+  font-family: inter;
   font-size: 0.92rem;
   color: var(--gray);
   line-height: 1.55;
@@ -774,7 +769,6 @@ svg {
   }
 }
 
-
 .values-section {
   padding: 100px 0;
   background: var(--offwhite);
@@ -787,7 +781,6 @@ svg {
 }
 
 .values-header h2 {
-
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   font-weight: 800;
   margin-bottom: 14px;
@@ -798,7 +791,7 @@ svg {
 }
 
 .values-header p {
-  font-family:inter;
+  font-family: inter;
   font-size: 1rem;
   color: var(--gray);
   line-height: 1.6;
@@ -860,7 +853,7 @@ svg {
 }
 
 .value-card p {
-  font-family:inter;
+  font-family: inter;
   font-size: 0.95rem;
   color: var(--gray);
   line-height: 1.7;
@@ -871,7 +864,6 @@ svg {
     grid-template-columns: 1fr;
   }
 }
-
 
 .mission-section {
   background: var(--green-900);
@@ -915,7 +907,7 @@ svg {
   font-size: 1.15rem;
   line-height: 1.8;
   color: #cfe0d4;
-  font-family:inter;
+  font-family: inter;
 }
 
 @media (max-width: 700px) {
@@ -931,7 +923,6 @@ svg {
     font-size: 1rem;
   }
 }
-
 
 .cta-section {
   padding: 100px 28px;
@@ -957,7 +948,7 @@ svg {
 }
 
 .cta-card p {
-  font-family:inter;
+  font-family: inter;
   font-size: 1.05rem;
   color: #cfe0d4;
   margin-bottom: 32px;

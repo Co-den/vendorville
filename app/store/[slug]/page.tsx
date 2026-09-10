@@ -856,7 +856,7 @@ export default function StorefrontPage() {
               {business.businessEmail && (
                 <div className="sf-contact-row">
                   <div className="sf-contact-icon">
-                    <Mail  />
+                    <Mail />
                   </div>
                   <div>
                     <div className="sf-contact-label">Email</div>
@@ -1006,7 +1006,7 @@ export default function StorefrontPage() {
             </div>
           </div>
         )}
-        
+
         {showCheckout && (
           <div className="modal-overlay" onClick={() => setShowCheckout(false)}>
             <div

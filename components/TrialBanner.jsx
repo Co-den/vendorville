@@ -20,7 +20,6 @@ export default function TrialBanner({ subscription }) {
     setPercentageRemaining(Math.max(0, percentage));
   }, [subscription]);
 
-
   if (!subscription || subscription.status !== "trial" || daysRemaining <= 0) {
     return null;
   }

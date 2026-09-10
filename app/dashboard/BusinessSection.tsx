@@ -5,6 +5,7 @@ import api from "@/store/axiosInstance";
 import { useBusinessStore } from "@/store/businessStore";
 import { plans, useSubscriptionStore } from "@/store/subscriptionStore";
 import { useEffect, useState } from "react";
+import PaystackPop from "@paystack/inline-js";
 
 declare global {
   interface Window {
@@ -221,31 +222,41 @@ export default function BusinessSection() {
   };
 
   const handleUpgrade = (planId: keyof typeof plans) => {
-    if (!window.PaystackPop) return;
+    const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
 
+    if (!publicKey) {
+      console.error("Paystack public key is missing");
+      return;
+    }
     setProcessing(planId);
-
-    const handler = window.PaystackPop.setup({
-      key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+    const paystack = new PaystackPop();
+    paystack.newTransaction({
+      key: publicKey,
       email: user?.email || "vendor@example.com",
-      amount: plans[planId].price * 100,
+      amount: Math.round(plans[planId].price * 100),
       currency: "NGN",
-      ref: `vh_sub_${Date.now()}`,
-      callback: async (response: any) => {
+      reference: `vh_sub_${Date.now()}`,
+
+      onSuccess: async (response: any) => {
         try {
           await confirmUpgrade(planId, response.reference);
           setShowUpgrade(false);
           setShowRegister(true);
         } catch (error) {
           console.error("Error confirming upgrade:", error);
+        } finally {
+          setProcessing(null);
         }
       },
-      onClose: () => {
+      onCancel: () => {
+        setProcessing(null);
+      },
+
+      onError: (error: any) => {
+        console.error("Paystack error:", error);
         setProcessing(null);
       },
     });
-
-    handler.openIframe();
   };
 
   return (
@@ -752,74 +763,76 @@ export default function BusinessSection() {
                 </div>
 
                 <div className="field-group">
-  <label className="field-label">Public Visibility</label>
+                  <label className="field-label">Public Visibility</label>
 
-  <div className="custom-dropdown">
-    <button
-      type="button"
-      className="custom-dropdown-trigger"
-      onClick={() => setVisibilityOpen(!visibilityOpen)}
-    >
-      <span>
-        {visibility === "public"
-          ? "Public - Visible to everyone"
-          : "Private - Only visible to you"}
-      </span>
+                  <div className="custom-dropdown">
+                    <button
+                      type="button"
+                      className="custom-dropdown-trigger"
+                      onClick={() => setVisibilityOpen(!visibilityOpen)}
+                    >
+                      <span>
+                        {visibility === "public"
+                          ? "Public - Visible to everyone"
+                          : "Private - Only visible to you"}
+                      </span>
 
-      <span className={`dropdown-chevron ${visibilityOpen ? "open" : ""}`}>
-        ↓
-      </span>
-    </button>
+                      <span
+                        className={`dropdown-chevron ${visibilityOpen ? "open" : ""}`}
+                      >
+                        ↓
+                      </span>
+                    </button>
 
-    {visibilityOpen && (
-      <div className="custom-dropdown-menu">
-        <button
-          type="button"
-          className={`custom-dropdown-option ${
-            visibility === "public" ? "selected" : ""
-          }`}
-          onClick={() => {
-            setVisibility("public");
-            setVisibilityOpen(false);
-          }}
-        >
-          <div>
-            <div className="dropdown-option-title">Public</div>
-            <div className="dropdown-option-description">
-              Visible to everyone
-            </div>
-          </div>
+                    {visibilityOpen && (
+                      <div className="custom-dropdown-menu">
+                        <button
+                          type="button"
+                          className={`custom-dropdown-option ${
+                            visibility === "public" ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            setVisibility("public");
+                            setVisibilityOpen(false);
+                          }}
+                        >
+                          <div>
+                            <div className="dropdown-option-title">Public</div>
+                            <div className="dropdown-option-description">
+                              Visible to everyone
+                            </div>
+                          </div>
 
-          {visibility === "public" && (
-            <span className="dropdown-check">✓</span>
-          )}
-        </button>
+                          {visibility === "public" && (
+                            <span className="dropdown-check">✓</span>
+                          )}
+                        </button>
 
-        <button
-          type="button"
-          className={`custom-dropdown-option ${
-            visibility === "private" ? "selected" : ""
-          }`}
-          onClick={() => {
-            setVisibility("private");
-            setVisibilityOpen(false);
-          }}
-        >
-          <div>
-            <div className="dropdown-option-title">Private</div>
-            <div className="dropdown-option-description">
-              Only visible to you
-            </div>
-          </div>
+                        <button
+                          type="button"
+                          className={`custom-dropdown-option ${
+                            visibility === "private" ? "selected" : ""
+                          }`}
+                          onClick={() => {
+                            setVisibility("private");
+                            setVisibilityOpen(false);
+                          }}
+                        >
+                          <div>
+                            <div className="dropdown-option-title">Private</div>
+                            <div className="dropdown-option-description">
+                              Only visible to you
+                            </div>
+                          </div>
 
-          {visibility === "private" && (
-            <span className="dropdown-check">✓</span>
-          )}
-        </button>
-      </div>
-    )}
-  </div>
-</div>
+                          {visibility === "private" && (
+                            <span className="dropdown-check">✓</span>
+                          )}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
                 <div className="field-group">
                   <label className="field-label">Headquarters Address</label>

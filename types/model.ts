@@ -1,4 +1,3 @@
-
 export interface OrderItem {
   id: number;
   orderId: number;
@@ -18,7 +17,7 @@ export interface Order {
   customerEmail?: string;
   customerPhone: string;
   customerAddress: string;
-  
+
   // Order details
   items: OrderItem[];
   subtotal: number;
@@ -26,23 +25,23 @@ export interface Order {
   deliveryFee: number;
   discount?: number;
   totalAmount: number;
-  
+
   // Status & Payment
   status: "pending" | "processing" | "completed" | "cancelled" | "refunded";
   paymentStatus: "unpaid" | "paid" | "partially_paid" | "refunded";
   paymentMethod?: "card" | "transfer" | "cash" | "paystack";
-  
+
   // Tracking
   trackingNumber?: string;
   riderId?: number;
   riderName?: string;
   estimatedDelivery?: string;
-  
+
   // Timestamps
   createdAt: string;
   updatedAt: string;
   completedAt?: string;
-  
+
   [key: string]: unknown;
 }
 
@@ -51,38 +50,38 @@ export interface Transaction {
   id: number;
   businessId: number;
   orderId?: number;
-  
+
   // Transaction details
   type: "sale" | "refund" | "withdrawal" | "deposit" | "adjustment";
   amount: number;
   currency: string;
-  
+
   // Status
   status: "pending" | "completed" | "failed" | "reversed";
-  
+
   // Payment info
   paymentMethod?: "card" | "transfer" | "cash" | "paystack";
   paystackReference?: string;
   paystackAuthCode?: string;
-  
+
   // Recipient/Payer
   description?: string;
   reference?: string;
-  
+
   // For withdrawals
   bankAccount?: string;
   bankCode?: string;
   recipientName?: string;
-  
+
   // Metadata
   metadata?: {
     [key: string]: unknown;
   };
-  
+
   // Timestamps
   createdAt: string;
   completedAt?: string;
-  
+
   [key: string]: unknown;
 }
 
@@ -94,6 +93,7 @@ export interface OrderStats {
   totalRevenue: number;
   averageOrderValue: number;
   pendingOrders: number;
+  totalUnitsSold: number;
 }
 
 export interface TransactionStats {

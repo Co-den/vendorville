@@ -110,40 +110,37 @@ export default function DashboardOverview() {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   useEffect(() => {
-  if (!user?.id) return;
-
-  const fetchSubscription = async () => {
-    try {
-      const sub = await getSubscription(user.id);
-
-      setSubscription(sub);
-
-      if (sub.status === "expired") {
-        setShowUpgradeModal(true);
+    if (!user?.id) return;
+    const fetchSubscription = async () => {
+      try {
+        const sub = await getSubscription(user.id);
+        setSubscription(sub);
+        if (sub.status === "expired") {
+          setShowUpgradeModal(true);
+        }
+      } catch (error) {
+        console.error("Error fetching subscription:", error);
       }
-    } catch (error) {
-      console.error("Error fetching subscription:", error);
-    }
-  };
+    };
 
-  fetchSubscription();
-}, [user?.id, getSubscription]);
+    fetchSubscription();
+  }, [user?.id, getSubscription]);
 
-useEffect(() => {
-  if (!activeBusinessId) return;
+  useEffect(() => {
+    if (!activeBusinessId) return;
 
-  const fetchStaff = async () => {
-    try {
-      const staff = await getStaff(activeBusinessId);
-      setStaffCount(staff.length);
-    } catch (error) {
-      console.error("Error fetching staff:", error);
-    }
-  };
+    const fetchStaff = async () => {
+      try {
+        const staff = await getStaff(activeBusinessId);
+        setStaffCount(staff.length);
+      } catch (error) {
+        console.error("Error fetching staff:", error);
+      }
+    };
 
-  fetchStaff();
-}, [activeBusinessId, getStaff]);
-  
+    fetchStaff();
+  }, [activeBusinessId, getStaff]);
+
   useEffect(() => {
     fetchBusinesses();
   }, []);

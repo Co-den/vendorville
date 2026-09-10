@@ -2,7 +2,7 @@
 
 import { adminApi } from "@/store/adminAuthStore";
 import { useEffect, useState } from "react";
-import { Users, Check } from 'lucide-react';
+import { Users, Check } from "lucide-react";
 import {
   Cell,
   Legend,
@@ -197,7 +197,7 @@ export default function AdminOverviewPage() {
               {/* Total */}
               <div className="metric-card">
                 <div className="metric-icon total">
-                  <Users size={25} color="green"/>
+                  <Users size={25} color="green" />
                 </div>
                 <div className="metric-info">
                   <div className="metric-label">Total Businesses</div>
@@ -223,7 +223,7 @@ export default function AdminOverviewPage() {
               </div>
               <div className="metric-card">
                 <div className="metric-icon approved">
-                  <Check/>
+                  <Check />
                 </div>
                 <div className="metric-info">
                   <div className="metric-label">Approved</div>

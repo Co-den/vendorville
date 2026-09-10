@@ -2,7 +2,7 @@ import { create } from "zustand";
 import api from "./axiosInstance";
 import type { Order, Transaction, DateRangeStats } from "@/types/model";
 
-interface Subscription {
+export interface Subscription {
   id: number;
   userId: number;
   plan: "starter" | "professional" | "enterprise";
@@ -95,31 +95,28 @@ interface VendorState {
     data: { name: string; fee: number },
   ) => Promise<Zone>;
   removeZone: (businessId: number | string, zoneId: number) => Promise<void>;
-updatePassword: (
+  updatePassword: (
     currentPassword: string,
     newPassword: string,
   ) => Promise<{ message: string }>;
   getOrdersByDateRange: (
     businessId: number | string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ) => Promise<Order[]>;
 
   getTransactionsByDateRange: (
     businessId: number | string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ) => Promise<Transaction[]>;
 
   getStatsByDateRange: (
     businessId: number | string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ) => Promise<DateRangeStats>;
 }
-
-
-
 
 export const useVendorStore = create<VendorState>((set, get) => ({
   subscription: null,
@@ -128,7 +125,8 @@ export const useVendorStore = create<VendorState>((set, get) => ({
   riders: [],
   zones: [],
 
-  // Subscription
+  //
+
   getSubscription: async (): Promise<Subscription> => {
     const response = await api.get(`/subscriptions`);
     const subscription = response.data.subscription;
@@ -277,9 +275,7 @@ export const useVendorStore = create<VendorState>((set, get) => ({
     zoneId: number,
   ): Promise<void> => {
     try {
-      await api.delete(
-        `/businesses/${businessId}/delivery-zones/${zoneId}`,
-      );
+      await api.delete(`/businesses/${businessId}/delivery-zones/${zoneId}`);
 
       set((state) => ({
         zones: state.zones.filter((z) => z.id !== zoneId),
@@ -307,11 +303,11 @@ export const useVendorStore = create<VendorState>((set, get) => ({
       throw error;
     }
   },
-  
-   getOrdersByDateRange: async (
+
+  getOrdersByDateRange: async (
     businessId: number | string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Promise<Order[]> => {
     try {
       const response = await api.get<{
@@ -329,7 +325,7 @@ export const useVendorStore = create<VendorState>((set, get) => ({
   getTransactionsByDateRange: async (
     businessId: number | string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Promise<Transaction[]> => {
     try {
       const response = await api.get<{
@@ -347,14 +343,14 @@ export const useVendorStore = create<VendorState>((set, get) => ({
   getStatsByDateRange: async (
     businessId: number | string,
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Promise<DateRangeStats> => {
     try {
       const response = await api.get<DateRangeStats>(
         `/businesses/${businessId}/stats`,
         {
           params: { startDate, endDate },
-        }
+        },
       );
 
       return response.data;
@@ -363,5 +359,3 @@ export const useVendorStore = create<VendorState>((set, get) => ({
     }
   },
 }));
-
-

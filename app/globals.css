@@ -1055,7 +1055,6 @@ section {
 }
 
 .sec-head h2 {
-
   font-size: 3rem;
   font-weight: 900;
   color: #000;
@@ -1148,8 +1147,8 @@ section {
   }
   .sec-head h2 {
     font-family:
-    Space Grotesk,
-    sans-serif;
+      Space Grotesk,
+      sans-serif;
     font-size: 2rem;
     font-weight: 900;
     color: #000;
