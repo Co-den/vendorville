@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import api from "./axiosInstance";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 export const plans = {
   starter: {

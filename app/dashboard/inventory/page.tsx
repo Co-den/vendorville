@@ -370,7 +370,7 @@ export default function InventoryPage() {
           >
             <p style={{ fontSize: "0.9rem" }}>
               {products.length === 0
-                ? "No products yet — add your first one."
+                ? "No products yet add your first one."
                 : "No products match your search."}
             </p>
           </div>

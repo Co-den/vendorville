@@ -2,10 +2,12 @@
 import { X, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSubscriptionStore } from "@/store/subscriptionStore";
 import "./upgradePrompt.css";
 
 export default function UpgradePromptModal({ subscription, isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
+  const { plan, renewsAt } = useSubscriptionStore();
 
   useEffect(() => {
     setIsVisible(isOpen);
@@ -13,42 +15,83 @@ export default function UpgradePromptModal({ subscription, isOpen, onClose }) {
 
   if (!isVisible) return null;
 
-  const plans = {
-    starter: {
-      name: "Starter",
-      price: "₦5,500",
-      period: "per month",
-      features: [
-        "1 staff member",
-        "Inventory management",
-        "Order & sales tracking",
-        "Basic reporting",
-      ],
-    },
+ 
+  const upgradePlans = {
+      starter: {
+    id: "starter",
+    name: "Starter",
+    tagline: "Suitable for vendors",
+    price: 5500,
+    businessLimit: 1,
+    storesPerBusiness: 1,
+    features: [
+      "1 Business, 1 Stall/Front",
+      "Up to 200 POS order items/month",
+      "Up to 50 orders per customer",
+      "Standard POS & Inventory",
+      "Up to 50 Customers per store",
+      "5 Shelf/Rack Compartments",
+      "1 Staff per Store",
+      "Email & WhatsApp Sharing",
+    ],
+  },
+
     professional: {
-      name: "Professional",
-      price: "₦10,500",
-      period: "per month",
-      features: [
-        "3 staff members",
-        "Everything in Starter +",
-        "Dispatch tracking",
-        "Loyalty programs",
-        "Advanced analytics",
-      ],
-    },
+    id: "professional",
+    name: "Professional",
+    tagline: "Built for growing vendors",
+    price: 10500,
+    businessLimit: 2,
+    storesPerBusiness: 2,
+    popular: true,
+    features: [
+      "2 Businesses, 2 Stores per Brand",
+      "Up to 400 POS order items/month",
+      "Up to 100 orders per customer",
+      "Gift Card & Loyalty Points",
+      "Up to 120 Customers per store",
+      "15 Shelf/Rack Compartments",
+      "3 Staff per Store",
+      "Email, SMS & WhatsApp Alerts",
+    ],
+  },
     enterprise: {
-      name: "Enterprise",
-      price: "Custom",
-      period: "contact sales",
-      features: [
-        "Unlimited staff",
-        "Everything in Professional +",
-        "Custom integrations",
-        "Dedicated support",
-        "Advanced automation",
-      ],
-    },
+        id: "enterprise",
+        name: "Enterprise Suite",
+        tagline: "For enterprise-level vendors",
+        price: 15500,
+        businessLimit: Infinity,
+        storesPerBusiness: Infinity,
+        features: [
+          "Unlimited Businesses & Stalls",
+          "Unlimited POS order items",
+          "Unlimited orders per store",
+          "Unlimited Staff per Store",
+          "Unlimited Shelf/Rack Compartments",
+          "AI-Powered Order Creation",
+          "Dispatch Rider Feature",
+          "Email, SMS & WhatsApp Alerts",
+        ],
+      },
+  };
+
+  const handleSubscribe = (planId) => {
+    if (planId === "enterprise") return;
+    if (!window.PaystackPop) return;
+
+    const handler = window.PaystackPop.setup({
+      key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+      email: "vendor@example.com",
+      amount: upgradePlans[planId].price * 100,
+      currency: "NGN",
+      ref: `vh_sub_${Date.now()}`,
+      callback: () => {
+        onClose();
+      },
+      onClose: () => {},
+    });
+
+    handler.openIframe();
   };
 
   return (
@@ -61,57 +104,70 @@ export default function UpgradePromptModal({ subscription, isOpen, onClose }) {
           <X size={24} />
         </button>
 
-        <div className="upgrade-modal-header">
-          <h2>Upgrade Your Plan</h2>
-          <p>
-            Your trial has ended. Choose a plan to continue using VendorVille
-          </p>
+        {/* Modal Header */}
+        <div className="upgrade-modal-header upgrade-modal-header-expired">
+          <h2>Your Trial Has Ended</h2>
+          <p>Choose a plan to continue using VendorVille and unlock advanced features</p>
         </div>
 
-        <div className="upgrade-plans-grid">
-          {Object.entries(plans).map(([key, plan]) => (
-            <div
-              key={key}
-              className={`upgrade-plan-card ${
-                key === "professional" ? "featured" : ""
-              }`}
-            >
-              {key === "professional" && (
-                <div className="upgrade-plan-badge">MOST POPULAR</div>
-              )}
+        {/* Plans Grid - Only Professional & Enterprise */}
+        <div className="upgrade-plans-grid upgrade-plans-grid-2col">
+          {Object.values(upgradePlans).map((p) => {
+            const isPopular = p.popular;
 
-              <h3 className="upgrade-plan-name">{plan.name}</h3>
-
-              <div className="upgrade-plan-price">
-                <span className="price">{plan.price}</span>
-                <span className="period">{plan.period}</span>
-              </div>
-
-              <ul className="upgrade-plan-features">
-                {plan.features.map((feature, i) => (
-                  <li key={i}>
-                    <CheckCircle size={16} />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/pricing"
-                className={`upgrade-plan-btn ${
-                  key === "professional" ? "primary" : "secondary"
-                }`}
+            return (
+              <div
+                key={p.id}
+                className={`upgrade-plan-card ${isPopular ? "featured" : ""}`}
               >
-                {key === "enterprise" ? "Contact Sales" : "Choose Plan"}
-              </Link>
-            </div>
-          ))}
+                {isPopular && (
+                  <div className="upgrade-plan-badge">MOST POPULAR</div>
+                )}
+
+                <h3 className="upgrade-plan-name">{p.name}</h3>
+                <p className="upgrade-plan-tagline">{p.tagline}</p>
+
+                <div className="upgrade-plan-price">
+                  {p.price ? (
+                    <>
+                      <span className="price">
+                        ₦{p.price.toLocaleString()}
+                      </span>
+                      <span className="period">{p.period}</span>
+                    </>
+                  ) : (
+                    <span className="price-custom">Custom Pricing</span>
+                  )}
+                </div>
+
+                <ul className="upgrade-plan-features">
+                  {p.features.map((feature, i) => (
+                    <li key={i}>
+                      <CheckCircle size={16} />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  className={`upgrade-plan-btn ${
+                    isPopular ? "primary" : "secondary"
+                  }`}
+                  onClick={() => handleSubscribe(p.id)}
+                >
+                  {p.id === "enterprise"
+                    ? "Contact Sales"
+                    : "Start Subscription"}
+                </button>
+              </div>
+            );
+          })}
         </div>
 
+        {/* Footer */}
         <div className="upgrade-modal-footer">
           <p>
-            Not sure which plan is right for you?
-            <Link href="/contact"> Contact our team</Link>
+            Need help choosing? <Link href="/contact">Contact our team</Link>
           </p>
         </div>
       </div>
