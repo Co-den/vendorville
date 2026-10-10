@@ -74,7 +74,7 @@ export default async function Home() {
             </p>
             <div className="hero-ctas">
               
-              <LiveDemoModal videoId="https://www.youtube.com/embed/NOnHA7kk_ps?si=8ksi0Dtu_v8n2T1b" />
+              <LiveDemoModal videoId="NOnHA7kk_ps?si=8ksi0Dtu_v8n2T1b" />
               <Link className="discover-btn" href="/discover">
                 <Search />
                 Find Nearby Vendors
