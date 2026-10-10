@@ -7,7 +7,6 @@ import {
   Check,
   WifiOff,
   Zap,
-  CirclePlay,
   MapPin,
   Motorbike,
   Search,
@@ -23,6 +22,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import IntegrationsSection from "@/components/IntegrationsSection";
+import LiveDemoModal from "@/components/landing/livedemo";
 
 const planLabels: Record<string, string> = {
   starter: "Starter",
@@ -73,10 +73,8 @@ export default async function Home() {
               WhatsApp alerts all from your phone.
             </p>
             <div className="hero-ctas">
-              <Link className="btn-white" href="/">
-                <CirclePlay />
-                Watch Live Demo
-              </Link>
+              
+              <LiveDemoModal videoId="https://youtu.be/NOnHA7kk_ps?si=7xhUil6OgZsuWjgI" />
               <Link className="discover-btn" href="/discover">
                 <Search />
                 Find Nearby Vendors
