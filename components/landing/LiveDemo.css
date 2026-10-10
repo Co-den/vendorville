@@ -69,6 +69,7 @@
 .live-demo-title {
   font-size: 1.25rem;
   font-weight: 700;
+  font-family:inter;
   color: #111827;
   margin: 0;
 }
@@ -179,6 +180,7 @@
 .live-demo-footer-title {
   font-size: 0.875rem;
   font-weight: 500;
+  font-family:inter;
   color: #111827;
   margin: 0;
 }
@@ -186,6 +188,7 @@
 .live-demo-footer-subtitle {
   margin-top: 0.25rem;
   font-size: 0.75rem;
+  font-family:inter;
   color: #6b7280;
   margin: 0;
 }
@@ -230,17 +233,18 @@
 .live-demo-btn-secondary {
   border-radius: 9999px;
   border: 1px solid #d1d5db;
-  background-color: #ffffff;
+  background-color: #f98d00;
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #374151;
+  font-family:inter;
+  color: #feffff;
   cursor: pointer;
   transition: all 200ms ease;
 }
 
 .live-demo-btn-secondary:hover {
-  background-color: #f3f4f6;
+  background-color: #f3ce13;
 }
 
 .live-demo-btn-secondary:focus {
@@ -262,6 +266,7 @@
   padding: 0.625rem 1.5rem;
   font-size: 0.875rem;
   font-weight: 600;
+  font-family:inter;
   color: #ffffff;
   text-decoration: none;
   cursor: pointer;
